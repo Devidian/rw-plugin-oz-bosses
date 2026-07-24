@@ -41,11 +41,8 @@ public final class BossThreatService {
         PluginSettings current = settings.get();
         if (player == null || player.getEquippedItem() == null || player.getEquippedItem().getDefinition() == null)
             return current.terrain;
-        String name = player.getEquippedItem().getDefinition().name;
-        if (name == null)
-            return current.terrain;
-        String normalized = (name + " " + player.getEquippedItem().getName()).toLowerCase(Locale.ROOT);
-        if (normalized.contains("pickaxe") || normalized.contains("spitzhacke"))
+        String normalized = equippedItemSearchText(player);
+        if (isMiningTool(normalized))
             return current.pickaxe;
         if (normalized.contains("hoe") || normalized.contains("rake") || normalized.contains("harke"))
             return current.hoe;
@@ -56,10 +53,27 @@ public final class BossThreatService {
 
     public void addForNonMiningTerrain(Player player, String actionKey) {
         String item = equippedItemName(player);
-        String normalized = item.toLowerCase(Locale.ROOT);
-        if (normalized.contains("pickaxe") || normalized.contains("spitzhacke"))
+        if (isMiningTool(equippedItemSearchText(player)))
             return;
         add(player, terrain(player), actionKey, "PH_ITEM", item);
+    }
+
+    private static String equippedItemSearchText(Player player) {
+        if (player == null || player.getEquippedItem() == null)
+            return "";
+        String definitionName = player.getEquippedItem().getDefinition() == null
+                ? ""
+                : player.getEquippedItem().getDefinition().name;
+        return ((definitionName == null ? "" : definitionName) + " " + equippedItemName(player))
+                .toLowerCase(Locale.ROOT);
+    }
+
+    static boolean isMiningTool(String normalized) {
+        return normalized.contains("pickaxe")
+                || normalized.contains("spitzhacke")
+                || normalized.contains("miningdrill")
+                || normalized.contains("mining drill")
+                || normalized.contains("mining_drill");
     }
 
     public static String equippedItemName(Player player) {

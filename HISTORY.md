@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## [0.1.1] - 2026-07-25 | Mining drill threat
+
+- fix: count mining drill terrain changes with the configured pickaxe threat
 - build: publish canonical GitHub release metadata for OZ Tools update checks
 
 ## [0.1.0] - 2026-07-24 | Initial boss encounters
