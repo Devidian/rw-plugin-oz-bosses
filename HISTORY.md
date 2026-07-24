@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- build: publish canonical GitHub release metadata for OZ Tools update checks
+
 ## [0.1.0] - 2026-07-24 | Initial boss encounters
 
 - fix: derive live-NPC rehydration and spawn boundaries from 256 chunks per sector axis

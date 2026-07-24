@@ -5,5 +5,5 @@ author: "Maik 'Devidian' Laschober"
 team: "Omega Zirkel"
 description: "Sector-based boss events with rankings and rewards"
 license: N/A
-website: N/A
+website: https://api.github.com/repos/Devidian/rw-plugin-oz-bosses/releases/latest
 loadorder: 0
