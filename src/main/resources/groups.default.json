@@ -1,0 +1,13 @@
+{
+  "groups": [
+    { "key": "bandit", "npc": "bandit", "nameType": "dummy", "lootTable": "default" },
+    { "key": "barbarian", "npc": "barbarian", "nameType": "dummy", "lootTable": "default" },
+    { "key": "dummy", "npc": "dummy", "nameType": "dummy", "lootTable": "default" },
+    { "key": "ghoul", "npc": "ghoul", "nameType": "ghoul", "lootTable": "ghoul" },
+    { "key": "skeleton", "npc": "skeleton", "nameType": "skeleton", "lootTable": "skeleton" },
+    { "key": "wolf", "npc": "wolf", "nameType": "animal", "lootTable": "wolf" },
+    { "key": "wildboar", "npc": "wildboar", "nameType": "animal", "lootTable": "wildboar" },
+    { "key": "firewolf", "npc": "firewolf", "nameType": "animal", "lootTable": "firewolf" },
+    { "key": "lion", "npc": "lion", "nameType": "lion", "lootTable": "lion" }
+  ]
+}

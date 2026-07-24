@@ -1,0 +1,9 @@
+name: "OZ - Bosses"
+main: de.omegazirkel.risingworld.Bosses
+version: 0.0.1
+author: "Maik 'Devidian' Laschober"
+team: "Omega Zirkel"
+description: "Sector-based boss events with rankings and rewards"
+license: N/A
+website: N/A
+loadorder: 0

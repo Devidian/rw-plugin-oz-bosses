@@ -1,0 +1,34 @@
+{
+  "groups": {
+    "default": [
+      { "item": "apple", "weight": 24, "minStack": 1, "maxStack": 4 },
+      { "item": "bread", "weight": 12, "minStack": 1, "maxStack": 1 },
+      { "item": "wool", "weight": 14, "minStack": 3, "maxStack": 18 },
+      { "item": "fibers", "weight": 18, "minStack": 6, "maxStack": 35 },
+      { "item": "coal", "weight": 15, "minStack": 2, "maxStack": 12 },
+      { "item": "ironore", "weight": 10, "minStack": 1, "maxStack": 8 },
+      { "item": "goldore", "weight": 2, "minStack": 1, "maxStack": 3 }
+    ],
+    "ghoul": [
+      { "item": "wool", "weight": 24, "minStack": 4, "maxStack": 20 },
+      { "item": "fibers", "weight": 24, "minStack": 8, "maxStack": 40 },
+      { "item": "coal", "weight": 20, "minStack": 3, "maxStack": 15 },
+      { "item": "ironore", "weight": 10, "minStack": 1, "maxStack": 7 },
+      { "item": "goldore", "weight": 2, "minStack": 1, "maxStack": 2 }
+    ],
+    "skeleton": [
+      { "item": "coal", "weight": 28, "minStack": 4, "maxStack": 20 },
+      { "item": "ironore", "weight": 18, "minStack": 2, "maxStack": 10 },
+      { "item": "goldore", "weight": 5, "minStack": 1, "maxStack": 4 },
+      { "item": "tungstenore", "weight": 1, "minStack": 1, "maxStack": 1 }
+    ],
+    "animal": [
+      { "item": "steak", "weight": 26, "minStack": 1, "maxStack": 5 },
+      { "item": "wool", "weight": 20, "minStack": 2, "maxStack": 16 },
+      { "item": "leather", "weight": 20, "minStack": 2, "maxStack": 12 },
+      { "item": "apple", "weight": 16, "minStack": 1, "maxStack": 5 },
+      { "item": "coal", "weight": 8, "minStack": 1, "maxStack": 8 },
+      { "item": "ironore", "weight": 2, "minStack": 1, "maxStack": 3 }
+    ]
+  }
+}

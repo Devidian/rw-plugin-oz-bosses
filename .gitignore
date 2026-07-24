@@ -1,0 +1,10 @@
+build/
+dist/
+nbproject/
+target/
+tmp/
+.classpath
+.settings/
+.project
+.vscode/settings.json
+*local*

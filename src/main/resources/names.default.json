@@ -1,0 +1,18 @@
+{
+  "types": {
+    "dummy": {
+      "male": {
+        "boss": { "prefixes": ["Räuberhauptmann", "Minenbaron", "Wegelagererkönig", "Eisenfürst", "Schwarzer Ritter"], "names": ["Alaric", "Roderich", "Valerius", "Falkenstein", "Dornwald"] },
+        "follower": { "prefixes": [], "names": ["Hans", "Johann", "Fritz", "Karl", "Otto", "Heinz", "Walter", "Erwin", "Bruno", "Georg", "Peter", "Klaus", "Dieter", "Werner", "Rolf", "Manfred", "Erik", "Konrad", "Volker", "Günter"] }
+      },
+      "female": {
+        "boss": { "prefixes": ["Räuberhauptfrau", "Minenbaronin", "Wegelagererkönigin", "Eisenfürstin", "Schwarze Ritterin"], "names": ["Elara", "Seraphine", "Valeria", "Rabenstein", "Felsenherz"] },
+        "follower": { "prefixes": [], "names": ["Anna", "Maria", "Lena", "Greta", "Hilde", "Erika", "Marta", "Klara", "Sophie", "Johanna", "Frieda", "Helga", "Brigitte", "Karin", "Ursula", "Petra", "Sabine", "Monika", "Ingrid", "Renate"] }
+      }
+    },
+    "ghoul": { "any": { "boss": { "prefixes": ["Ghulfürst", "Grabkönig", "Seuchenfürst", "Totenmeister", "Kryptenlord"], "names": ["Ramses", "Mordran", "Neroth", "Azrael", "Valerius"] }, "follower": { "prefixes": [], "names": ["Ghul", "Grabwächter", "Modernder Krieger", "Friedhofswächter", "Totenwache", "Verfluchter Knochenmann", "Nekrotischer Diener", "Grabplünderer", "Schattenknochen", "Verwesender Soldat", "Untoter Wächter", "Seuchenghul", "Kryptenwächter", "Fauliger Krieger", "Totenbeschwörerdiener", "Knochensoldat", "Gruftwächter", "Verlorene Seele", "Nachtghul", "Modernder Diener"] } } },
+    "skeleton": { "any": { "boss": { "prefixes": ["Knochenkönig", "Gruftfürst", "Grabwächter", "Schattenlord", "Eisenklinge"], "names": ["Mordecai", "Aurelius", "Ramses", "Kharon", "Lucian"] }, "follower": { "prefixes": [], "names": ["Skelettkrieger", "Knochendiener", "Gruftwächter", "Knochensoldat", "Verfluchter Knochenmann", "Schattenknochen", "Totenwache", "Grabwächter", "Kryptenwächter", "Knochenläufer", "Knochenbogenschütze", "Modernder Soldat", "Grabplünderer", "Friedhofswächter", "Sargwächter", "Knochendieb", "Seuchenknochen", "Totenwächter", "Gruftdiener", "Skelettknecht"] } } },
+    "lion": { "any": { "boss": { "prefixes": ["Sonnenkönig", "Wüstenfürst", "Goldmähnenlord", "Dünenherr", "Löwenkönig"], "names": ["Ramses", "Aslan", "Zafira", "Khepri", "Meroe"] }, "follower": { "prefixes": [], "names": ["Sonnenklaue", "Dünenstreifer", "Goldmähne", "Sandpfote", "Wüstenzahn", "Felsenpranke", "Bernsteinauge", "Staubschweif", "Schattenmähne", "Glutklaue", "Savannenläufer", "Königspfote", "Sandzahn", "Löwenherz", "Dünenpranke", "Goldpfote", "Sonnenzahn", "Felsensprung", "Steppenläufer", "Brüller"] } } },
+    "animal": { "any": { "boss": { "prefixes": ["Bestienkönig", "Alphafürst", "Wildnislord", "Feuerfürst", "Rudelherr"], "names": ["Fenrir", "Skoll", "Hati", "Morrigan", "Tharok"] }, "follower": { "prefixes": [], "names": ["Klauenläufer", "Wildfang", "Reißzahn", "Nachtschweif", "Aschenpfote", "Sturmklaue", "Eisenfang", "Blutspur", "Dornenschweif", "Finsterpfote", "Grimmzahn", "Schattensprung", "Steinpfote", "Glutfell", "Nebelzahn", "Windkralle", "Schwarzfang", "Sturmläufer", "Rotklaue", "Felsenklaue"] } } }
+  }
+}
