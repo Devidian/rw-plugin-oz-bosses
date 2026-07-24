@@ -1,38 +1,50 @@
 # AGENTS.md
 
 ## Repository Purpose
-This repository is the canonical Maven baseline for new Rising World Unity Java plugins in this workspace.
 
-It must remain usable as a standalone template repository. Workspace-root orchestration is optional and must never be required for normal use.
+This repository owns configurable boss encounters for Rising World Unity,
+including boss-group spawning, threat, combat scaling, loot, persistence, and
+player/admin inspection.
+
+It remains usable as a standalone Java 20 Maven plugin. Workspace-root
+orchestration is optional.
 
 ## Ownership
+
 Owns:
-- baseline Maven project layout
-- Java 20 plugin runtime defaults
-- GitHub tag-release workflow conventions
-- baseline documentation, policy, and agent workflow structure
-- baseline examples for shared Tools UI, settings metadata, logging, and plugin
-  info/status conventions
+
+- boss group definitions, names, spawn rules, and lifecycle
+- threat, combat scaling, rewards, and loot delivery
+- active-group persistence and rehydration
+- boss-specific commands, UI, settings, and debug output
 
 Does not own:
-- feature-plugin business logic
-- shared runtime helpers that belong in `rw-plugin-oz-tools`
-- workspace-root orchestration rules
+
+- Wallet balances or Discord transport internals
+- reusable settings, i18n, persistence, logging, or UI helpers from OZ Tools
+- workspace-root orchestration
 
 ## Mandatory Workflow Rules
-- Preserve the Java 20 baseline.
-- Preserve Maven-based build and packaging behavior.
-- Preserve GitHub tag-release compatibility.
-- Keep generated plugin repositories autonomous.
-- Route shared UI, i18n, settings, persistence, file-watching, and logger
-  conventions through `rw-plugin-oz-tools` unless a repository-local need is
-  explicitly documented.
-- Follow `.codex/agents.toml` for local agent roles, task classes, context loading, and escalation.
-- Follow `docs/policies/repository-policy.md` for reusable governance rules.
-- Keep `README.md`, `HISTORY.md`, and `PLANS.md` aligned with structural changes.
+
+- Preserve Java 20, Maven packaging, and GitHub tag-release compatibility.
+- Keep runtime JSON files editable and copy packaged defaults only when absent.
+- Preserve boss persistence and public/player-facing contracts.
+- Use reflection-only bridges for optional Wallet and Discord integrations.
+- Keep `Bosses`, the class declared by `plugin.yml`, as the sole Rising World
+  `Listener` and sole `registerEventListener(...)` target.
+- Keep `Bosses` limited to lifecycle wiring, settings delegation, and one-line
+  event dispatch. Feature workflows belong in focused classes under `bosses/`;
+  those classes must not implement Rising World's `Listener`.
+- Follow `.codex/agents.toml` and `docs/policies/repository-policy.md`.
+- Keep `README.md`, `HISTORY.md`, `PLANS.md`, and active plans aligned with
+  structural or behavior changes.
 
 ## Validation
-- Run `mvn -B -DskipTests package` for build-impacting changes.
-- Run `mvn -B test` when tests exist.
-- Review `.github/workflows/*` when release behavior or artifact names change.
-- Update this template whenever a convention should apply to future plugin repositories.
+
+- Run `scripts/verify-entrypoint-architecture.sh`.
+- Run `scripts/verify-plugin-api.sh --summary`.
+- Run `mvn -B test` and `mvn -B -DskipTests package`.
+- Inspect packaged default JSON and both i18n catalogues when those assets
+  change.
+- Runtime-smoke spawning, combat, persistence rehydration, loot, settings
+  reload, and missing optional integrations before release.

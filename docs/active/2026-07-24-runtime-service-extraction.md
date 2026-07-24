@@ -24,7 +24,7 @@ Keep `Bosses` as the registered Rising World listener and lifecycle composition 
 - [x] Move state models, view models, settings metadata, and debug state out of `Bosses`.
 - [x] Localize all administrator debug output in German and English.
 - [x] Build and verify the packaged listener surface locally.
-- [ ] Deploy to the development server and verify listener registration after reload.
+- [x] Deploy to the development server and verify listener registration after reload.
 
 ## Result
 
@@ -44,5 +44,7 @@ temporary build copy:
   feature bridge methods
 - packaged ZIP inspection confirmed both localized debug catalogues
 
-The development-server deployment remains intentionally open because the
-external deployment action was not authorized in this session.
+Development-server deployment completed on 2026-07-24. The final
+`rw-development` restart loaded all expected plugins, registered only `Bosses`
+for this plugin's Rising World events, restored the persisted active-group
+state, and reached a healthy `[READY]` state without a Bosses exception.
