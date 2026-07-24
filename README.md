@@ -8,8 +8,58 @@ On first start, the plugin copies each one to its editable runtime counterpart: 
 `loot.json`.
 
 Each entry in `loot.json` has an item definition name, a relative `weight`, and `minStack`/`maxStack`. `groups.json`
-maps each NPC type to its name catalogue and loot table. This keeps group composition, names, and loot editable without
-changing plugin code.
+maps a stable group `key` to its administrator-facing `name`, boss `npc`, name catalogue, and loot table. The `name`
+is shown in the administrator spawn dropdown. Existing definitions without a `name` remain valid and use the boss NPC
+definition name as their label.
+
+Group definitions may optionally override individual global boss settings:
+
+```json
+{
+  "key": "bandit_elite",
+  "name": "Elite bandits",
+  "weight": 5,
+  "npc": "bandit",
+  "followerNpc": "barbarian",
+  "nameType": "dummy",
+  "lootTable": "default",
+  "bossBaseHealth": 1800,
+  "bossHealthPerLevel": 300,
+  "followerBaseHealth": 450,
+  "followerHealthPerLevel": 150,
+  "minSpawnDistance": 120
+}
+```
+
+Every override is independent. Missing health fields use `boss.baseHealth`, `boss.healthPerLevel`, or
+`boss.followerHealth`; missing `followerHealthPerLevel` also uses `boss.healthPerLevel`. Missing `followerNpc` uses the
+boss NPC type, and missing `minSpawnDistance` uses `boss.minSpawnDistance`. Base-health overrides must be positive;
+per-level and distance overrides must be non-negative. Invalid values are ignored with a warning.
+
+`weight` is a non-negative relative integer used only for random spawns. A group with weight `10` is selected twice as
+often as a group with weight `5`; an omitted weight defaults to `1`. Weight `0` excludes the group from random spawns
+while keeping it available for explicit administrator selection. If every configured group has weight `0`, no random
+group is spawned.
+
+The packaged defaults use the following level-one balance. Boss health grows by 25% of its base value per level;
+follower health grows by 10% (the wolf boss increment is rounded to 188):
+
+| Group | Random weight | Boss health / level | Follower health / level |
+| --- | ---: | ---: | ---: |
+| Skeleton | 200 | 500 / 125 | 250 / 25 |
+| Wolf | 140 | 750 / 188 | 350 / 35 |
+| Ghoul | 125 | 800 / 200 | 400 / 40 |
+| Training dummy | 100 | 1000 / 250 | 500 / 50 |
+| Bandit | 75 | 1200 / 300 | 600 / 60 |
+| Wild boar | 40 | 1500 / 375 | 1000 / 100 |
+| Barbarian | 30 | 1800 / 450 | 900 / 90 |
+| Lion | 20 | 2000 / 500 | 1250 / 125 |
+| Fire wolf | 10 | 2500 / 625 | 1500 / 150 |
+
+Every default group has separate male/female name catalogues and its own loot table. Animal tables favor food and
+leather; humanoid tables favor ores and ingots. Stronger groups provide more valuable choices and larger stacks.
+Runtime `groups.json`, `names.json`, and `loot.json` remain update-safe and are not overwritten; merge changed packaged
+defaults manually or remove the corresponding runtime file to recreate it on startup.
 
 ## Runtime architecture
 

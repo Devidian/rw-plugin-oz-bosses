@@ -12,6 +12,7 @@ public final class BossGroup {
     public final int id;
     public final BossSector sector;
     public String name;
+    public String definitionKey = "";
     public String typeKey = "default";
     public String lootKey = "default";
     public String genderKey = "any";

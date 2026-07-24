@@ -1,18 +1,202 @@
 {
   "types": {
-    "dummy": {
+    "bandit": {
       "male": {
-        "boss": { "prefixes": ["Räuberhauptmann", "Minenbaron", "Wegelagererkönig", "Eisenfürst", "Schwarzer Ritter"], "names": ["Alaric", "Roderich", "Valerius", "Falkenstein", "Dornwald"] },
-        "follower": { "prefixes": [], "names": ["Hans", "Johann", "Fritz", "Karl", "Otto", "Heinz", "Walter", "Erwin", "Bruno", "Georg", "Peter", "Klaus", "Dieter", "Werner", "Rolf", "Manfred", "Erik", "Konrad", "Volker", "Günter"] }
+        "boss": {
+          "prefixes": ["Räuberhauptmann", "Wegelagererkönig", "Schmugglerfürst", "Straßenbaron", "Banditenkönig"],
+          "names": ["Alaric", "Roderich", "Falk", "Dornwald", "Konrad"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Hagen", "Rolf", "Bruno", "Erik", "Volker", "Klaus", "Walter", "Heinz", "Otto", "Fritz", "Karl", "Georg"]
+        }
       },
       "female": {
-        "boss": { "prefixes": ["Räuberhauptfrau", "Minenbaronin", "Wegelagererkönigin", "Eisenfürstin", "Schwarze Ritterin"], "names": ["Elara", "Seraphine", "Valeria", "Rabenstein", "Felsenherz"] },
-        "follower": { "prefixes": [], "names": ["Anna", "Maria", "Lena", "Greta", "Hilde", "Erika", "Marta", "Klara", "Sophie", "Johanna", "Frieda", "Helga", "Brigitte", "Karin", "Ursula", "Petra", "Sabine", "Monika", "Ingrid", "Renate"] }
+        "boss": {
+          "prefixes": ["Räuberhauptfrau", "Wegelagererkönigin", "Schmugglerfürstin", "Straßenbaronin", "Banditenkönigin"],
+          "names": ["Elara", "Rabenherz", "Valeria", "Seraphine", "Falkenstein"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Greta", "Klara", "Marta", "Frieda", "Helga", "Johanna", "Erika", "Lena", "Sophie", "Petra", "Sabine", "Ingrid"]
+        }
       }
     },
-    "ghoul": { "any": { "boss": { "prefixes": ["Ghulfürst", "Grabkönig", "Seuchenfürst", "Totenmeister", "Kryptenlord"], "names": ["Ramses", "Mordran", "Neroth", "Azrael", "Valerius"] }, "follower": { "prefixes": [], "names": ["Ghul", "Grabwächter", "Modernder Krieger", "Friedhofswächter", "Totenwache", "Verfluchter Knochenmann", "Nekrotischer Diener", "Grabplünderer", "Schattenknochen", "Verwesender Soldat", "Untoter Wächter", "Seuchenghul", "Kryptenwächter", "Fauliger Krieger", "Totenbeschwörerdiener", "Knochensoldat", "Gruftwächter", "Verlorene Seele", "Nachtghul", "Modernder Diener"] } } },
-    "skeleton": { "any": { "boss": { "prefixes": ["Knochenkönig", "Gruftfürst", "Grabwächter", "Schattenlord", "Eisenklinge"], "names": ["Mordecai", "Aurelius", "Ramses", "Kharon", "Lucian"] }, "follower": { "prefixes": [], "names": ["Skelettkrieger", "Knochendiener", "Gruftwächter", "Knochensoldat", "Verfluchter Knochenmann", "Schattenknochen", "Totenwache", "Grabwächter", "Kryptenwächter", "Knochenläufer", "Knochenbogenschütze", "Modernder Soldat", "Grabplünderer", "Friedhofswächter", "Sargwächter", "Knochendieb", "Seuchenknochen", "Totenwächter", "Gruftdiener", "Skelettknecht"] } } },
-    "lion": { "any": { "boss": { "prefixes": ["Sonnenkönig", "Wüstenfürst", "Goldmähnenlord", "Dünenherr", "Löwenkönig"], "names": ["Ramses", "Aslan", "Zafira", "Khepri", "Meroe"] }, "follower": { "prefixes": [], "names": ["Sonnenklaue", "Dünenstreifer", "Goldmähne", "Sandpfote", "Wüstenzahn", "Felsenpranke", "Bernsteinauge", "Staubschweif", "Schattenmähne", "Glutklaue", "Savannenläufer", "Königspfote", "Sandzahn", "Löwenherz", "Dünenpranke", "Goldpfote", "Sonnenzahn", "Felsensprung", "Steppenläufer", "Brüller"] } } },
-    "animal": { "any": { "boss": { "prefixes": ["Bestienkönig", "Alphafürst", "Wildnislord", "Feuerfürst", "Rudelherr"], "names": ["Fenrir", "Skoll", "Hati", "Morrigan", "Tharok"] }, "follower": { "prefixes": [], "names": ["Klauenläufer", "Wildfang", "Reißzahn", "Nachtschweif", "Aschenpfote", "Sturmklaue", "Eisenfang", "Blutspur", "Dornenschweif", "Finsterpfote", "Grimmzahn", "Schattensprung", "Steinpfote", "Glutfell", "Nebelzahn", "Windkralle", "Schwarzfang", "Sturmläufer", "Rotklaue", "Felsenklaue"] } } }
+    "barbarian": {
+      "male": {
+        "boss": {
+          "prefixes": ["Kriegshäuptling", "Axtkönig", "Sturmfürst", "Eisenbrecher", "Blutjarl"],
+          "names": ["Bjorn", "Ragnar", "Hakon", "Ulfgar", "Sten"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Ivar", "Leif", "Gunnar", "Sven", "Torsten", "Eirik", "Knut", "Harald", "Arvid", "Vidar", "Olaf", "Sigurd"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Kriegshäuptlingin", "Axtkönigin", "Sturmfürstin", "Eisenbrecherin", "Blutjarlin"],
+          "names": ["Astrid", "Freya", "Sigrun", "Brynhild", "Runa"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Ingrid", "Liv", "Solveig", "Yrsa", "Hilda", "Kara", "Thyra", "Eira", "Alva", "Sif", "Ragnhild", "Skadi"]
+        }
+      }
+    },
+    "dummy": {
+      "male": {
+        "boss": {
+          "prefixes": ["Minenbaron", "Eisenfürst", "Schwarzer Ritter", "Söldnerhauptmann", "Waffenmeister"],
+          "names": ["Valerius", "Falkenstein", "Roderich", "Aurelius", "Konstantin"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Hans", "Johann", "Peter", "Manfred", "Werner", "Dieter", "Günter", "Erwin", "Gerhard", "Wolfgang", "Martin", "Stefan"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Minenbaronin", "Eisenfürstin", "Schwarze Ritterin", "Söldnerhauptfrau", "Waffenmeisterin"],
+          "names": ["Valeria", "Rabenstein", "Felsenherz", "Helena", "Katharina"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Anna", "Maria", "Hilde", "Brigitte", "Karin", "Ursula", "Monika", "Renate", "Claudia", "Silke", "Andrea", "Birgit"]
+        }
+      }
+    },
+    "ghoul": {
+      "male": {
+        "boss": {
+          "prefixes": ["Ghulfürst", "Seuchenfürst", "Totenmeister", "Kryptenlord", "Moderfürst"],
+          "names": ["Mordran", "Neroth", "Azrael", "Malach", "Vorun"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Seuchenghul", "Modernder Krieger", "Fauliger Wächter", "Kryptendiener", "Grabzehrer", "Totenwache", "Nachtghul", "Verwesender Soldat", "Gruftknecht", "Seuchenträger", "Schattenzehrer", "Moderläufer"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Ghulfürstin", "Seuchenfürstin", "Totenmeisterin", "Kryptenherrin", "Moderfürstin"],
+          "names": ["Morriga", "Neratha", "Azraya", "Malacha", "Voruna"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Seuchenghulin", "Modernde Kriegerin", "Faulige Wächterin", "Kryptendienerin", "Grabzehrerin", "Totenwächterin", "Nachtghulin", "Verwesende Soldatin", "Gruftmagd", "Seuchenträgerin", "Schattenzehrerin", "Moderläuferin"]
+        }
+      }
+    },
+    "skeleton": {
+      "male": {
+        "boss": {
+          "prefixes": ["Knochenkönig", "Gruftfürst", "Grabwächter", "Schattenlord", "Klingenfürst"],
+          "names": ["Mordecai", "Aurelius", "Kharon", "Lucian", "Osric"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Skelettkrieger", "Knochendiener", "Gruftwächter", "Knochensoldat", "Schattenknochen", "Knochenläufer", "Grabplünderer", "Sargwächter", "Totenwächter", "Gruftknecht", "Knochendieb", "Kryptensoldat"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Knochenkönigin", "Gruftfürstin", "Grabwächterin", "Schattenherrin", "Klingenfürstin"],
+          "names": ["Mordecia", "Aurelia", "Khara", "Lucilla", "Osra"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Skelettkriegerin", "Knochendienerin", "Gruftwächterin", "Knochensoldatin", "Schattenknochen", "Knochenläuferin", "Grabplünderin", "Sargwächterin", "Totenwächterin", "Gruftmagd", "Knochendiebin", "Kryptensoldatin"]
+        }
+      }
+    },
+    "wolf": {
+      "male": {
+        "boss": {
+          "prefixes": ["Rudelkönig", "Alphawolf", "Waldherr", "Mondjäger", "Graufürst"],
+          "names": ["Fenrir", "Skoll", "Hati", "Garm", "Varg"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Graufang", "Mondzahn", "Waldläufer", "Nachtpelz", "Eisenfang", "Sturmklaue", "Nebelzahn", "Felsensprung", "Schwarzfang", "Wildpfote", "Dornenschweif", "Frostpelz"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Rudelkönigin", "Alphawölfin", "Waldherrin", "Mondjägerin", "Graufürstin"],
+          "names": ["Lupa", "Skadi", "Hela", "Ylva", "Runa"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Silberpfote", "Mondklaue", "Waldstreiferin", "Nachtfell", "Eisenklaue", "Sturmpfote", "Nebelschweif", "Felsenklaue", "Schwarzpfote", "Wildfang", "Dornfell", "Frostklaue"]
+        }
+      }
+    },
+    "wildboar": {
+      "male": {
+        "boss": {
+          "prefixes": ["Keilerkönig", "Wurzelfürst", "Borstenlord", "Waldbrecher", "Eberhäuptling"],
+          "names": ["Grimbart", "Borkenfang", "Eberhard", "Trüffelzahn", "Dornrüssel"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Borstenrücken", "Schlammhauer", "Wurzelwühler", "Dornkeiler", "Waldrüssel", "Eichenbrecher", "Mooshauer", "Feldwühler", "Steinborste", "Trüffelsucher", "Dickfell", "Erdrüssel"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Bachenkönigin", "Wurzelfürstin", "Borstenherrin", "Waldbrecherin", "Ebermatriarchin"],
+          "names": ["Grimborste", "Borkenhauer", "Eberlinde", "Trüffelnase", "Dornrüssel"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Borstenflanke", "Schlammpfote", "Wurzelwühlerin", "Dornbache", "Waldrüssel", "Eichenbrecherin", "Moosborste", "Feldwühlerin", "Steinborste", "Trüffelsucherin", "Dickfell", "Erdnase"]
+        }
+      }
+    },
+    "firewolf": {
+      "male": {
+        "boss": {
+          "prefixes": ["Flammenkönig", "Aschenfürst", "Glutalpha", "Feuerlord", "Lavaherr"],
+          "names": ["Surtr", "Ignis", "Vulkan", "Pyros", "Branth"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Glutfang", "Aschenpelz", "Flammenzahn", "Lavaklaue", "Brandläufer", "Funkenfell", "Feuerschweif", "Kohlenpfote", "Rauchzahn", "Schlackenklaue", "Hitzefang", "Brandwolf"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Flammenkönigin", "Aschenfürstin", "Glutalpha", "Feuerherrin", "Lavakönigin"],
+          "names": ["Surtia", "Ignia", "Vulkana", "Pyra", "Brantha"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Glutklaue", "Aschenfell", "Flammenpfote", "Lavaschweif", "Brandläuferin", "Funkenpfote", "Feuerfell", "Kohlenschweif", "Rauchklaue", "Schlackenpfote", "Hitzeklaue", "Brandwölfin"]
+        }
+      }
+    },
+    "lion": {
+      "male": {
+        "boss": {
+          "prefixes": ["Sonnenkönig", "Wüstenfürst", "Goldmähnenlord", "Dünenherr", "Löwenkönig"],
+          "names": ["Aslan", "Khepri", "Ramses", "Jabari", "Mufaro"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Goldmähne", "Sonnenzahn", "Dünenjäger", "Savannenlord", "Felsenpranke", "Sandfang", "Bernsteinauge", "Steppenläufer", "Staubmähne", "Wüstenklaue", "Königspfote", "Brüller"]
+        }
+      },
+      "female": {
+        "boss": {
+          "prefixes": ["Sonnenkönigin", "Wüstenfürstin", "Goldmähnenherrin", "Dünenkönigin", "Löwenmatriarchin"],
+          "names": ["Zafira", "Nala", "Amara", "Meroe", "Sahara"]
+        },
+        "follower": {
+          "prefixes": [],
+          "names": ["Goldpfote", "Sonnenklaue", "Dünenjägerin", "Savannenwache", "Felsenpfote", "Sandklaue", "Bernsteinblick", "Steppenläuferin", "Staubpfote", "Wüstenschweif", "Königsklaue", "Löwin"]
+        }
+      }
+    }
   }
 }

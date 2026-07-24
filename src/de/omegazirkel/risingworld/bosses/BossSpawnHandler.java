@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
 
+import de.omegazirkel.risingworld.bosses.BossGroupCatalog.SpawnDefinition;
 import net.risingworld.api.Plugin;
 import net.risingworld.api.Server;
 import net.risingworld.api.World;
@@ -71,30 +72,39 @@ public final class BossSpawnHandler {
         });
     }
 
-    public void spawn(BossSector sector, Vector3f at, Short requestedType) {
-        List<Short> configuredTypes = configuredSpawnTypes();
-        if (configuredTypes.isEmpty()) {
+    public void spawn(BossSector sector, Vector3f at, String requestedGroup) {
+        List<SpawnDefinition> configuredGroups = configuredSpawnDefinitions();
+        if (configuredGroups.isEmpty()) {
             BossUtils.logger().warn("No NPC types configured in groups.json or boss.types");
             return;
         }
-        short type = requestedType != null && configuredTypes.contains(requestedType) ? requestedType
-                : configuredTypes.get(random.nextInt(configuredTypes.size()));
+        SpawnDefinition definition = requestedDefinition(configuredGroups, requestedGroup);
+        if (definition == null)
+            definition = randomDefinition(configuredGroups);
+        if (definition == null) {
+            BossUtils.logger().warn("No boss group with a positive random spawn weight is configured");
+            return;
+        }
+        short type = definition.bossNpcType();
         int id = World.getNextNpcGroupID();
         BossGroup group = new BossGroup(id, sector, "Boss");
+        group.definitionKey = definition.key();
+        int minSpawnDistance = value(definition.minSpawnDistance(), settings.get().minSpawnDistance, 0);
+        int bossHealth = value(definition.bossBaseHealth(), settings.get().baseHealth, 1);
         Vector3f center = null;
         Npc boss = null;
         for (int attempt = 0; attempt < 16 && boss == null; attempt++) {
-            center = spawnCenter(at);
+            center = spawnCenter(at, minSpawnDistance);
             if (center != null)
-                boss = npc(type, center, id, "Boss", settings.get().baseHealth);
+                boss = npc(type, center, id, "Boss", bossHealth);
         }
         if (boss == null || center == null) {
             BossUtils.logger().warn("No dry boss spawn location found for sector " + sector.key);
             return;
         }
         activeGroups.put(id, group);
-        group.typeKey = BossUtils.enemyKey(boss, groups);
-        group.lootKey = groups.lootTable(boss, group.typeKey);
+        group.typeKey = text(definition.nameType(), BossUtils.enemyKey(boss, groups));
+        group.lootKey = text(definition.lootTable(), group.typeKey);
         group.genderKey = BossUtils.genderKey(boss);
         group.name = names.boss(group.typeKey, group.genderKey);
         group.memberNames.add(group.name);
@@ -114,14 +124,26 @@ public final class BossSpawnHandler {
     }
 
     public void addFollower(BossGroup group, short type, Vector3f at) {
-        Npc npc = npc(type, at, group.id, "Follower",
-                settings.get().followerHealth + group.level * settings.get().healthPerLevel / 2);
+        SpawnDefinition definition = groups.spawnDefinition(group.definitionKey);
+        short followerType = definition == null ? type : definition.followerNpcType();
+        int baseHealth = value(definition == null ? null : definition.followerBaseHealth(),
+                settings.get().followerHealth, 1);
+        int healthPerLevel = healthPerLevel(group, false);
+        Npc npc = npc(followerType, at, group.id, "Follower",
+                scaledHealth(baseHealth, healthPerLevel, group.level));
         if (npc == null) return;
         String name = uniqueFollowerName(group, names.followers(group.typeKey, BossUtils.genderKey(npc)));
         npc.setName(name);
         plugin.executeDelayed(0.2f, () -> { if (!npc.isDead()) npc.setName(name); });
         group.members.add(npc.getGlobalID());
         npcGroups.put(npc.getGlobalID(), group);
+    }
+
+    public int healthPerLevel(BossGroup group, boolean boss) {
+        SpawnDefinition definition = groups.spawnDefinition(group.definitionKey);
+        Integer override = definition == null ? null
+                : boss ? definition.bossHealthPerLevel() : definition.followerHealthPerLevel();
+        return value(override, settings.get().healthPerLevel, 0);
     }
 
     public void enhanceWeaponDrop(long storageId) {
@@ -182,16 +204,15 @@ public final class BossSpawnHandler {
         return base + " " + number;
     }
 
-    private Vector3f spawnCenter(Vector3f reference) {
-        float requiredDistance = settings.get().minSpawnDistance + 24f;
+    private Vector3f spawnCenter(Vector3f reference, int minSpawnDistance) {
+        float requiredDistance = minSpawnDistance + 24f;
         for (int attempt = 0; attempt < 16; attempt++) {
             float angle = random.nextFloat() * (float) Math.PI * 2f;
-            float distance = settings.get().minSpawnDistance
-                    + random.nextFloat() * (sectorRadius(reference) - settings.get().minSpawnDistance);
+            float distance = minSpawnDistance
+                    + random.nextFloat() * (sectorRadius(reference, minSpawnDistance) - minSpawnDistance);
             Vector3f candidate = new Vector3f(reference.x + (float) Math.cos(angle) * distance, reference.y,
                     reference.z + (float) Math.sin(angle) * distance);
-            if ((int) Math.floor(candidate.x / 512f) != (int) Math.floor(reference.x / 512f)
-                    || (int) Math.floor(candidate.z / 512f) != (int) Math.floor(reference.z / 512f)) continue;
+            if (!BossUtils.sectorPosition(candidate).equals(BossUtils.sectorPosition(reference))) continue;
             float ground = groundLevel(candidate);
             if (Float.isNaN(ground) || isWaterAt(candidate, ground)) continue;
             candidate.y = ground + 1f;
@@ -219,18 +240,71 @@ public final class BossSpawnHandler {
                 Math.floorMod((int) Math.floor(position.z), Chunk.SIZE_Z), true) > ground + .01f;
     }
 
-    private float sectorRadius(Vector3f reference) {
-        Vector2i sector = new Vector2i((int) Math.floor(reference.x / 512f), (int) Math.floor(reference.z / 512f));
-        float minX = sector.x * 512f, minZ = sector.y * 512f;
-        return Math.max(settings.get().minSpawnDistance,
-                Math.min(Math.min(reference.x - minX, minX + 512f - reference.x),
-                        Math.min(reference.z - minZ, minZ + 512f - reference.z)) - 24f);
+    private float sectorRadius(Vector3f reference, int minSpawnDistance) {
+        Vector2i sector = BossUtils.sectorPosition(reference);
+        float sectorSizeX = BossUtils.SECTOR_SIZE;
+        float sectorSizeZ = BossUtils.SECTOR_SIZE;
+        float minX = sector.x * sectorSizeX, minZ = sector.y * sectorSizeZ;
+        return Math.max(minSpawnDistance,
+                Math.min(Math.min(reference.x - minX, minX + sectorSizeX - reference.x),
+                        Math.min(reference.z - minZ, minZ + sectorSizeZ - reference.z)) - 24f);
     }
 
     private String random(String[] values) { return values[random.nextInt(values.length)]; }
 
-    private List<Short> configuredSpawnTypes() {
-        List<Short> types = groups.spawnTypes();
-        return types.isEmpty() ? settings.get().types : types;
+    private List<SpawnDefinition> configuredSpawnDefinitions() {
+        List<SpawnDefinition> definitions = groups.spawnDefinitions();
+        if (!definitions.isEmpty())
+            return definitions;
+        return settings.get().types.stream().map(type -> {
+            var npc = Definitions.getNpcDefinition(type);
+            String name = npc == null ? Short.toString(type) : npc.name;
+            return new SpawnDefinition(Short.toString(type), name, type, type, 1, null, null, null, null, null, null,
+                    null);
+        }).toList();
+    }
+
+    private SpawnDefinition randomDefinition(List<SpawnDefinition> definitions) {
+        long totalWeight = definitions.stream().filter(definition -> definition.weight() > 0)
+                .mapToLong(SpawnDefinition::weight).sum();
+        if (totalWeight <= 0)
+            return null;
+        double roll = random.nextDouble() * totalWeight;
+        for (SpawnDefinition definition : definitions) {
+            if (definition.weight() <= 0)
+                continue;
+            roll -= definition.weight();
+            if (roll < 0)
+                return definition;
+        }
+        return definitions.stream().filter(definition -> definition.weight() > 0).findFirst().orElse(null);
+    }
+
+    private SpawnDefinition requestedDefinition(List<SpawnDefinition> definitions, String requested) {
+        if (requested == null || requested.isBlank())
+            return null;
+        for (SpawnDefinition definition : definitions) {
+            if (definition.key().equalsIgnoreCase(requested)
+                    || definition.displayName().equalsIgnoreCase(requested)
+                    || Short.toString(definition.bossNpcType()).equals(requested))
+                return definition;
+            var npc = Definitions.getNpcDefinition(definition.bossNpcType());
+            if (npc != null && npc.name.equalsIgnoreCase(requested))
+                return definition;
+        }
+        return null;
+    }
+
+    private int value(Integer override, int fallback, int minimum) {
+        return Math.max(minimum, override == null ? fallback : override);
+    }
+
+    private String text(String value, String fallback) {
+        return value == null || value.isBlank() ? fallback : value;
+    }
+
+    private int scaledHealth(int baseHealth, int healthPerLevel, int level) {
+        long health = (long) baseHealth + (long) Math.max(0, level - 1) * healthPerLevel;
+        return (int) Math.min(Integer.MAX_VALUE, health);
     }
 }

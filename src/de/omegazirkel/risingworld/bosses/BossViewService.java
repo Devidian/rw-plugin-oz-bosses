@@ -42,7 +42,7 @@ public final class BossViewService {
         BossSector sector = state.sectors().get(key);
         if (sector == null || sector.position == null)
             return false;
-        spawn.spawn(sector, sector.position, spawnType(requestedType));
+        spawn.spawn(sector, sector.position, requestedType);
         return true;
     }
 
@@ -52,7 +52,7 @@ public final class BossViewService {
                 player.sendTextMessage(BossUtils.message(i18n, "TC_BOSSES_ADMIN_REQUIRED", player));
             return;
         }
-        spawn.spawn(state.sector(player), player.getPosition(), spawnType(requestedType));
+        spawn.spawn(state.sector(player), player.getPosition(), requestedType);
     }
 
     public int clearActiveGroups(String sectorKey) {
@@ -72,22 +72,15 @@ public final class BossViewService {
     }
 
     public List<SpawnType> spawnTypes() {
-        List<Short> configuredTypes = groups.spawnTypes();
-        if (configuredTypes.isEmpty())
-            configuredTypes = settings.get().types;
-        return configuredTypes.stream().map(id -> {
+        var configuredGroups = groups.spawnDefinitions();
+        if (!configuredGroups.isEmpty())
+            return configuredGroups.stream()
+                    .map(group -> new SpawnType(group.key(), group.displayName()))
+                    .toList();
+        return settings.get().types.stream().map(id -> {
             var definition = Definitions.getNpcDefinition(id);
             return new SpawnType(Short.toString(id), definition == null ? Short.toString(id) : definition.name);
         }).toList();
-    }
-
-    private Short spawnType(String value) {
-        if (value == null || value.isBlank())
-            return null;
-        for (SpawnType type : spawnTypes())
-            if (type.id().equals(value) || type.label().equalsIgnoreCase(value))
-                return Short.parseShort(type.id());
-        return null;
     }
 
     public record RankingRow(String playerName, long score, int bossKills, int followerKills, long damage) {

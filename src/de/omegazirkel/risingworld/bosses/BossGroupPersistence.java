@@ -26,14 +26,15 @@ public final class BossGroupPersistence {
             statement.executeUpdate("DELETE FROM boss_group_damage");
             statement.executeUpdate("DELETE FROM boss_group_members");
             statement.executeUpdate("DELETE FROM boss_groups");
-            try (PreparedStatement groupQuery = db.prepareStatement("INSERT INTO boss_groups (id,sector_key,name,boss_id,level,boss_defeated,invalid,killer_name,type_key,loot_key,gender_key) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            try (PreparedStatement groupQuery = db.prepareStatement("INSERT INTO boss_groups (id,sector_key,name,boss_id,level,boss_defeated,invalid,killer_name,type_key,loot_key,gender_key,definition_key) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
                     PreparedStatement memberQuery = db.prepareStatement("INSERT INTO boss_group_members VALUES(?,?)");
                     PreparedStatement damageQuery = db.prepareStatement("INSERT INTO boss_group_damage VALUES(?,?,?)")) {
                 for (BossGroup group : groups.values()) {
                     groupQuery.setInt(1, group.id); groupQuery.setString(2, group.sector.key); groupQuery.setString(3, group.name);
                     groupQuery.setLong(4, group.boss); groupQuery.setInt(5, group.level); groupQuery.setInt(6, group.bossDefeated ? 1 : 0);
                     groupQuery.setInt(7, group.invalid ? 1 : 0); groupQuery.setString(8, group.killerName);
-                    groupQuery.setString(9, group.typeKey); groupQuery.setString(10, group.lootKey); groupQuery.setString(11, group.genderKey); groupQuery.addBatch();
+                    groupQuery.setString(9, group.typeKey); groupQuery.setString(10, group.lootKey); groupQuery.setString(11, group.genderKey);
+                    groupQuery.setString(12, group.definitionKey); groupQuery.addBatch();
                     for (long member : group.members) { memberQuery.setInt(1, group.id); memberQuery.setLong(2, member); memberQuery.addBatch(); }
                     for (var damage : group.damage.entrySet()) { damageQuery.setInt(1, group.id); damageQuery.setInt(2, damage.getKey()); damageQuery.setLong(3, damage.getValue()); damageQuery.addBatch(); }
                 }
@@ -60,6 +61,7 @@ public final class BossGroupPersistence {
                 group.typeKey = valueOrDefault(result.getString("type_key"), "default");
                 group.lootKey = valueOrDefault(result.getString("loot_key"), "default");
                 group.genderKey = valueOrDefault(result.getString("gender_key"), "any");
+                group.definitionKey = valueOrDefault(result.getString("definition_key"), "");
                 groups.put(group.id, group);
             }
         } catch (SQLException ex) {

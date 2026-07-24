@@ -120,8 +120,10 @@ public final class BossCombatHandler {
         group.level++;
         for (long id : group.members) {
             Npc member = World.getNpc(id);
-            if (member != null && !member.isDead())
-                member.setHealth(member.getHealth() + settings.get().healthPerLevel);
+            if (member != null && !member.isDead()) {
+                int healthPerLevel = spawn.healthPerLevel(group, id == group.boss);
+                member.setHealth((int) Math.min(Integer.MAX_VALUE, (long) member.getHealth() + healthPerLevel));
+            }
         }
         if (group.level % settings.get().followerEveryLevels == 0)
             spawn.addFollower(group, npc.getTypeID(), npc.getPosition());

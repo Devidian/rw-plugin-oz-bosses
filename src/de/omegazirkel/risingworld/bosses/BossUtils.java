@@ -11,9 +11,14 @@ import de.omegazirkel.risingworld.tools.OZLogger;
 import net.risingworld.api.Plugin;
 import net.risingworld.api.objects.Npc;
 import net.risingworld.api.objects.Player;
+import net.risingworld.api.utils.Vector2i;
+import net.risingworld.api.utils.Vector3f;
 
 /** Stateless utilities shared by the feature-owned boss services. */
 public final class BossUtils {
+    public static final int CHUNKS_PER_SECTOR_AXIS = 256;
+    public static final float SECTOR_SIZE = 8192f;
+
     private BossUtils() {
     }
 
@@ -73,5 +78,10 @@ public final class BossUtils {
             case Male -> "male";
             default -> "any";
         };
+    }
+
+    public static Vector2i sectorPosition(Vector3f position) {
+        return new Vector2i((int) Math.floor(position.x / SECTOR_SIZE),
+                (int) Math.floor(position.z / SECTOR_SIZE));
     }
 }

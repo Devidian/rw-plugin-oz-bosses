@@ -18,11 +18,12 @@ public final class BossStateRepository {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS boss_sectors (key TEXT PRIMARY KEY,x INTEGER,z INTEGER,threat INTEGER,pos_x REAL,pos_y REAL,pos_z REAL)");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS boss_scores (id INTEGER PRIMARY KEY,name TEXT,boss INTEGER,follower INTEGER,damage INTEGER)");
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS boss_groups (id INTEGER PRIMARY KEY,sector_key TEXT,name TEXT,boss_id INTEGER,level INTEGER,boss_defeated INTEGER,invalid INTEGER,killer_name TEXT,type_key TEXT,loot_key TEXT,gender_key TEXT)");
+                    "CREATE TABLE IF NOT EXISTS boss_groups (id INTEGER PRIMARY KEY,sector_key TEXT,name TEXT,boss_id INTEGER,level INTEGER,boss_defeated INTEGER,invalid INTEGER,killer_name TEXT,type_key TEXT,loot_key TEXT,gender_key TEXT,definition_key TEXT)");
             addColumn(statement, "invalid INTEGER DEFAULT 0");
             addColumn(statement, "type_key TEXT");
             addColumn(statement, "loot_key TEXT");
             addColumn(statement, "gender_key TEXT");
+            addColumn(statement, "definition_key TEXT");
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS boss_group_members (group_id INTEGER,npc_id INTEGER,PRIMARY KEY(group_id,npc_id))");
             statement.executeUpdate(

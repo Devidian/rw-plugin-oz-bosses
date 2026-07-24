@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+## [0.1.0] - 2026-07-24 | Initial boss encounters
+
+- fix: derive live-NPC rehydration and spawn boundaries from 256 chunks per sector axis
+- balance: add per-group health progression and inverse random-spawn weights
+- feat: add separate male/female names and tiered loot tables for every default group
+- feat: add relative per-group weighting for random boss spawns
+- feat: support per-group boss/follower health scaling, follower NPC, minimum-distance overrides, and admin dropdown names
 - refactor: reduce `Bosses` to lifecycle wiring and delegated Rising World event methods
 - refactor: move runtime composition, state models, persistence migrations, threat rules, settings metadata, and overlay data into feature-owned classes
 - refactor: remove the unused Mail bridge and static plugin/UI access paths
@@ -12,6 +19,7 @@
 - feat: package overwriteable default boss names, groups, and loot JSON files; create editable runtime copies on first start
 - fix: derive automatic and manual spawn choices from `groups.json`, including groups added after deployment
 - fix: retain active boss-group identity and configured name/loot keys across plugin reloads
+- build: update the shared OZ Tools dependency to version 0.23.8
 
 ## [0.0.1] - 2026-07-21
 

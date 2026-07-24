@@ -1,13 +1,112 @@
 {
   "groups": [
-    { "key": "bandit", "npc": "bandit", "nameType": "dummy", "lootTable": "default" },
-    { "key": "barbarian", "npc": "barbarian", "nameType": "dummy", "lootTable": "default" },
-    { "key": "dummy", "npc": "dummy", "nameType": "dummy", "lootTable": "default" },
-    { "key": "ghoul", "npc": "ghoul", "nameType": "ghoul", "lootTable": "ghoul" },
-    { "key": "skeleton", "npc": "skeleton", "nameType": "skeleton", "lootTable": "skeleton" },
-    { "key": "wolf", "npc": "wolf", "nameType": "animal", "lootTable": "wolf" },
-    { "key": "wildboar", "npc": "wildboar", "nameType": "animal", "lootTable": "wildboar" },
-    { "key": "firewolf", "npc": "firewolf", "nameType": "animal", "lootTable": "firewolf" },
-    { "key": "lion", "npc": "lion", "nameType": "lion", "lootTable": "lion" }
+    {
+      "key": "bandit",
+      "name": "Bandits",
+      "weight": 75,
+      "npc": "bandit",
+      "nameType": "bandit",
+      "lootTable": "bandit",
+      "bossBaseHealth": 1200,
+      "bossHealthPerLevel": 300,
+      "followerBaseHealth": 600,
+      "followerHealthPerLevel": 60
+    },
+    {
+      "key": "barbarian",
+      "name": "Barbarians",
+      "weight": 30,
+      "npc": "barbarian",
+      "nameType": "barbarian",
+      "lootTable": "barbarian",
+      "bossBaseHealth": 1800,
+      "bossHealthPerLevel": 450,
+      "followerBaseHealth": 900,
+      "followerHealthPerLevel": 90
+    },
+    {
+      "key": "dummy",
+      "name": "Training dummies",
+      "weight": 100,
+      "npc": "dummy",
+      "nameType": "dummy",
+      "lootTable": "dummy",
+      "bossBaseHealth": 1000,
+      "bossHealthPerLevel": 250,
+      "followerBaseHealth": 500,
+      "followerHealthPerLevel": 50
+    },
+    {
+      "key": "ghoul",
+      "name": "Ghouls",
+      "weight": 125,
+      "npc": "ghoul",
+      "nameType": "ghoul",
+      "lootTable": "ghoul",
+      "bossBaseHealth": 800,
+      "bossHealthPerLevel": 200,
+      "followerBaseHealth": 400,
+      "followerHealthPerLevel": 40
+    },
+    {
+      "key": "skeleton",
+      "name": "Skeletons",
+      "weight": 200,
+      "npc": "skeleton",
+      "nameType": "skeleton",
+      "lootTable": "skeleton",
+      "bossBaseHealth": 500,
+      "bossHealthPerLevel": 125,
+      "followerBaseHealth": 250,
+      "followerHealthPerLevel": 25
+    },
+    {
+      "key": "wolf",
+      "name": "Wolves",
+      "weight": 140,
+      "npc": "wolf",
+      "nameType": "wolf",
+      "lootTable": "wolf",
+      "bossBaseHealth": 750,
+      "bossHealthPerLevel": 188,
+      "followerBaseHealth": 350,
+      "followerHealthPerLevel": 35
+    },
+    {
+      "key": "wildboar",
+      "name": "Wild boars",
+      "weight": 40,
+      "npc": "wildboar",
+      "nameType": "wildboar",
+      "lootTable": "wildboar",
+      "bossBaseHealth": 1500,
+      "bossHealthPerLevel": 375,
+      "followerBaseHealth": 1000,
+      "followerHealthPerLevel": 100
+    },
+    {
+      "key": "firewolf",
+      "name": "Fire wolves",
+      "weight": 10,
+      "npc": "firewolf",
+      "nameType": "firewolf",
+      "lootTable": "firewolf",
+      "bossBaseHealth": 2500,
+      "bossHealthPerLevel": 625,
+      "followerBaseHealth": 1500,
+      "followerHealthPerLevel": 150
+    },
+    {
+      "key": "lion",
+      "name": "Lions",
+      "weight": 20,
+      "npc": "lion",
+      "nameType": "lion",
+      "lootTable": "lion",
+      "bossBaseHealth": 2000,
+      "bossHealthPerLevel": 500,
+      "followerBaseHealth": 1250,
+      "followerHealthPerLevel": 125
+    }
   ]
 }

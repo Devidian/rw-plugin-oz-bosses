@@ -57,20 +57,22 @@ public final class BossGroupRehydrationHandler {
                 continue;
             String type = groups.nameType(npc);
             String gender = BossUtils.genderKey(npc);
-            if (type == null || !names.isBossOrFollowerName(type, gender, npc.getName()))
+            if (type == null || !names.isBossName(type, gender, npc.getName()))
                 continue;
-            BossGroup group = restored.computeIfAbsent(npc.getGroupID(), id -> {
-                BossGroup created = new BossGroup(id, sectorAt(npc.getPosition()), npc.getName());
-                created.typeKey = type;
-                created.lootKey = groups.lootTable(npc, type);
-                created.genderKey = gender;
-                return created;
-            });
-            group.members.add(npc.getGlobalID());
-            if (group.boss == 0 || names.isBossName(group.typeKey, group.genderKey, npc.getName())) {
-                group.boss = npc.getGlobalID();
-                group.name = npc.getName();
-            }
+            BossGroup group = new BossGroup(npc.getGroupID(), sectorAt(npc.getPosition()), npc.getName());
+            group.definitionKey = valueOrDefault(groups.definitionKey(npc), "");
+            group.typeKey = type;
+            group.lootKey = groups.lootTable(npc, type);
+            group.genderKey = gender;
+            group.boss = npc.getGlobalID();
+            restored.putIfAbsent(group.id, group);
+        }
+        for (Npc npc : World.getAllNpcs()) {
+            if (npc == null || npc.isDead())
+                continue;
+            BossGroup group = restored.get(npc.getGroupID());
+            if (group != null)
+                group.members.add(npc.getGlobalID());
         }
         if (!restored.isEmpty())
             BossUtils.logger().info("Recovered " + restored.size() + " boss groups from live NPC group IDs.");
@@ -78,20 +80,27 @@ public final class BossGroupRehydrationHandler {
     }
 
     private void refreshRestoredGroupMember(BossGroup group, Npc npc) {
-        if (!"default".equals(group.typeKey))
-            return;
         String type = groups.nameType(npc);
         if (type == null)
             return;
-        group.typeKey = type;
-        group.lootKey = groups.lootTable(npc, type);
-        group.genderKey = BossUtils.genderKey(npc);
+        if (group.definitionKey == null || group.definitionKey.isBlank())
+            group.definitionKey = valueOrDefault(groups.definitionKey(npc), "");
+        if ("default".equals(group.typeKey)) {
+            group.typeKey = type;
+            group.lootKey = groups.lootTable(npc, type);
+            group.genderKey = BossUtils.genderKey(npc);
+        }
     }
 
     private BossSector sectorAt(net.risingworld.api.utils.Vector3f position) {
-        int x = (int) Math.floor(position.x / 512f);
-        int z = (int) Math.floor(position.z / 512f);
+        var sector = BossUtils.sectorPosition(position);
+        int x = sector.x;
+        int z = sector.y;
         String key = x + "," + z;
         return sectors.computeIfAbsent(key, ignored -> new BossSector(key, x, z));
+    }
+
+    private String valueOrDefault(String value, String fallback) {
+        return value == null ? fallback : value;
     }
 }
