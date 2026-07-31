@@ -47,6 +47,8 @@ public final class BossSettingsManager {
                 setting(file, "boss.followersPerOnlinePlayer", AdminSettingsType.DECIMAL),
                 setting(file, "boss.minSpawnDistance", AdminSettingsType.INTEGER),
                 setting(file, "boss.spawnChance", AdminSettingsType.INTEGER),
+                setting(file, "boss.allowSpawnInAreas", AdminSettingsType.BOOLEAN),
+                setting(file, "boss.maxBossesPerSector", AdminSettingsType.INTEGER),
                 group("integrations"), setting(file, "wallet.enabled", AdminSettingsType.BOOLEAN),
                 setting(file, "wallet.bountyPercent", AdminSettingsType.DECIMAL),
                 setting(file, "discord.channelId", AdminSettingsType.STRING));

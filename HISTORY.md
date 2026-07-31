@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+## [0.1.2] - 2026-07-31 | Configurable spawn boundaries
+
+- feat: optionally prevent automatic boss spawns inside Rising World Areas
+- feat: configure a maximum number of active boss groups per sector
+- fix: expose the new spawn settings in PluginSettings with German and English labels
+- fix: remove the redundant overlay command-status hint
+
 ## [0.1.1] - 2026-07-25 | Mining drill threat
 
 - fix: count mining drill terrain changes with the configured pickaxe threat

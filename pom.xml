@@ -8,7 +8,7 @@
 
     <groupId>com.github.devidian</groupId>
     <artifactId>rw-plugin-oz-bosses</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 
     <name>OZBosses</name>
     <description>Sector-based boss events for Rising World</description>

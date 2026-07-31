@@ -15,6 +15,7 @@ import net.risingworld.api.definitions.Items.Modifier;
 import net.risingworld.api.definitions.Npcs.AttackReaction;
 import net.risingworld.api.definitions.Npcs.Behaviour;
 import net.risingworld.api.objects.Npc;
+import net.risingworld.api.objects.Area;
 import net.risingworld.api.objects.Player;
 import net.risingworld.api.objects.Storage;
 import net.risingworld.api.objects.world.Chunk;
@@ -73,6 +74,10 @@ public final class BossSpawnHandler {
     }
 
     public void spawn(BossSector sector, Vector3f at, String requestedGroup) {
+        if (settings.get().maxBossesPerSector >= 0 && sector.active >= settings.get().maxBossesPerSector) {
+            BossUtils.logger().info("Boss spawn skipped for sector " + sector.key + ": configured sector limit reached.");
+            return;
+        }
         List<SpawnDefinition> configuredGroups = configuredSpawnDefinitions();
         if (configuredGroups.isEmpty()) {
             BossUtils.logger().warn("No NPC types configured in groups.json or boss.types");
@@ -95,6 +100,7 @@ public final class BossSpawnHandler {
         Npc boss = null;
         for (int attempt = 0; attempt < 16 && boss == null; attempt++) {
             center = spawnCenter(at, minSpawnDistance);
+            if (center != null && !settings.get().allowSpawnInAreas && isInsideArea(center)) center = null;
             if (center != null)
                 boss = npc(type, center, id, "Boss", bossHealth);
         }
@@ -230,6 +236,12 @@ public final class BossSpawnHandler {
         if (chunk == null || !chunk.isValid()) return Float.NaN;
         return chunk.getLODSurfaceLevel(Math.floorMod((int) Math.floor(position.x), Chunk.SIZE_X),
                 Math.floorMod((int) Math.floor(position.z), Chunk.SIZE_Z), false);
+    }
+
+    private boolean isInsideArea(Vector3f position) {
+        for (Area area : Server.getAllAreas())
+            if (area != null && area.isValid() && area.isPointInArea(position)) return true;
+        return false;
     }
 
     private boolean isWaterAt(Vector3f position, float ground) {

@@ -90,6 +90,8 @@ public final class BossState {
     }
 
     static int spawnChance(BossSector sector, PluginSettings settings) {
+        if (settings.maxBossesPerSector >= 0 && sector.active >= settings.maxBossesPerSector)
+            return 0;
         if (settings.threshold <= 0)
             return 0;
         int availableThreat = Math.max(0, sector.threat - sector.active * settings.threshold);
