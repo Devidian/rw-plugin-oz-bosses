@@ -2,7 +2,9 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
-## Unreleased
+## [0.1.3] - 2026-08-05 | Debug safety
+
+- fix: keep administrator debug messages null-safe when unnamed NPCs are hit
 
 ## [0.1.2] - 2026-07-31 | Configurable spawn boundaries
 

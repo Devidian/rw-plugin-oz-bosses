@@ -41,9 +41,17 @@ public final class BossUtils {
     }
 
     public static String replace(String message, String... replacements) {
-        for (int i = 0; i + 1 < replacements.length; i += 2)
-            message = message.replace(replacements[i], replacements[i + 1]);
-        return message;
+        String result = message == null ? "" : message;
+        if (replacements == null)
+            return result;
+        for (int i = 0; i + 1 < replacements.length; i += 2) {
+            String placeholder = replacements[i];
+            if (placeholder == null || placeholder.isEmpty())
+                continue;
+            String replacement = replacements[i + 1] == null ? "-" : replacements[i + 1];
+            result = result.replace(placeholder, replacement);
+        }
+        return result;
     }
 
     public static String enemyKey(Npc npc, BossGroupCatalog groups) {
