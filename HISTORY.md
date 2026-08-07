@@ -2,6 +2,10 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.1.4] - 2026-08-07 | Dummy appearance variety
+
+- change: broaden dummy boss clothing choices and add a 25% compatible-hat chance
+
 ## [0.1.3] - 2026-08-05 | Debug safety
 
 - fix: keep administrator debug messages null-safe when unnamed NPCs are hit
@@ -54,3 +58,6 @@
 - docs: standardize agent prompts, PR checklist, and runtime smoke-test guidance
 - build: add API verification helper and stricter CI/release validation flow
 - build: package only `README.md` and `HISTORY.md` into release artifacts
+## Unreleased
+
+- change: expand dummy clothing variation and equip a random compatible hat with 25 percent probability

@@ -192,12 +192,17 @@ public final class BossSpawnHandler {
     private void equipDummyClothes(Npc npc) {
         if (npc.getDefinition() == null || !"dummy".equalsIgnoreCase(npc.getDefinition().name)
                 || !npc.getDefinition().hasclothes) return;
-        String[] tops = { "ragshirt", "medievalshirt", "medievalshirt2", "medievalshirt3" };
-        String[] legs = { "medievalpants", "mountiepants", "cargopants" };
-        String[] feet = { "medievalfurboots", "mountieboots", "oldboot" };
+        String[] tops = { "ragshirt", "medievalshirt", "medievalshirt2", "medievalshirt3", "poloshirt" };
+        String[] legs = { "medievalpants", "mountiepants", "cargopants", "workpants" };
+        String[] feet = { "medievalfurboots", "mountieboots", "oldboot", "trekkingshoes", "medievalshoes" };
+        String[] hats = { "felthat", "pilgrimhat", "cowboyhat", "cappy" };
         for (String name : List.of(random(tops), random(legs), random(feet))) {
             var clothing = Definitions.getClothingDefinition(name);
             if (clothing != null) npc.getClothes().add((short) clothing.id);
+        }
+        if (random.nextInt(100) < 25) {
+            var hat = Definitions.getClothingDefinition(random(hats));
+            if (hat != null) npc.getClothes().add((short) hat.id);
         }
     }
 
