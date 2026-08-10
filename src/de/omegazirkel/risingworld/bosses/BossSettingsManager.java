@@ -49,6 +49,7 @@ public final class BossSettingsManager {
                 setting(file, "boss.spawnChance", AdminSettingsType.INTEGER),
                 setting(file, "boss.allowSpawnInAreas", AdminSettingsType.BOOLEAN),
                 setting(file, "boss.maxBossesPerSector", AdminSettingsType.INTEGER),
+                setting(file, "boss.levelUpOnOverflow", AdminSettingsType.BOOLEAN),
                 group("integrations"), setting(file, "wallet.enabled", AdminSettingsType.BOOLEAN),
                 setting(file, "wallet.bountyPercent", AdminSettingsType.DECIMAL),
                 setting(file, "discord.channelId", AdminSettingsType.STRING));
@@ -63,7 +64,7 @@ public final class BossSettingsManager {
         Path defaults = Path.of(plugin.getPath(), "settings.default.properties");
         String defaultValue = PluginSettings.read(defaults, key, "");
         String value = PluginSettings.read(file, key, defaultValue);
-        String base = "TC_SETTING_" + key.toUpperCase(Locale.ROOT).replace(".", "");
+        String base = "TC_SETTING_" + key.toUpperCase(Locale.ROOT).replace(".", "_");
         return new AdminSettingsEntry(key, i18n.get(base + "_LABEL"), i18n.get(base + "_DESC"), value, defaultValue,
                 type, false, next -> SettingsFileEditor.writeValue(file, key, next));
     }

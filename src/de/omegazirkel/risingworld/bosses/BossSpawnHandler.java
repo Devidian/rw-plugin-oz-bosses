@@ -74,8 +74,13 @@ public final class BossSpawnHandler {
     }
 
     public void spawn(BossSector sector, Vector3f at, String requestedGroup) {
+        if (requestedGroup != null && requestedGroup.isBlank())
+            requestedGroup = null;
         if (settings.get().maxBossesPerSector >= 0 && sector.active >= settings.get().maxBossesPerSector) {
-            BossUtils.logger().info("Boss spawn skipped for sector " + sector.key + ": configured sector limit reached.");
+            if (requestedGroup == null && settings.get().levelUpOnOverflow && settings.get().maxBossesPerSector > 0)
+                levelUpRandomGroup(sector);
+            else
+                BossUtils.logger().info("Boss spawn skipped for sector " + sector.key + ": configured sector limit reached.");
             return;
         }
         List<SpawnDefinition> configuredGroups = configuredSpawnDefinitions();
@@ -127,6 +132,35 @@ public final class BossSpawnHandler {
         sector.active++;
         persistence.save();
         announcements.announce("TC_BOSSES_ANNOUNCE_SPAWN", "PH_BOSS", group.name, "PH_SECTOR", sector.key);
+    }
+
+    public void levelUp(BossGroup group, Npc followerReference) {
+        group.level++;
+        for (long id : group.members) {
+            Npc member = World.getNpc(id);
+            if (member != null && !member.isDead()) {
+                int healthPerLevel = healthPerLevel(group, id == group.boss);
+                member.setHealth((int) Math.min(Integer.MAX_VALUE, (long) member.getHealth() + healthPerLevel));
+            }
+        }
+        if (group.level % settings.get().followerEveryLevels == 0 && followerReference != null
+                && !followerReference.isDead())
+            addFollower(group, followerReference.getTypeID(), followerReference.getPosition());
+        persistence.save();
+        announcements.announce("TC_BOSSES_ANNOUNCE_LEVEL", "PH_BOSS", group.name, "PH_SECTOR",
+                group.sector.key, "PH_LEVEL", Integer.toString(group.level));
+    }
+
+    private void levelUpRandomGroup(BossSector sector) {
+        List<BossGroup> candidates = activeGroups.values().stream()
+                .filter(group -> group.sector == sector && !group.finished).toList();
+        if (candidates.isEmpty()) {
+            BossUtils.logger().info("Boss spawn skipped for sector " + sector.key + ": configured sector limit reached.");
+            return;
+        }
+        sector.threat = Math.max(0, sector.threat - settings.get().threshold);
+        BossGroup group = candidates.get(random.nextInt(candidates.size()));
+        levelUp(group, World.getNpc(group.boss));
     }
 
     public void addFollower(BossGroup group, short type, Vector3f at) {

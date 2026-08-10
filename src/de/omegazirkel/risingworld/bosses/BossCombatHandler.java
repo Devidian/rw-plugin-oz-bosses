@@ -6,7 +6,6 @@ import de.omegazirkel.risingworld.bosses.ui.BossPlayerPluginSettings;
 import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.PlayerSettings;
 import net.risingworld.api.Server;
-import net.risingworld.api.World;
 import net.risingworld.api.events.npc.NpcDamageEvent;
 import net.risingworld.api.events.npc.NpcDamageEvent.Cause;
 import net.risingworld.api.events.npc.NpcDeathEvent;
@@ -25,13 +24,12 @@ public final class BossCombatHandler {
     private final BossSpawnHandler spawn;
     private final BossRewardHandler rewards;
     private final BossGroupPersistence persistence;
-    private final BossAnnouncementHandler announcements;
     private final PlayerSettings playerSettings;
     private final I18n i18n;
 
     public BossCombatHandler(BossState state, BossThreatService threat, BossDebugService debug,
             Supplier<PluginSettings> settings, BossSpawnHandler spawn, BossRewardHandler rewards,
-            BossGroupPersistence persistence, BossAnnouncementHandler announcements,
+            BossGroupPersistence persistence,
             PlayerSettings playerSettings, I18n i18n) {
         this.state = state;
         this.threat = threat;
@@ -40,7 +38,6 @@ public final class BossCombatHandler {
         this.spawn = spawn;
         this.rewards = rewards;
         this.persistence = persistence;
-        this.announcements = announcements;
         this.playerSettings = playerSettings;
         this.i18n = i18n;
     }
@@ -117,19 +114,7 @@ public final class BossCombatHandler {
         BossGroup group = state.group(npc);
         if (group == null || group.finished || group.bossDefeated)
             return;
-        group.level++;
-        for (long id : group.members) {
-            Npc member = World.getNpc(id);
-            if (member != null && !member.isDead()) {
-                int healthPerLevel = spawn.healthPerLevel(group, id == group.boss);
-                member.setHealth((int) Math.min(Integer.MAX_VALUE, (long) member.getHealth() + healthPerLevel));
-            }
-        }
-        if (group.level % settings.get().followerEveryLevels == 0)
-            spawn.addFollower(group, npc.getTypeID(), npc.getPosition());
-        persistence.save();
-        announcements.announce("TC_BOSSES_ANNOUNCE_LEVEL", "PH_BOSS", group.name, "PH_SECTOR",
-                group.sector.key, "PH_LEVEL", Integer.toString(group.level));
+        spawn.levelUp(group, npc);
     }
 
     private void notifyOutgoingDamage(Player attacker, short damage, Npc target) {

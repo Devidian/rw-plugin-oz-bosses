@@ -67,6 +67,8 @@ public final class BossState {
 
     BossGroup attacking(Player player) {
         for (Npc npc : World.getAllNpcsInRange(player.getPosition(), 24f)) {
+            if (npc == null)
+                continue;
             BossGroup group = group(npc);
             Player target = npc.getHostilePlayer();
             if (group != null && target != null && target.getDbID() == player.getDbID())
@@ -90,7 +92,8 @@ public final class BossState {
     }
 
     static int spawnChance(BossSector sector, PluginSettings settings) {
-        if (settings.maxBossesPerSector >= 0 && sector.active >= settings.maxBossesPerSector)
+        if (settings.maxBossesPerSector >= 0 && sector.active >= settings.maxBossesPerSector
+                && (!settings.levelUpOnOverflow || settings.maxBossesPerSector == 0))
             return 0;
         if (settings.threshold <= 0)
             return 0;

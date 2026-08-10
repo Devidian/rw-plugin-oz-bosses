@@ -41,6 +41,11 @@ often as a group with weight `5`; an omitted weight defaults to `1`. Weight `0` 
 while keeping it available for explicit administrator selection. If every configured group has weight `0`, no random
 group is spawned.
 
+With `boss.levelUpOnOverflow=true` and a positive `boss.maxBossesPerSector`, threat beyond the active-group threshold
+uses the usual spawn-roll chance to level up a random active group rather than spawn another group. One threshold of
+threat is consumed, exactly as after a defeated boss. The administrator's **Random** spawn action follows the same
+rule at the sector limit; explicit group selection remains blocked.
+
 The packaged defaults use the following level-one balance. Boss health grows by 25% of its base value per level;
 follower health grows by 10% (the wolf boss increment is rounded to 188):
 

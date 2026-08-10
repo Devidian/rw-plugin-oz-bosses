@@ -70,7 +70,7 @@ public final class BossRuntime {
 
         playerActions = new BossPlayerActionHandler(threat, debug, settings::current);
         combat = new BossCombatHandler(state, threat, debug, settings::current, spawn, rewards,
-                groupPersistence, announcements, playerSettings, i18n);
+                groupPersistence, playerSettings, i18n);
         interactions = new BossInteractionHandler(view, overlays, lootHandler);
 
         plugin.executeDelayed(2f, rehydration::rehydrate);

@@ -2,6 +2,13 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.2.0] - 2026-08-10 | Overflow progression
+
+- feat: level up a random active boss group when the configured sector maximum is reached and overflow progression is enabled
+- balance: reduce overflow progression threat by one configured threshold without going below zero
+- fix: localize all boss spawn settings in the in-game plugin settings panel
+- fix: keep boss combat handling safe when an NPC instance is unavailable
+
 ## [0.1.4] - 2026-08-07 | Dummy appearance variety
 
 - change: broaden dummy boss clothing choices and add a 25% compatible-hat chance
