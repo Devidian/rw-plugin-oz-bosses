@@ -49,7 +49,7 @@ public final class BossViewService {
     public void spawnForAdmin(Player player, String requestedType) {
         if (player == null || !player.isAdmin()) {
             if (player != null)
-                player.sendTextMessage(BossUtils.message(i18n, "TC_BOSSES_ADMIN_REQUIRED", player));
+                player.sendTextMessage(BossUtils.message(i18n, "tc.bosses.admin.required", player));
             return;
         }
         spawn.spawn(state.sector(player), player.getPosition(), requestedType);

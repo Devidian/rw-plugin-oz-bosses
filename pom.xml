@@ -63,20 +63,27 @@
         <dependency>
             <groupId>com.github.devidian</groupId>
             <artifactId>rw-plugin-oz-tools</artifactId>
-            <version>0.23.12</version>
+            <version> 0.23.14</version>
         </dependency>
 
         <!-- Rising World PluginAPI -->
         <dependency>
             <groupId>net.risingworld</groupId>
             <artifactId>PluginAPI</artifactId>
-            <version>0.9.2</version>
+            <version>0.9.3</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>src-test</testSourceDirectory>
         <directory>target</directory>
         <finalName>${project.name}</finalName>
 
@@ -130,7 +137,7 @@
                             <file>${project.basedir}/libs/PluginAPI.jar</file>
                             <groupId>net.risingworld</groupId>
                             <artifactId>PluginAPI</artifactId>
-                            <version>0.9.2</version>
+                            <version>0.9.3</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -229,8 +236,10 @@
                                 <resource>
                                     <directory>${basedir}/src</directory>
                                     <includes>
+                                        <include>*.json</include>
                                         <include>*.properties</include>
                                         <include>*.json</include>
+                                        <include>*.properties</include>
                                     </includes>
                                 </resource>
                                 <resource>
@@ -274,7 +283,7 @@
                                 <resource>
                                     <directory>${basedir}/src/i18n</directory>
                                     <includes>
-                                        <include>**/*.properties</include>
+                                        <include>**/*.json</include>
                                     </includes>
                                 </resource>
                             </resources>

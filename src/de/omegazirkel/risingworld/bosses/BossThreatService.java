@@ -26,14 +26,14 @@ public final class BossThreatService {
         if (player == null)
             return;
         if (amount <= 0) {
-            debug.debug(player, "TC_BOSSES_DEBUG_THREAT_IRRELEVANT", "PH_ACTION",
+            debug.debug(player, "tc.bosses.debug.threat.irrelevant", "PH_ACTION",
                     BossUtils.message(i18n, actionKey, player, actionReplacements));
             return;
         }
         BossSector sector = state.sector(player);
         sector.threat += amount;
         sector.position = new Vector3f(player.getPosition());
-        debug.debug(player, "TC_BOSSES_DEBUG_THREAT_INCREASED", "PH_AMOUNT", Integer.toString(amount),
+        debug.debug(player, "tc.bosses.debug.threat.increased", "PH_AMOUNT", Integer.toString(amount),
                 "PH_ACTION", BossUtils.message(i18n, actionKey, player, actionReplacements));
     }
 

@@ -1,0 +1,39 @@
+{
+  "boss": {
+    "allowSpawnInAreas": "false",
+    "baseHealth": "1000",
+    "followerEveryLevels": "5",
+    "followerHealth": "250",
+    "followersPerOnlinePlayer": "0.0",
+    "healthPerLevel": "200",
+    "initialFollowers": "2",
+    "levelUpOnOverflow": "false",
+    "maxBossesPerSector": "-1",
+    "minSpawnDistance": "80",
+    "spawnChance": "10",
+    "types": "bandit,barbarian,dummy,ghoul,skeleton,wolf,wildboar,firewolf,lion"
+  },
+  "discord": {
+    "channelId": "0"
+  },
+  "enableWelcomeMessage": "false",
+  "logLevel": "INFO",
+  "reloadOnChange": "true",
+  "threat": {
+    "blueprint": "10",
+    "checkIntervalMinutes": "5",
+    "construction": "5",
+    "hoe": "1",
+    "npcKill": "50",
+    "objectDestroy": "2",
+    "pickaxe": "2",
+    "sledgehammer": "1",
+    "terrainHit": "0",
+    "threshold": "10000",
+    "vegetation": "2"
+  },
+  "wallet": {
+    "bountyPercent": "50.0",
+    "enabled": "true"
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "tc": {
+    "bosses": {
+      "action": {
+        "blueprint": "Blaupause erstellen",
+        "construction": "Bauaktion",
+        "large": {
+          "rock": {
+            "mined": "großen Felsen abbauen"
+          }
+        },
+        "npc": {
+          "killed": "NPC töten"
+        },
+        "object": {
+          "destroyed": "Objekt zerstören"
+        },
+        "terrain": {
+          "changed": "Gelände verändern mit PH_ITEM",
+          "placed": "Gelände platzieren mit PH_ITEM"
+        },
+        "tree": {
+          "felled": "Baum fällen"
+        }
+      },
+      "admin": {
+        "required": "\u003ccolor\u003d#F06060\u003eDiese Aktion erfordert Administratorrechte.\u003c/color\u003e"
+      },
+      "announce": {
+        "defeat": "\u003ccolor\u003d#F0D060\u003ePH_PLAYER hat PH_BOSS besiegt!\u003c/color\u003e",
+        "followers": {
+          "remaining": "\u003ccolor\u003d#F0D060\u003eEs verbleiben PH_AMOUNT Anhänger der Bossgruppe PH_BOSS.\u003c/color\u003e"
+        },
+        "level": "\u003ccolor\u003d#F0D060\u003ePH_BOSS in Sektor PH_SECTOR hat Level PH_LEVEL erreicht.\u003c/color\u003e",
+        "spawn": "\u003ccolor\u003d#F0D060\u003ePH_BOSS wurde in Sektor PH_SECTOR gesichtet.\u003c/color\u003e"
+      },
+      "bounty": {
+        "received": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e Du hast PH_AMOUNT Münzen Boss-Kopfgeld erhalten."
+      },
+      "damage": {
+        "other": {
+          "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS verursacht \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e Schaden an PH_PLAYER.",
+          "outgoing": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e PH_PLAYER verursacht \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e Schaden an PH_BOSS."
+        },
+        "own": {
+          "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS verursacht \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e Schaden an dir.",
+          "outgoing": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e Du verursachst \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e Schaden an PH_BOSS."
+        }
+      },
+      "debug": {
+        "damage": {
+          "recorded": "Schaden PH_DAMAGE an PH_NPC aus Bossgruppe registriert."
+        },
+        "disabled": "Debug-Ausgaben deaktiviert.",
+        "enabled": "Debug-Ausgaben aktiviert.",
+        "game": {
+          "object": {
+            "hit": "GameObject-Treffer auf PH_OBJECT: keine Bedrohung, Objekt noch nicht zerstört."
+          }
+        },
+        "group": {
+          "npc": {
+            "death": "NPC aus Bossgruppe gestorben, keine Bedrohung erhöht."
+          }
+        },
+        "loot": {
+          "added": "PH_AMOUNT PH_ITEM zur Boss-Beute hinzugefügt.",
+          "fallback": "Sack-Speicher lehnte Beute ab; Beute wurde direkt ausgezahlt.",
+          "rejected": "Beute konnte nicht hinzugefügt werden: PH_ITEM.",
+          "sack": {
+            "created": "Boss-Beute-Sack für PH_BOSS erstellt."
+          }
+        },
+        "npc": {
+          "hit": {
+            "no": {
+              "group": "NPC-Treffer auf PH_NPC: keine Bossgruppe."
+            }
+          }
+        },
+        "object": {
+          "hit": "Objekttreffer auf PH_OBJECT: keine Bedrohung, Objekt noch nicht zerstört."
+        },
+        "prefix": "[OZ Bosse Debug]",
+        "terrain": {
+          "hit": "Geländetreffer mit PH_ITEM: keine Bedrohung, Gelände noch nicht verändert."
+        },
+        "threat": {
+          "increased": "Bedrohung um PH_AMOUNT gestiegen durch PH_ACTION.",
+          "irrelevant": "Bedrohung nicht gestiegen: PH_ACTION ist nicht relevant."
+        },
+        "vegetation": {
+          "hit": "Vegetationstreffer: noch keine Bedrohung, Objekt noch nicht zerstört."
+        }
+      },
+      "loot": {
+        "fallback": "\u003ccolor\u003d#FFFF00\u003eDie Boss-Beute wurde deinem Inventar hinzugefügt.\u003c/color\u003e",
+        "sack": {
+          "name": "Belohnungssack: PH_BOSS"
+        }
+      },
+      "setting": {
+        "debug": {
+          "events": "Debug-Ausgaben für Boss-Events"
+        },
+        "other": {
+          "incoming": "Schaden von Bossgegnern an anderen Spielern anzeigen",
+          "outgoing": "Schaden anderer Spieler an Bossgegnern anzeigen"
+        },
+        "own": {
+          "incoming": "Schaden von Bossgegnern an mir anzeigen",
+          "outgoing": "Meinen Schaden an Bossgegnern anzeigen"
+        }
+      },
+      "ui": {
+        "cancel": "Abbrechen",
+        "clear": {
+          "$value": "Leeren",
+          "confirm": "Alle aktiven Bossgruppen und ihre Mitglieder im Sektor PH_SECTOR wirklich entfernen?",
+          "done": "PH_COUNT aktive Bossgruppen entfernt."
+        },
+        "delete": {
+          "$value": "Löschen",
+          "confirm": "Wie soll „PH_NPC“ entfernt werden?",
+          "group": "Ganze Gruppe",
+          "npc": "Nur NPC"
+        },
+        "empty": "Noch keine Event-Aktivität.",
+        "legend": "Administratoren können die Sektor-Bedrohung einsehen.",
+        "no": {
+          "npcs": "Keine benannten Gegner vorhanden."
+        },
+        "npc": {
+          "unavailable": "Dieser NPC ist nicht mehr verfügbar."
+        },
+        "spawn": {
+          "$value": "Spawnen",
+          "random": "Zufällig",
+          "type": "Bossgruppe",
+          "unavailable": "Für diesen Sektor ist noch keine Spawnposition bekannt."
+        },
+        "subtitle": "Event-Rangliste und Sektoraktivität",
+        "tab": {
+          "npcs": "Benannte Gegner",
+          "ranking": "Rangliste",
+          "threat": "Sektor-Bedrohung"
+        },
+        "teleport": "Teleport",
+        "th": {
+          "action": "Aktion",
+          "active": "Aktive Gruppen",
+          "boss": {
+            "kills": "Boss-Kills"
+          },
+          "damage": "Schaden",
+          "follower": {
+            "kills": "Helfer-Kills"
+          },
+          "npc": {
+            "group": "Gruppen-ID",
+            "health": "Leben",
+            "name": "Name",
+            "type": "Typ"
+          },
+          "player": "Spieler",
+          "score": "Punkte",
+          "sector": "Sektor",
+          "spawn": {
+            "chance": "Spawnchance"
+          },
+          "threat": "Bedrohung"
+        },
+        "title": "OZ Bosse"
+      }
+    },
+    "btn": {
+      "off": "Aus",
+      "on": "An"
+    },
+    "cmd": {
+      "help": "Hilfe:\nVerfügbare Chat-Kommandos:\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD status\u003c/color\u003e zeigt plugin infos an\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e öffnet das Pluginmenü\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e zeigt diese Hilfe an\n\n\u003ccolor\u003dyellow\u003eTipp:\u003c/color\u003e Binde den Befehl \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e an eine Taste der Maus oder Tastatur.",
+      "status": "🔎 Plugin Status\n➡️ Plugin version: PH_VERSION\n➡️ Installierte Sprachen: PH_LANG_AVAILABLE\n➡️ Deine Sprache: PH_LANGUAGE\n➡️ Verwendete Sprache: PH_USEDLANG"
+    },
+    "data": {
+      "desc": "Hier kannst du gespeicherte Spielerdaten für PH_PLUGIN_NAME ansehen.",
+      "empty": "Für dieses Plugin sind noch keine gespeicherten Spielerdaten verfügbar.",
+      "title": "Gespeicherte Daten für PH_PLUGIN_NAME"
+    },
+    "err": {
+      "cmd": {
+        "unknown": "Unbekanntes Kommando tippe \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e für Hilfe."
+      }
+    },
+    "msg": {
+      "plugin": {
+        "welcome": "ℹ️ \u003ccolor\u003d#F00000\u003ePH_PLUGIN_NAME\u003c/color\u003e | \u003ccolor\u003d#F0F000\u003evPH_PLUGIN_VERSION\u003c/color\u003e | \u003ccolor\u003d#C0C0C0\u003e/PH_PLUGIN_CMD\u003c/color\u003e | geladen!"
+      }
+    },
+    "settings": {
+      "desc": "Hier kannst du spielerbezogene Einstellungen für PH_PLUGIN_NAME anpassen.",
+      "empty": "Für PH_PLUGIN_NAME sind noch keine Spieler-Einstellungen verfügbar.",
+      "title": "Plugin Einstellungen für PH_PLUGIN_NAME"
+    },
+    "setting": {
+      "boss": {
+        "allowspawninareas": {
+          "desc": "Erlaubt Bossgruppen, innerhalb von Rising-World-Areas zu spawnen.",
+          "label": "Spawn in Areas erlauben"
+        },
+        "basehealth": {
+          "desc": "Startleben eines Bosses.",
+          "label": "Boss-Grundleben"
+        },
+        "desc": "Boss-Leben, Gefolgsleute und Spawn.",
+        "followersperonlineplayer": {
+          "desc": "Zusätzliche Gefolgsleute pro Spieler; 0,5 fügt je zwei Spielern einen hinzu.",
+          "label": "Gefolgsleute pro Online-Spieler"
+        },
+        "healthperlevel": {
+          "desc": "Zusätzliches Leben je Bosslevel.",
+          "label": "Leben pro Level"
+        },
+        "initialfollowers": {
+          "desc": "Mit dem Boss gespawnte Gefolgsleute.",
+          "label": "Anfängliche Gefolgsleute"
+        },
+        "label": "Bossgruppen",
+        "leveluponoverflow": {
+          "desc": "Erhöht bei erreichtem positiven Sektorlimit und erfolgreicher Spawnchance eine zufällige aktive Bossgruppe im Level und zieht einen Bedrohungs-Threshold ab.",
+          "label": "Level-Up bei Bedrohungsüberlauf"
+        },
+        "maxbossespersector": {
+          "desc": "-1 bedeutet unbegrenzt; 0 verhindert neue Bossgruppen.",
+          "label": "Maximale Bosse pro Sektor"
+        },
+        "minspawndistance": {
+          "desc": "Minimaler Abstand zu jedem Online-Spieler.",
+          "label": "Minimaler Spawnabstand"
+        },
+        "spawnchance": {
+          "desc": "Chance je Prüfung nach Erreichen der Bedrohungsschwelle.",
+          "label": "Spawnchance (%)"
+        }
+      },
+      "discord": {
+        "channelid": {
+          "desc": "Kanal für optionale Boss-Event-Benachrichtigungen.",
+          "label": "Discord-Kanal-ID"
+        }
+      },
+      "enablewelcomemessage": {
+        "desc": "Wenn aktiv, sendet dieses Plugin eine Willkommensnachricht, wenn ein Spieler beitritt.",
+        "label": "Willkommensnachricht"
+      },
+      "examplesecret": {
+        "desc": "Template-Beispiel für einen sensiblen Wert. In echten Plugins ersetzen oder entfernen.",
+        "label": "Beispiel-Secret"
+      },
+      "examples": {
+        "desc": "Template-Beispiele ersetzen oder entfernen.",
+        "label": "Beispiele"
+      },
+      "integrations": {
+        "desc": "Optionale Wallet- und Discord-Anbindung.",
+        "label": "Integrationen"
+      },
+      "logging": {
+        "desc": "Logging-Ausgabe und Detailgrad.",
+        "label": "Protokollierung"
+      },
+      "loglevel": {
+        "desc": "Steuert die Logging-Ausgabe des Plugins.",
+        "label": "Log-Level"
+      },
+      "playermessages": {
+        "desc": "Nachrichten, die dieses Plugin direkt an Spieler sendet.",
+        "label": "Spielernachrichten"
+      },
+      "reloadonchange": {
+        "desc": "Wenn aktiv, lädt dieses Plugin Einstellungen neu, wenn settings.properties geändert wird.",
+        "label": "Bei Änderung neu laden"
+      },
+      "runtime": {
+        "desc": "Reload- und Wartungsverhalten zur Laufzeit.",
+        "label": "Laufzeit"
+      },
+      "threat": {
+        "checkintervalminutes": {
+          "desc": "Minuten zwischen den Spawn-Würfen.",
+          "label": "Prüfintervall (Minuten)"
+        },
+        "desc": "Sektor-Bedrohung und Spawn-Prüfungen.",
+        "hoe": {
+          "desc": "Bedrohung beim Bearbeiten von Gelände mit Hacke oder Harke.",
+          "label": "Bedrohung durch Hacke und Harke"
+        },
+        "label": "Bedrohung",
+        "npckill": {
+          "desc": "Bedrohung beim Töten eines Nicht-Boss-NPCs.",
+          "label": "Bedrohung durch NPC-Kill"
+        },
+        "objectdestroy": {
+          "desc": "Bedrohung beim Zerstören eines platzierten Objekts.",
+          "label": "Bedrohung durch Objektzerstörung"
+        },
+        "pickaxe": {
+          "desc": "Bedrohung beim Buddeln mit einer Picke oder dem Mining Drill.",
+          "label": "Bedrohung durch Picke und Mining Drill"
+        },
+        "sledgehammer": {
+          "desc": "Bedrohung beim Bearbeiten von Gelände mit einem Vorschlaghammer.",
+          "label": "Bedrohung durch Vorschlaghammer"
+        },
+        "threshold": {
+          "desc": "Ab diesem Wert beginnen die Spawn-Würfe.",
+          "label": "Bedrohungsschwelle"
+        },
+        "vegetation": {
+          "desc": "Bedrohung beim Fällen von Bäumen; große Felsen verwenden den Picke-Wert.",
+          "label": "Bedrohung durch Baumfällen"
+        }
+      },
+      "wallet": {
+        "bountypercent": {
+          "desc": "Prozent des verursachten Spielerschadens als Münzen; Dezimalwerte sind erlaubt.",
+          "label": "Wallet-Belohnung in Prozent"
+        },
+        "enabled": {
+          "desc": "Wallet-Belohnungen für Boss-Schaden aktivieren.",
+          "label": "Wallet-Belohnung"
+        }
+      }
+    },
+    "template": {
+      "info": {
+        "panel": {
+          "info": "\u003cb\u003ePH_PLUGIN_NAME\u003c/b\u003e\nVersion: PH_PLUGIN_VERSION\nBefehl: /PH_PLUGIN_CMD\nDieses Template zeigt die gemeinsame Tools-Integration für UI, Einstellungen, i18n, Logger und Info/Status zukünftiger Plugins.",
+          "status": "\u003cb\u003eAktuelle Template-Einstellungen\u003c/b\u003e\nLog-Level: PH_LOG_LEVEL\nBei Änderung neu laden: PH_RELOAD_ON_CHANGE\nWillkommensnachricht: PH_WELCOME_MESSAGE"
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 package de.omegazirkel.risingworld.bosses;
 
 import java.nio.file.Path;
+import java.nio.file.Files;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,6 +10,7 @@ import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.settings.AdminSettingsEntry;
 import de.omegazirkel.risingworld.tools.settings.AdminSettingsType;
 import de.omegazirkel.risingworld.tools.settings.SettingsFileEditor;
+import de.omegazirkel.risingworld.tools.settings.JsonSettingsFile;
 import net.risingworld.api.Plugin;
 
 /** Loads runtime settings and exposes their Tools admin metadata. */
@@ -27,7 +30,17 @@ public final class BossSettingsManager {
     }
 
     public void reload() {
-        current = PluginSettings.load(settingsFile());
+        Path settings = settingsFile();
+        try {
+            JsonSettingsFile.migrateLegacyProperties(settings.resolveSibling("settings.properties"), settings);
+            if (Files.notExists(settings)) {
+                Path defaults = settings.resolveSibling("settings.default.json");
+                if (Files.exists(defaults)) JsonSettingsFile.writeFlatAtomically(settings, JsonSettingsFile.loadFlat(defaults));
+            }
+        } catch (IOException ex) {
+            // PluginSettings retains its safe in-code defaults if the settings file cannot be prepared.
+        }
+        current = PluginSettings.load(settings);
     }
 
     public List<AdminSettingsEntry> adminEntries() {
@@ -61,7 +74,7 @@ public final class BossSettingsManager {
     }
 
     private AdminSettingsEntry setting(Path file, String key, AdminSettingsType type) {
-        Path defaults = Path.of(plugin.getPath(), "settings.default.properties");
+        Path defaults = Path.of(plugin.getPath(), "settings.default.json");
         String defaultValue = PluginSettings.read(defaults, key, "");
         String value = PluginSettings.read(file, key, defaultValue);
         String base = "TC_SETTING_" + key.toUpperCase(Locale.ROOT).replace(".", "_");
@@ -70,6 +83,6 @@ public final class BossSettingsManager {
     }
 
     private Path settingsFile() {
-        return Path.of(plugin.getPath(), "settings.properties");
+        return JsonSettingsFile.worldSettingsFile(plugin.getPath());
     }
 }

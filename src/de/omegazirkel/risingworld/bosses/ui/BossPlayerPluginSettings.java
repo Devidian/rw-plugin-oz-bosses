@@ -32,11 +32,11 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
         return new BasePlayerPluginSettingsPanel(player, pluginLabel) {
             @Override protected void redrawContent() {
                 flexWrapper.removeAllChilds();
-                flexWrapper.addChild(setting(player, OWN_OUTGOING_DAMAGE, "TC_BOSSES_SETTING_OWN_OUTGOING", true));
-                flexWrapper.addChild(setting(player, OTHER_OUTGOING_DAMAGE, "TC_BOSSES_SETTING_OTHER_OUTGOING", false));
-                flexWrapper.addChild(setting(player, OWN_INCOMING_DAMAGE, "TC_BOSSES_SETTING_OWN_INCOMING", true));
-                flexWrapper.addChild(setting(player, OTHER_INCOMING_DAMAGE, "TC_BOSSES_SETTING_OTHER_INCOMING", false));
-                if (player.isAdmin()) flexWrapper.addChild(setting(player, DEBUG_EVENTS, "TC_BOSSES_SETTING_DEBUG_EVENTS", false));
+                flexWrapper.addChild(setting(player, OWN_OUTGOING_DAMAGE, "tc.bosses.setting.own.outgoing", true));
+                flexWrapper.addChild(setting(player, OTHER_OUTGOING_DAMAGE, "tc.bosses.setting.other.outgoing", false));
+                flexWrapper.addChild(setting(player, OWN_INCOMING_DAMAGE, "tc.bosses.setting.own.incoming", true));
+                flexWrapper.addChild(setting(player, OTHER_INCOMING_DAMAGE, "tc.bosses.setting.other.incoming", false));
+                if (player.isAdmin()) flexWrapper.addChild(setting(player, DEBUG_EVENTS, "tc.bosses.setting.debug.events", false));
             }
 
             private OZUIElement setting(Player player, String key, String labelKey, boolean defaultValue) {
@@ -49,7 +49,7 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
                     else
                         playerSettings.setBoolean(player.getDbID(), key, !value);
                     redrawContent();
-                }, i18n.get("TC_BTN_OFF", player), i18n.get("TC_BTN_ON", player)));
+                }, i18n.get("tc.btn.off", player), i18n.get("tc.btn.on", player)));
                 return element;
             }
         };

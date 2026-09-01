@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import de.omegazirkel.risingworld.tools.settings.JsonSettingsFile;
+
 import net.risingworld.api.definitions.Definitions;
 
 /** Template-standard, file-backed plugin settings for OZ Bosses. */
@@ -27,7 +29,15 @@ public final class PluginSettings {
         s.baseHealth=n(p,"boss.baseHealth",1000); s.healthPerLevel=n(p,"boss.healthPerLevel",200); s.initialFollowers=n(p,"boss.initialFollowers",2); s.followersPerOnlinePlayer=d(p,"boss.followersPerOnlinePlayer",0); s.followerEveryLevels=n(p,"boss.followerEveryLevels",5); s.followerHealth=n(p,"boss.followerHealth",250); s.minSpawnDistance=n(p,"boss.minSpawnDistance",80); s.spawnChance=Math.max(0,Math.min(100,n(p,"boss.spawnChance",10))); s.allowSpawnInAreas=Boolean.parseBoolean(p.getProperty("boss.allowSpawnInAreas","false")); s.maxBossesPerSector=Math.max(-1,n(p,"boss.maxBossesPerSector",-1)); s.levelUpOnOverflow=Boolean.parseBoolean(p.getProperty("boss.levelUpOnOverflow","false")); s.wallet=Boolean.parseBoolean(p.getProperty("wallet.enabled","true")); s.bountyPercent=d(p,"wallet.bountyPercent",50); s.discordChannel=l(p,"discord.channelId",0); return s;
     }
     public static String read(Path path,String key,String fallback) { return properties(path).getProperty(key,fallback); }
-    private static Properties properties(Path path) { Properties p=new Properties(); try { if(Files.exists(path)) p.load(Files.newInputStream(path)); } catch(IOException ignored) {} return p; }
+    private static Properties properties(Path path) {
+        Properties p = new Properties();
+        try {
+            if (!Files.exists(path)) return p;
+            if (!path.getFileName().toString().endsWith(".properties")) return JsonSettingsFile.loadProperties(path);
+            p.load(Files.newInputStream(path));
+        } catch(IOException ignored) {}
+        return p;
+    }
     private static int n(Properties p,String key,int fallback) { try{return Integer.parseInt(p.getProperty(key,""+fallback));}catch(NumberFormatException ignored){return fallback;} }
     private static double d(Properties p,String key,double fallback) { try{double value=Double.parseDouble(p.getProperty(key,""+fallback));return Double.isFinite(value)?Math.max(0,value):fallback;}catch(NumberFormatException ignored){return fallback;} }
     private static long l(Properties p,String key,long fallback) { try{return Long.parseLong(p.getProperty(key,""+fallback));}catch(NumberFormatException ignored){return fallback;} }

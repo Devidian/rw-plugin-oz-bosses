@@ -1,0 +1,343 @@
+{
+  "tc": {
+    "bosses": {
+      "action": {
+        "blueprint": "creating a blueprint",
+        "construction": "building",
+        "large": {
+          "rock": {
+            "mined": "mining a large rock"
+          }
+        },
+        "npc": {
+          "killed": "killing an NPC"
+        },
+        "object": {
+          "destroyed": "destroying an object"
+        },
+        "terrain": {
+          "changed": "changing terrain with PH_ITEM",
+          "placed": "placing terrain with PH_ITEM"
+        },
+        "tree": {
+          "felled": "felling a tree"
+        }
+      },
+      "admin": {
+        "required": "\u003ccolor\u003d#F06060\u003eThis action requires administrator permission.\u003c/color\u003e"
+      },
+      "announce": {
+        "defeat": "\u003ccolor\u003d#F0D060\u003ePH_PLAYER defeated PH_BOSS!\u003c/color\u003e",
+        "followers": {
+          "remaining": "\u003ccolor\u003d#F0D060\u003ePH_AMOUNT followers of boss group PH_BOSS remain.\u003c/color\u003e"
+        },
+        "level": "\u003ccolor\u003d#F0D060\u003ePH_BOSS in sector PH_SECTOR reached level PH_LEVEL.\u003c/color\u003e",
+        "spawn": "\u003ccolor\u003d#F0D060\u003ePH_BOSS was sighted in sector PH_SECTOR.\u003c/color\u003e"
+      },
+      "bounty": {
+        "received": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e You received a boss bounty of PH_AMOUNT coins."
+      },
+      "damage": {
+        "other": {
+          "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS dealt \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e damage to PH_PLAYER.",
+          "outgoing": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e PH_PLAYER dealt \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e damage to PH_BOSS."
+        },
+        "own": {
+          "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS dealt \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e damage to you.",
+          "outgoing": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e You dealt \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e damage to PH_BOSS."
+        }
+      },
+      "debug": {
+        "damage": {
+          "recorded": "Recorded PH_DAMAGE damage to boss-group NPC PH_NPC."
+        },
+        "disabled": "Debug messages disabled.",
+        "enabled": "Debug messages enabled.",
+        "game": {
+          "object": {
+            "hit": "Game object hit on PH_OBJECT: no threat yet because the object has not been destroyed."
+          }
+        },
+        "group": {
+          "npc": {
+            "death": "Boss-group NPC died; threat was not increased."
+          }
+        },
+        "loot": {
+          "added": "Added PH_AMOUNT PH_ITEM to the boss loot.",
+          "fallback": "The sack storage rejected the loot; it was granted directly.",
+          "rejected": "Loot could not be added: PH_ITEM.",
+          "sack": {
+            "created": "Created a boss loot sack for PH_BOSS."
+          }
+        },
+        "npc": {
+          "hit": {
+            "no": {
+              "group": "NPC hit on PH_NPC: not part of a boss group."
+            }
+          }
+        },
+        "object": {
+          "hit": "Object hit on PH_OBJECT: no threat yet because the object has not been destroyed."
+        },
+        "prefix": "[OZ Bosses Debug]",
+        "terrain": {
+          "hit": "Terrain hit with PH_ITEM: no threat yet because the terrain has not changed."
+        },
+        "threat": {
+          "increased": "Threat increased by PH_AMOUNT due to PH_ACTION.",
+          "irrelevant": "Threat did not increase: PH_ACTION is not relevant."
+        },
+        "vegetation": {
+          "hit": "Vegetation hit: no threat yet because the object has not been destroyed."
+        }
+      },
+      "loot": {
+        "fallback": "\u003ccolor\u003d#FFFF00\u003eThe boss loot was added to your inventory.\u003c/color\u003e",
+        "sack": {
+          "name": "Reward sack: PH_BOSS"
+        }
+      },
+      "setting": {
+        "debug": {
+          "events": "Debug boss event processing"
+        },
+        "other": {
+          "incoming": "Show boss enemy damage to other players",
+          "outgoing": "Show other players\u0027 damage to boss enemies"
+        },
+        "own": {
+          "incoming": "Show boss enemy damage to me",
+          "outgoing": "Show my damage to boss enemies"
+        }
+      },
+      "ui": {
+        "cancel": "Cancel",
+        "clear": {
+          "$value": "Clear",
+          "confirm": "Remove all active boss groups and their members in sector PH_SECTOR?",
+          "done": "Removed PH_COUNT active boss groups."
+        },
+        "delete": {
+          "$value": "Delete",
+          "confirm": "How should “PH_NPC” be removed?",
+          "group": "Whole group",
+          "npc": "NPC only"
+        },
+        "empty": "No event activity yet.",
+        "legend": "Administrators can inspect sector threat levels.",
+        "no": {
+          "npcs": "No named enemies found."
+        },
+        "npc": {
+          "unavailable": "This NPC is no longer available."
+        },
+        "spawn": {
+          "$value": "Spawn",
+          "random": "Random",
+          "type": "Boss group",
+          "unavailable": "No known spawn position for this sector yet."
+        },
+        "subtitle": "Event ranking and sector activity",
+        "tab": {
+          "npcs": "Named enemies",
+          "ranking": "Ranking",
+          "threat": "Sector threat"
+        },
+        "teleport": "Teleport",
+        "th": {
+          "action": "Action",
+          "active": "Active groups",
+          "boss": {
+            "kills": "Boss kills"
+          },
+          "damage": "Damage",
+          "follower": {
+            "kills": "Follower kills"
+          },
+          "npc": {
+            "group": "Group ID",
+            "health": "Health",
+            "name": "Name",
+            "type": "Type"
+          },
+          "player": "Player",
+          "score": "Score",
+          "sector": "Sector",
+          "spawn": {
+            "chance": "Spawn chance"
+          },
+          "threat": "Threat"
+        },
+        "title": "OZ Bosses"
+      }
+    },
+    "btn": {
+      "off": "Off",
+      "on": "On"
+    },
+    "cmd": {
+      "help": "Help:\nAvailable chat commands:\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD status\u003c/color\u003e shows plugin infos\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e opens the plugin menu\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e shows this help\n\n\u003ccolor\u003dyellow\u003eTip:\u003c/color\u003e Bind the command \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e to a mouse button or keyboard key.",
+      "status": "🔎 Plugin Status\n➡️ Plugin version: PH_VERSION\n➡️ Installed languages: PH_LANG_AVAILABLE\n➡️ Your language: PH_LANGUAGE\n➡️ Used language: PH_USEDLANG\n➡️ Translated by: Devidian"
+    },
+    "data": {
+      "desc": "Here you can view stored player data for PH_PLUGIN_NAME.",
+      "empty": "No stored player data is available for this plugin yet.",
+      "title": "Saved Data for PH_PLUGIN_NAME"
+    },
+    "err": {
+      "cmd": {
+        "unknown": "Unknown command. Type \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e for help."
+      }
+    },
+    "msg": {
+      "plugin": {
+        "welcome": "ℹ️ \u003ccolor\u003d#F00000\u003ePH_PLUGIN_NAME\u003c/color\u003e | \u003ccolor\u003d#F0F000\u003evPH_PLUGIN_VERSION\u003c/color\u003e | \u003ccolor\u003d#C0C0C0\u003e/PH_PLUGIN_CMD\u003c/color\u003e | loaded!"
+      }
+    },
+    "settings": {
+      "desc": "Here you can adjust the player-facing settings for PH_PLUGIN_NAME.",
+      "empty": "No player settings are available for PH_PLUGIN_NAME yet.",
+      "title": "Plugin Settings for PH_PLUGIN_NAME"
+    },
+    "setting": {
+      "boss": {
+        "allowspawninareas": {
+          "desc": "Allows boss groups to spawn inside Rising World areas.",
+          "label": "Allow spawning in areas"
+        },
+        "basehealth": {
+          "desc": "Starting health of a boss.",
+          "label": "Boss base health"
+        },
+        "desc": "Boss health, followers and spawning.",
+        "followersperonlineplayer": {
+          "desc": "Additional followers per player; 0.5 adds one for every two players.",
+          "label": "Followers per online player"
+        },
+        "healthperlevel": {
+          "desc": "Health added on each boss level.",
+          "label": "Health per level"
+        },
+        "initialfollowers": {
+          "desc": "Followers spawned with a boss.",
+          "label": "Initial followers"
+        },
+        "label": "Boss groups",
+        "leveluponoverflow": {
+          "desc": "When a positive sector limit is reached and the spawn roll succeeds, levels up a random active boss group and consumes one threat threshold.",
+          "label": "Level up on threat overflow"
+        },
+        "maxbossespersector": {
+          "desc": "-1 is unlimited; 0 prevents new boss groups.",
+          "label": "Maximum bosses per sector"
+        },
+        "minspawndistance": {
+          "desc": "Minimum distance from every online player.",
+          "label": "Minimum spawn distance"
+        },
+        "spawnchance": {
+          "desc": "Chance per check after the threat threshold is reached.",
+          "label": "Spawn chance (%)"
+        }
+      },
+      "discord": {
+        "channelid": {
+          "desc": "Channel for optional boss event notifications.",
+          "label": "Discord channel ID"
+        }
+      },
+      "enablewelcomemessage": {
+        "desc": "If true, this plugin sends a welcome message when a player joins.",
+        "label": "Welcome message"
+      },
+      "examplesecret": {
+        "desc": "Template example for a sensitive value. Replace or remove in real plugins.",
+        "label": "Example secret"
+      },
+      "examples": {
+        "desc": "Replace or remove template-only examples.",
+        "label": "Examples"
+      },
+      "integrations": {
+        "desc": "Optional Wallet and Discord delivery.",
+        "label": "Integrations"
+      },
+      "logging": {
+        "desc": "Logging output and verbosity.",
+        "label": "Logging"
+      },
+      "loglevel": {
+        "desc": "Controls plugin logging verbosity.",
+        "label": "Log level"
+      },
+      "playermessages": {
+        "desc": "Messages sent directly to players by this plugin.",
+        "label": "Player messages"
+      },
+      "reloadonchange": {
+        "desc": "If true, this plugin reloads settings when settings.properties changes.",
+        "label": "Reload on change"
+      },
+      "runtime": {
+        "desc": "Runtime reload and maintenance behavior.",
+        "label": "Runtime"
+      },
+      "threat": {
+        "checkintervalminutes": {
+          "desc": "Minutes between spawn chance rolls.",
+          "label": "Check interval (minutes)"
+        },
+        "desc": "Sector threat accumulation and spawn checks.",
+        "hoe": {
+          "desc": "Threat added when working terrain with a hoe or rake.",
+          "label": "Hoe and rake terrain threat"
+        },
+        "label": "Threat",
+        "npckill": {
+          "desc": "Threat added for killing a non-boss NPC.",
+          "label": "NPC kill threat"
+        },
+        "objectdestroy": {
+          "desc": "Threat added when destroying a placed object.",
+          "label": "Object destruction threat"
+        },
+        "pickaxe": {
+          "desc": "Threat added when digging with a pickaxe or mining drill.",
+          "label": "Pickaxe and mining drill threat"
+        },
+        "sledgehammer": {
+          "desc": "Threat added when altering terrain with a sledgehammer.",
+          "label": "Sledgehammer terrain threat"
+        },
+        "threshold": {
+          "desc": "Threat required before spawn rolls begin.",
+          "label": "Threat threshold"
+        },
+        "vegetation": {
+          "desc": "Threat added when felling trees; large rocks use the pickaxe value.",
+          "label": "Tree felling threat"
+        }
+      },
+      "wallet": {
+        "bountypercent": {
+          "desc": "Percentage of each player\u0027s dealt damage paid as coins; decimals allowed.",
+          "label": "Wallet bounty percentage"
+        },
+        "enabled": {
+          "desc": "Enable Wallet rewards for boss damage.",
+          "label": "Wallet bounty"
+        }
+      }
+    },
+    "template": {
+      "info": {
+        "panel": {
+          "info": "\u003cb\u003ePH_PLUGIN_NAME\u003c/b\u003e\nVersion: PH_PLUGIN_VERSION\nCommand: /PH_PLUGIN_CMD\nThis template demonstrates shared Tools UI, settings, i18n, logger, and info/status integration for future plugins.",
+          "status": "\u003cb\u003eCurrent template settings\u003c/b\u003e\nLog level: PH_LOG_LEVEL\nReload on change: PH_RELOAD_ON_CHANGE\nWelcome message: PH_WELCOME_MESSAGE"
+        }
+      }
+    }
+  }
+}

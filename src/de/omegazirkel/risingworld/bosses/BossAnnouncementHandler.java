@@ -19,12 +19,17 @@ public final class BossAnnouncementHandler {
     }
 
     public void announce(String key, String... replacements) {
+        announcePlayers(key, replacements);
+        sendDiscord(key, replacements);
+    }
+
+    /** Broadcasts only in-game, for state updates that are not Discord events. */
+    public void announcePlayers(String key, String... replacements) {
         for (Player player : Server.getAllPlayers()) {
             String message = BossUtils.message(i18n, key, player, replacements);
             player.sendTextMessage(message);
             player.sendYellMessage(message, 8f, true);
         }
-        sendDiscord(key, replacements);
     }
 
     private void sendDiscord(String key, String... replacements) {

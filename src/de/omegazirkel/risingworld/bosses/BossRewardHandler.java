@@ -35,7 +35,7 @@ public final class BossRewardHandler {
         activeGroups.remove(group.id);
         group.sector.active = Math.max(0, group.sector.active - 1);
         group.sector.threat = Math.max(0, group.sector.threat - settings.get().threshold);
-        announcements.announce("TC_BOSSES_ANNOUNCE_DEFEAT", "PH_PLAYER", group.killerName, "PH_BOSS", group.name);
+        announcements.announce("tc.bosses.announce.defeat", "PH_PLAYER", group.killerName, "PH_BOSS", group.name);
         loot.createLootSack(event.getDeathPosition(), group.name, group.lootKey, group.level,
                 Math.max(1, group.damage.size()));
         long total = group.damage.values().stream().mapToLong(Long::longValue).sum();
@@ -46,7 +46,7 @@ public final class BossRewardHandler {
                         "oz-bosses").success()) {
                     Player player = Server.getPlayerByDbID(entry.getKey());
                     if (player != null)
-                        player.sendTextMessage(BossUtils.message(i18n, "TC_BOSSES_BOUNTY_RECEIVED", player,
+                        player.sendTextMessage(BossUtils.message(i18n, "tc.bosses.bounty.received", player,
                                 "PH_AMOUNT", Long.toString(bounty)));
                 }
             }

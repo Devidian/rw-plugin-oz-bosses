@@ -65,7 +65,7 @@ public final class BossLootHandler {
             return;
         Storage storage = World.createStorage(Math.max(7, Math.max(1, level) * participatingPlayers + 3), false);
         sack.setInfo(storage.getID());
-        debug.debugAdmins("TC_BOSSES_DEBUG_LOOT_SACK_CREATED", "PH_BOSS", bossName);
+        debug.debugAdmins("tc.bosses.debug.loot.sack.created", "PH_BOSS", bossName);
         int guaranteedDrops = Math.max(1, level) * participatingPlayers;
         lootSacks.put(sack.getGlobalID(), storage.getID());
         pendingLootSacks.put(sack.getGlobalID(), new PendingLootSack(bossName, roll(groupType, guaranteedDrops)));
@@ -105,7 +105,7 @@ public final class BossLootHandler {
         int min = Math.max(1, entry.minStack);
         int max = Math.max(min, Math.min(definition.stacksize, entry.maxStack));
         int stack = min + random.nextInt(max - min + 1);
-        debug.debugAdmins("TC_BOSSES_DEBUG_LOOT_ADDED", "PH_AMOUNT", Integer.toString(stack), "PH_ITEM",
+        debug.debugAdmins("tc.bosses.debug.loot.added", "PH_AMOUNT", Integer.toString(stack), "PH_ITEM",
                 definition.name);
         drops.add(new LootDrop(definition.id, stack, definition.name));
     }
@@ -116,12 +116,12 @@ public final class BossLootHandler {
             BossUtils.logger().error("Loot sack storage was not available for " + storageId);
             return false;
         }
-        storage.setName(BossUtils.replace(i18n.get("TC_BOSSES_LOOT_SACK_NAME", "de"), "PH_BOSS", bossName));
+        storage.setName(BossUtils.replace(i18n.get("tc.bosses.loot.sack.name", "de"), "PH_BOSS", bossName));
         storage.clear();
         for (LootDrop drop : drops) {
             if (storage.addItem(drop.itemId(), 0, drop.stack()) == null) {
                 storage.clear();
-                debug.debugAdmins("TC_BOSSES_DEBUG_LOOT_REJECTED", "PH_ITEM", drop.name());
+                debug.debugAdmins("tc.bosses.debug.loot.rejected", "PH_ITEM", drop.name());
                 return false;
             }
         }
@@ -132,8 +132,8 @@ public final class BossLootHandler {
         for (LootDrop drop : drops)
             if (player.getInventory().addItem(drop.itemId(), 0, drop.stack()) == null)
                 World.spawnItem(drop.itemId(), 0, drop.stack(), position, new Quaternion(), false);
-        player.sendTextMessage(BossUtils.message(i18n, "TC_BOSSES_LOOT_FALLBACK", player));
-        debug.debug(player, "TC_BOSSES_DEBUG_LOOT_FALLBACK");
+        player.sendTextMessage(BossUtils.message(i18n, "tc.bosses.loot.fallback", player));
+        debug.debug(player, "tc.bosses.debug.loot.fallback");
     }
 
     private net.risingworld.api.definitions.Objects.ObjectDefinition lootObjectDefinition() {

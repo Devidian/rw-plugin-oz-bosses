@@ -26,11 +26,12 @@ public final class BossCombatHandler {
     private final BossGroupPersistence persistence;
     private final PlayerSettings playerSettings;
     private final I18n i18n;
+    private final BossAnnouncementHandler announcements;
 
     public BossCombatHandler(BossState state, BossThreatService threat, BossDebugService debug,
             Supplier<PluginSettings> settings, BossSpawnHandler spawn, BossRewardHandler rewards,
             BossGroupPersistence persistence,
-            PlayerSettings playerSettings, I18n i18n) {
+            PlayerSettings playerSettings, I18n i18n, BossAnnouncementHandler announcements) {
         this.state = state;
         this.threat = threat;
         this.debug = debug;
@@ -40,6 +41,7 @@ public final class BossCombatHandler {
         this.persistence = persistence;
         this.playerSettings = playerSettings;
         this.i18n = i18n;
+        this.announcements = announcements;
     }
 
     public void hit(PlayerHitNpcEvent event) {
@@ -47,13 +49,13 @@ public final class BossCombatHandler {
         BossGroup group = state.group(npc);
         if (group == null || event.getDamage() <= 0) {
             if (npc != null)
-                debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_NPC_HIT_NO_GROUP", "PH_NPC", npc.getName());
+                debug.debug(event.getPlayer(), "tc.bosses.debug.npc.hit.no.group", "PH_NPC", npc.getName());
             return;
         }
         BossScore score = state.score(event.getPlayer());
         score.damage += event.getDamage();
         group.damage.merge(event.getPlayer().getDbID(), (long) event.getDamage(), Long::sum);
-        debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_DAMAGE_RECORDED", "PH_DAMAGE",
+        debug.debug(event.getPlayer(), "tc.bosses.debug.damage.recorded", "PH_DAMAGE",
                 Short.toString(event.getDamage()), "PH_NPC", npc.getName());
         notifyOutgoingDamage(event.getPlayer(), event.getDamage(), npc);
     }
@@ -71,11 +73,11 @@ public final class BossCombatHandler {
         BossGroup group = state.removeGroup(npc);
         if (group == null) {
             if (event.getKiller() instanceof Player player)
-                threat.add(player, settings.get().npcKill, "TC_BOSSES_ACTION_NPC_KILLED");
+                threat.add(player, settings.get().npcKill, "tc.bosses.action.npc.killed");
             return;
         }
         if (event.getKiller() instanceof Player player)
-            debug.debug(player, "TC_BOSSES_DEBUG_GROUP_NPC_DEATH");
+            debug.debug(player, "tc.bosses.debug.group.npc.death");
         else
             group.invalid = true;
         group.members.remove(npc.getGlobalID());
@@ -96,8 +98,18 @@ public final class BossCombatHandler {
             else
                 rewards.abandon(group);
         } else {
+            int followersRemaining = remainingFollowers(group);
+            if (!group.invalid && npc.getGlobalID() != group.boss && followersRemaining > 0) {
+                announcements.announcePlayers("tc.bosses.announce.followers.remaining", "PH_AMOUNT",
+                        Integer.toString(followersRemaining), "PH_BOSS", group.name);
+            }
             persistence.save();
         }
+    }
+
+    static int remainingFollowers(BossGroup group) {
+        if (group == null) return 0;
+        return (int) group.members.stream().filter(memberId -> memberId != group.boss).count();
     }
 
     public void npcDamage(NpcDamageEvent event) {
@@ -123,7 +135,7 @@ public final class BossCombatHandler {
             if (!damageEnabled(viewer, own ? BossPlayerPluginSettings.OWN_OUTGOING_DAMAGE
                     : BossPlayerPluginSettings.OTHER_OUTGOING_DAMAGE, own))
                 continue;
-            String key = own ? "TC_BOSSES_DAMAGE_OWN_OUTGOING" : "TC_BOSSES_DAMAGE_OTHER_OUTGOING";
+            String key = own ? "tc.bosses.damage.own.outgoing" : "tc.bosses.damage.other.outgoing";
             viewer.sendTextMessage(BossUtils.message(i18n, key, viewer, "PH_PLAYER", attacker.getName(), "PH_DAMAGE",
                     Short.toString(damage), "PH_BOSS", target.getName()));
         }
@@ -135,7 +147,7 @@ public final class BossCombatHandler {
             if (!damageEnabled(viewer, own ? BossPlayerPluginSettings.OWN_INCOMING_DAMAGE
                     : BossPlayerPluginSettings.OTHER_INCOMING_DAMAGE, own))
                 continue;
-            String key = own ? "TC_BOSSES_DAMAGE_OWN_INCOMING" : "TC_BOSSES_DAMAGE_OTHER_INCOMING";
+            String key = own ? "tc.bosses.damage.own.incoming" : "tc.bosses.damage.other.incoming";
             viewer.sendTextMessage(BossUtils.message(i18n, key, viewer, "PH_PLAYER", target.getName(), "PH_DAMAGE",
                     Short.toString(damage), "PH_BOSS", group.name));
         }

@@ -20,15 +20,15 @@ public final class BossPlayerActionHandler {
         this.settings = settings;
     }
 
-    public void terrain(PlayerHitTerrainEvent event) { debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_TERRAIN_HIT", "PH_ITEM", BossThreatService.equippedItemName(event.getPlayer())); }
-    public void placeTerrain(PlayerPlaceTerrainEvent event) { threat.addForNonMiningTerrain(event.getPlayer(), "TC_BOSSES_ACTION_TERRAIN_PLACED"); }
-    public void destroyTerrain(PlayerDestroyTerrainEvent event) { threat.add(event.getPlayer(), threat.terrain(event.getPlayer()), "TC_BOSSES_ACTION_TERRAIN_CHANGED", "PH_ITEM", BossThreatService.equippedItemName(event.getPlayer())); }
-    public void destroyObject(PlayerDestroyObjectEvent event) { threat.add(event.getPlayer(), settings.get().objectDestroy, "TC_BOSSES_ACTION_OBJECT_DESTROYED"); }
-    public void hitVegetation(PlayerHitVegetationEvent event) { if (event.getPlantDefinition() != null && relevant(event.getPlantDefinition().type)) debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_VEGETATION_HIT"); }
-    public void hitObject(PlayerHitObjectEvent event) { debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_OBJECT_HIT", "PH_OBJECT", event.getObjectDefinition() == null ? "-" : event.getObjectDefinition().name); }
-    public void hitGameObject(PlayerGameObjectHitEvent event) { debug.debug(event.getPlayer(), "TC_BOSSES_DEBUG_GAME_OBJECT_HIT", "PH_OBJECT", event.getGameObject() == null ? "-" : event.getGameObject().getClass().getSimpleName()); }
-    public void destroyVegetation(PlayerDestroyVegetationEvent event) { if (event.getPlantDefinition() == null) return; Type type = event.getPlantDefinition().type; if (type == Type.Rock) threat.add(event.getPlayer(), threat.terrain(event.getPlayer()), "TC_BOSSES_ACTION_LARGE_ROCK_MINED"); else if (type == Type.Tree || type == Type.FruitTree || type == Type.Trunk) threat.add(event.getPlayer(), settings.get().vegetation, "TC_BOSSES_ACTION_TREE_FELLED"); }
-    public void construction(PlayerPlaceConstructionEvent event) { threat.add(event.getPlayer(), settings.get().construction, "TC_BOSSES_ACTION_CONSTRUCTION"); }
-    public void blueprint(PlayerCreateBlueprintEvent event) { threat.add(event.getPlayer(), settings.get().blueprint, "TC_BOSSES_ACTION_BLUEPRINT"); }
+    public void terrain(PlayerHitTerrainEvent event) { debug.debug(event.getPlayer(), "tc.bosses.debug.terrain.hit", "PH_ITEM", BossThreatService.equippedItemName(event.getPlayer())); }
+    public void placeTerrain(PlayerPlaceTerrainEvent event) { threat.addForNonMiningTerrain(event.getPlayer(), "tc.bosses.action.terrain.placed"); }
+    public void destroyTerrain(PlayerDestroyTerrainEvent event) { threat.add(event.getPlayer(), threat.terrain(event.getPlayer()), "tc.bosses.action.terrain.changed", "PH_ITEM", BossThreatService.equippedItemName(event.getPlayer())); }
+    public void destroyObject(PlayerDestroyObjectEvent event) { threat.add(event.getPlayer(), settings.get().objectDestroy, "tc.bosses.action.object.destroyed"); }
+    public void hitVegetation(PlayerHitVegetationEvent event) { if (event.getPlantDefinition() != null && relevant(event.getPlantDefinition().type)) debug.debug(event.getPlayer(), "tc.bosses.debug.vegetation.hit"); }
+    public void hitObject(PlayerHitObjectEvent event) { debug.debug(event.getPlayer(), "tc.bosses.debug.object.hit", "PH_OBJECT", event.getObjectDefinition() == null ? "-" : event.getObjectDefinition().name); }
+    public void hitGameObject(PlayerGameObjectHitEvent event) { debug.debug(event.getPlayer(), "tc.bosses.debug.game.object.hit", "PH_OBJECT", event.getGameObject() == null ? "-" : event.getGameObject().getClass().getSimpleName()); }
+    public void destroyVegetation(PlayerDestroyVegetationEvent event) { if (event.getPlantDefinition() == null) return; Type type = event.getPlantDefinition().type; if (type == Type.Rock) threat.add(event.getPlayer(), threat.terrain(event.getPlayer()), "tc.bosses.action.large.rock.mined"); else if (type == Type.Tree || type == Type.FruitTree || type == Type.Trunk) threat.add(event.getPlayer(), settings.get().vegetation, "tc.bosses.action.tree.felled"); }
+    public void construction(PlayerPlaceConstructionEvent event) { threat.add(event.getPlayer(), settings.get().construction, "tc.bosses.action.construction"); }
+    public void blueprint(PlayerCreateBlueprintEvent event) { threat.add(event.getPlayer(), settings.get().blueprint, "tc.bosses.action.blueprint"); }
     private boolean relevant(Type type) { return type == Type.Rock || type == Type.Tree || type == Type.FruitTree || type == Type.Trunk; }
 }

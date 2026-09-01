@@ -131,7 +131,7 @@ public final class BossSpawnHandler {
             addFollower(group, type, center);
         sector.active++;
         persistence.save();
-        announcements.announce("TC_BOSSES_ANNOUNCE_SPAWN", "PH_BOSS", group.name, "PH_SECTOR", sector.key);
+        announcements.announce("tc.bosses.announce.spawn", "PH_BOSS", group.name, "PH_SECTOR", sector.key);
     }
 
     public void levelUp(BossGroup group, Npc followerReference) {
@@ -147,7 +147,7 @@ public final class BossSpawnHandler {
                 && !followerReference.isDead())
             addFollower(group, followerReference.getTypeID(), followerReference.getPosition());
         persistence.save();
-        announcements.announce("TC_BOSSES_ANNOUNCE_LEVEL", "PH_BOSS", group.name, "PH_SECTOR",
+        announcements.announce("tc.bosses.announce.level", "PH_BOSS", group.name, "PH_SECTOR",
                 group.sector.key, "PH_LEVEL", Integer.toString(group.level));
     }
 

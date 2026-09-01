@@ -23,7 +23,7 @@ public final class BossDebugService {
     public void debug(Player player, String key, String... replacements) {
         if (!enabled(player))
             return;
-        String prefix = i18n.get("TC_BOSSES_DEBUG_PREFIX", player);
+        String prefix = i18n.get("tc.bosses.debug.prefix", player);
         player.sendTextMessage("<color=#A0C8FF>" + prefix + "</color> "
                 + BossUtils.message(i18n, key, player, replacements));
     }
@@ -41,9 +41,9 @@ public final class BossDebugService {
         else
             enabledPlayers.remove(player.getDbID());
         playerSettings.setBoolean(player.getDbID(), BossPlayerPluginSettings.DEBUG_EVENTS, enabled);
-        String prefix = i18n.get("TC_BOSSES_DEBUG_PREFIX", player);
+        String prefix = i18n.get("tc.bosses.debug.prefix", player);
         player.sendTextMessage("<color=#A0C8FF>" + prefix + "</color> "
-                + i18n.get(enabled ? "TC_BOSSES_DEBUG_ENABLED" : "TC_BOSSES_DEBUG_DISABLED", player));
+                + i18n.get(enabled ? "tc.bosses.debug.enabled" : "tc.bosses.debug.disabled", player));
     }
 
     public boolean enabled(Player player) {
