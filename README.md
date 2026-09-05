@@ -2,7 +2,7 @@
 
 Sector-based boss events for Rising World. Player activities increase persistent sector threat; eligible sectors spawn configurable boss groups. `/ozboss` shows the ranking; admins can use `/ozboss spawn` in their current sector.
 
-`settings.properties` controls thresholds, NPC IDs, scaling, and optional Wallet bounty. The packaged
+`settings.<world>.json` controls thresholds, NPC IDs, scaling, and optional Wallet bounty. The packaged
 `names.default.json`, `groups.default.json`, and `loot.default.json` are overwritten on every plugin update.
 On first start, the plugin copies each one to its editable runtime counterpart: `names.json`, `groups.json`, and
 `loot.json`.
@@ -104,8 +104,8 @@ Use this repository as template for new Rising World Plugins.
 
 - Requires `rw-plugin-oz-tools`.
 - Uses the shared file watcher path by implementing `FileChangeListener`; changes
-  to `settings.properties` reload plugin settings.
-- Defaults `reloadOnChange=true` in `settings.default.properties`.
+  to `settings.<world>.json` reload plugin settings.
+- Automatic plugin reload is controlled centrally by OZ Tools.
 - Registers a shared inventory overlay button through `InventoryOverlayButtons`
   so players get a compact entrypoint below the inventory.
 - Registers a default-visible shortcut visibility provider through
@@ -170,3 +170,13 @@ through `rw-plugin-oz-tools`:
 - Run `mvn -B -DskipTests package` and `mvn -B test` before release-facing changes are merged.
 - Use `RUNTIME_TESTING.md` and `scripts/docker-runtime-smoke.sh <PluginFolderName>` for runtime smoke tests when behavior changes need server validation.
 - Keep `README.md` and `HISTORY.md` current and use Conventional Commit titles for commits and PRs.
+
+## JSON-only distribution
+
+Settings defaults (`settings.default.json`) and translations (`i18n/*.json`)
+are shipped only as JSON. Legacy default and translation `.properties` files
+are no longer included. Runtime settings remain world-scoped as
+`settings.<world>.json`; migration of an existing `settings.properties` and
+its backup remains supported. Updating the package does not delete old files
+already present on the server. Use `mvn clean package` for a fresh local
+package; ZIP assembly also excludes stale legacy settings and translations.
