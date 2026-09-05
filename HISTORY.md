@@ -5,6 +5,8 @@
 ## [0.2.1] - 2026-09-05 | PluginAPI compatibility
 
 - build: update the bundled PluginAPI and JSON settings baseline for the native web release wave.
+- feat: announce boss followers consistently alongside their boss encounters.
+- change: migrate Boss settings and translations to JSON while retaining existing configuration.
 
 ## [0.2.0] - 2026-08-10 | Overflow progression
 
