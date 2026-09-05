@@ -2,6 +2,10 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.2.1] - 2026-09-05 | PluginAPI compatibility
+
+- build: update the bundled PluginAPI and JSON settings baseline for the native web release wave.
+
 ## [0.2.0] - 2026-08-10 | Overflow progression
 
 - feat: level up a random active boss group when the configured sector maximum is reached and overflow progression is enabled

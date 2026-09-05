@@ -26,7 +26,7 @@ to control random spawns.
 - [x] Use the API-compatible 256-chunks-per-axis sector conversion during live-NPC rehydration.
 - [x] Run architecture, API, Maven, packaging, and migration validation.
 - [x] Runtime-smoke mixed NPC types, health scaling, rewards, cleanup, and the admin dropdown.
-- [ ] Re-test live-NPC sector assignment after deploying the rehydration fix.
+- [x] Re-test live-NPC sector assignment after deploying the rehydration fix; in-game acceptance was confirmed on 2026-09-04.
 
 ## Risks and rollback
 

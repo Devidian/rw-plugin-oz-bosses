@@ -17,8 +17,6 @@
     "channelId": "0"
   },
   "enableWelcomeMessage": "false",
-  "logLevel": "INFO",
-  "reloadOnChange": "true",
   "threat": {
     "blueprint": "10",
     "checkIntervalMinutes": "5",
