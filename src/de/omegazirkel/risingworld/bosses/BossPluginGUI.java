@@ -18,6 +18,8 @@ public final class BossPluginGUI {
 
     public BossPluginGUI(Plugin plugin, BossOverlayController overlays, BossInformantService informants) {
         AssetManager.loadIconFromPlugin(plugin, "oz-bosses");
+        AssetManager.loadIconFromPlugin(plugin, "informant-male");
+        AssetManager.loadIconFromPlugin(plugin, "informant-female");
         pluginName = plugin.getDescription("name");
         this.overlays = overlays;
         this.informants = informants;
@@ -35,10 +37,10 @@ public final class BossPluginGUI {
             PluginInfoStatusProviders.show(selected, pluginName);
         }));
         if (player.isAdmin()) {
-            menuItems.add(new MenuItem(pluginName, "oz-bosses", i18n.get("tc.bosses.informant.menu.male", player), selected -> {
+            menuItems.add(new MenuItem(pluginName, "informant-male", i18n.get("tc.bosses.informant.menu.male", player), selected -> {
                 selected.hideRadialMenu(true); informants.create(selected, true);
             }));
-            menuItems.add(new MenuItem(pluginName, "oz-bosses", i18n.get("tc.bosses.informant.menu.female", player), selected -> {
+            menuItems.add(new MenuItem(pluginName, "informant-female", i18n.get("tc.bosses.informant.menu.female", player), selected -> {
                 selected.hideRadialMenu(true); informants.create(selected, false);
             }));
         }

@@ -2,6 +2,11 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.2.3] - 2026-09-12 | Informant menu icons
+
+- fix: register dedicated male and female Informant radial-menu icons in both icon styles.
+- change: shorten the German Informant creation labels.
+
 ## [0.2.1] - 2026-09-05 | PluginAPI compatibility
 
 - build: update the bundled PluginAPI and JSON settings baseline for the native web release wave.

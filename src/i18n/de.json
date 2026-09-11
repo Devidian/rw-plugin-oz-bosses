@@ -46,7 +46,7 @@
         "insufficient": "Du hast nicht genug Münzen für diese Informationen.",
         "mail": {"intro": "Bossgruppe: PH_BOSS (Level PH_LEVEL)\nAktuelle Positionen der Mitglieder:", "member": "- PH_NAME: X PH_X, Y PH_Y, Z PH_Z", "snapshot": "Diese Koordinaten sind eine Momentaufnahme. Die Bossgruppe kann sich bewegt haben.", "subject": "Kopfgeldjäger-Information: PH_BOSS"},
         "mailbox": {"unavailable": "Dein Postfach kann derzeit keine Informationen empfangen."},
-        "menu": {"female": "Weiblichen Kopfgeldjäger-Informanten erstellen", "male": "Männlichen Kopfgeldjäger-Informanten erstellen"},
+        "menu": {"female": "Informantin erstellen", "male": "Informant erstellen"},
         "name": {"female": "Kopfgeldjäger-Informantin", "male": "Kopfgeldjäger-Informant"},
         "none": "Ich habe derzeit keine Informationen über aktive Bossgruppen in diesem Sektor.",
         "offer": {"body": "Ich weiß, wo PH_BOSS (Level PH_LEVEL) und PH_COUNT Gruppenmitglied(er) zuletzt gesehen wurden. Die Information kostet PH_PRICE Münzen. Möchtest du sie kaufen?", "title": "Kopfgeldjäger-Information"},

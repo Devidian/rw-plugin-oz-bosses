@@ -46,7 +46,7 @@
         "insufficient": "You do not have enough coins for this intelligence.",
         "mail": {"intro": "Boss group: PH_BOSS (level PH_LEVEL)\nCurrent member positions:", "member": "- PH_NAME: X PH_X, Y PH_Y, Z PH_Z", "snapshot": "These coordinates are a snapshot. The boss group may have moved.", "subject": "Headhunter intelligence: PH_BOSS"},
         "mailbox": {"unavailable": "Your mailbox cannot receive intelligence right now."},
-        "menu": {"female": "Create female Headhunter Informant", "male": "Create male Headhunter Informant"},
+        "menu": {"female": "Create female informant", "male": "Create informant"},
         "name": {"female": "Headhunter Informant", "male": "Headhunter Informant"},
         "none": "I have no information about active boss groups in this sector.",
         "offer": {"body": "I know where PH_BOSS (level PH_LEVEL) and PH_COUNT group member(s) were last seen. The information costs PH_PRICE coins. Do you want to buy it?", "title": "Headhunter intelligence"},
