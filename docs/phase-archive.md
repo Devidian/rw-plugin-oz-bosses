@@ -41,3 +41,20 @@ Validation:
 Follow-ups:
 - Group balancing and rehydration validation continue in
   `docs/active/2026-07-24-group-definition-overrides.md`.
+
+## 2026-09 - Headhunter Informants
+
+Repositories affected:
+- `rw-plugin-oz-bosses`
+
+Summary:
+- Added persistent male/female Informants with independent 50-name pools and an administrator radial-menu placement action.
+- Added sector-local, localized boss-intelligence offers with configurable per-member Wallet pricing and OZ Mail delivery.
+- Closed Informant modal dialogs explicitly so accepting or declining releases the mouse cursor.
+
+Validation:
+- Maven tests/package, entry-point and PluginAPI verification passed.
+- Development reload restored active Boss groups without a Bosses error.
+
+Follow-ups:
+- Player acceptance completed; no implementation follow-up remains.

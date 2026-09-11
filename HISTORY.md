@@ -71,6 +71,11 @@
 - docs: standardize agent prompts, PR checklist, and runtime smoke-test guidance
 - build: add API verification helper and stricter CI/release validation flow
 - build: package only `README.md` and `HISTORY.md` into release artifacts
-## Unreleased
+## [0.2.2] - 2026-09-11 | Headhunter intelligence
 
-- change: expand dummy clothing variation and equip a random compatible hat with 25 percent probability
+- feat: add persistent male/female Headhunter Informants that sell localized active boss-group coordinate reports by mail.
+- feat: add the configurable per-member Informant intelligence price with Wallet charge/refund handling.
+- fix: release the modal UI correctly after accepting or declining an Informant offer.
+- change: expand dummy clothing variation and equip a random compatible hat with 25 percent probability.
+
+## Unreleased

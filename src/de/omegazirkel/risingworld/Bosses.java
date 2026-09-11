@@ -16,6 +16,7 @@ import net.risingworld.api.events.player.PlayerDeathEvent;
 import net.risingworld.api.events.player.PlayerGameObjectHitEvent;
 import net.risingworld.api.events.player.PlayerHitNpcEvent;
 import net.risingworld.api.events.player.PlayerObjectInteractionEvent;
+import net.risingworld.api.events.player.PlayerNpcInteractionEvent;
 import net.risingworld.api.events.player.world.PlayerDestroyObjectEvent;
 import net.risingworld.api.events.player.world.PlayerDestroyTerrainEvent;
 import net.risingworld.api.events.player.world.PlayerDestroyVegetationEvent;
@@ -132,5 +133,10 @@ public final class Bosses extends Plugin implements Listener, FileChangeListener
     @EventMethod
     public void openLootSack(PlayerObjectInteractionEvent event) {
         runtime.interactions().openLootSack(event);
+    }
+
+    @EventMethod
+    public void interactNpc(PlayerNpcInteractionEvent event) {
+        runtime.informants().interact(event);
     }
 }

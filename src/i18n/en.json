@@ -37,6 +37,22 @@
       "bounty": {
         "received": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e You received a boss bounty of PH_AMOUNT coins."
       },
+      "informant": {
+        "accept": "Buy intelligence",
+        "create": {"failed": "The Headhunter Informant could not be created.", "success": "Headhunter Informant PH_NAME created."},
+        "decline": "Not now",
+        "delivered": "The intelligence has been sent to your mailbox.",
+        "expired": "This boss group is no longer active. Ask the informant again.",
+        "insufficient": "You do not have enough coins for this intelligence.",
+        "mail": {"intro": "Boss group: PH_BOSS (level PH_LEVEL)\nCurrent member positions:", "member": "- PH_NAME: X PH_X, Y PH_Y, Z PH_Z", "snapshot": "These coordinates are a snapshot. The boss group may have moved.", "subject": "Headhunter intelligence: PH_BOSS"},
+        "mailbox": {"unavailable": "Your mailbox cannot receive intelligence right now."},
+        "menu": {"female": "Create female Headhunter Informant", "male": "Create male Headhunter Informant"},
+        "name": {"female": "Headhunter Informant", "male": "Headhunter Informant"},
+        "none": "I have no information about active boss groups in this sector.",
+        "offer": {"body": "I know where PH_BOSS (level PH_LEVEL) and PH_COUNT group member(s) were last seen. The information costs PH_PRICE coins. Do you want to buy it?", "title": "Headhunter intelligence"},
+        "refund": {"pending": "The intelligence could not be delivered and the automatic refund needs administrator attention.", "refunded": "The intelligence could not be delivered; your payment was refunded."},
+        "wallet": {"unavailable": "Intelligence sales are unavailable because Wallet is offline."}
+      },
       "damage": {
         "other": {
           "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS dealt \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e damage to PH_PLAYER.",
@@ -263,6 +279,11 @@
       "integrations": {
         "desc": "Optional Wallet and Discord delivery.",
         "label": "Integrations"
+      },
+      "informant": {
+        "baseprice": {"desc": "Coin price for each live member of a boss group.", "label": "Headhunter price per group member"},
+        "desc": "Headhunter Informant intelligence sales.",
+        "label": "Headhunter Informant"
       },
       "logging": {
         "desc": "Logging output and verbosity.",

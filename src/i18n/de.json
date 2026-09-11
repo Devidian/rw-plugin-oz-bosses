@@ -37,6 +37,22 @@
       "bounty": {
         "received": "\u003ccolor\u003d#F0D060\u003e[Boss]\u003c/color\u003e Du hast PH_AMOUNT Münzen Boss-Kopfgeld erhalten."
       },
+      "informant": {
+        "accept": "Information kaufen",
+        "create": {"failed": "Der Kopfgeldjäger-Informant konnte nicht erstellt werden.", "success": "Kopfgeldjäger-Informant PH_NAME erstellt."},
+        "decline": "Nicht jetzt",
+        "delivered": "Die Informationen wurden an dein Postfach gesendet.",
+        "expired": "Diese Bossgruppe ist nicht mehr aktiv. Frage den Informanten erneut.",
+        "insufficient": "Du hast nicht genug Münzen für diese Informationen.",
+        "mail": {"intro": "Bossgruppe: PH_BOSS (Level PH_LEVEL)\nAktuelle Positionen der Mitglieder:", "member": "- PH_NAME: X PH_X, Y PH_Y, Z PH_Z", "snapshot": "Diese Koordinaten sind eine Momentaufnahme. Die Bossgruppe kann sich bewegt haben.", "subject": "Kopfgeldjäger-Information: PH_BOSS"},
+        "mailbox": {"unavailable": "Dein Postfach kann derzeit keine Informationen empfangen."},
+        "menu": {"female": "Weiblichen Kopfgeldjäger-Informanten erstellen", "male": "Männlichen Kopfgeldjäger-Informanten erstellen"},
+        "name": {"female": "Kopfgeldjäger-Informantin", "male": "Kopfgeldjäger-Informant"},
+        "none": "Ich habe derzeit keine Informationen über aktive Bossgruppen in diesem Sektor.",
+        "offer": {"body": "Ich weiß, wo PH_BOSS (Level PH_LEVEL) und PH_COUNT Gruppenmitglied(er) zuletzt gesehen wurden. Die Information kostet PH_PRICE Münzen. Möchtest du sie kaufen?", "title": "Kopfgeldjäger-Information"},
+        "refund": {"pending": "Die Informationen konnten nicht zugestellt werden; die automatische Rückerstattung benötigt Administratorhilfe.", "refunded": "Die Informationen konnten nicht zugestellt werden; deine Zahlung wurde erstattet."},
+        "wallet": {"unavailable": "Der Informationsverkauf ist nicht verfügbar, weil Wallet offline ist."}
+      },
       "damage": {
         "other": {
           "incoming": "\u003ccolor\u003d#F06060\u003e[Boss]\u003c/color\u003e PH_BOSS verursacht \u003ccolor\u003d#FFFFFF\u003ePH_DAMAGE\u003c/color\u003e Schaden an PH_PLAYER.",
@@ -263,6 +279,11 @@
       "integrations": {
         "desc": "Optionale Wallet- und Discord-Anbindung.",
         "label": "Integrationen"
+      },
+      "informant": {
+        "baseprice": {"desc": "Münzpreis für jedes lebende Mitglied einer Bossgruppe.", "label": "Kopfgeldjäger-Preis je Gruppenmitglied"},
+        "desc": "Informationsverkauf des Kopfgeldjäger-Informanten.",
+        "label": "Kopfgeldjäger-Informant"
       },
       "logging": {
         "desc": "Logging-Ausgabe und Detailgrad.",

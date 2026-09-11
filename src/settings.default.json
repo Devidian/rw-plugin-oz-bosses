@@ -17,6 +17,9 @@
     "channelId": "0"
   },
   "enableWelcomeMessage": "false",
+  "informant": {
+    "basePrice": "100"
+  },
   "threat": {
     "blueprint": "10",
     "checkIntervalMinutes": "5",

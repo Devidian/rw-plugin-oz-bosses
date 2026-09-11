@@ -63,6 +63,7 @@ public final class BossSettingsManager {
                 setting(file, "boss.allowSpawnInAreas", AdminSettingsType.BOOLEAN),
                 setting(file, "boss.maxBossesPerSector", AdminSettingsType.INTEGER),
                 setting(file, "boss.levelUpOnOverflow", AdminSettingsType.BOOLEAN),
+                group("informant"), setting(file, "informant.basePrice", AdminSettingsType.INTEGER),
                 group("integrations"), setting(file, "wallet.enabled", AdminSettingsType.BOOLEAN),
                 setting(file, "wallet.bountyPercent", AdminSettingsType.DECIMAL),
                 setting(file, "discord.channelId", AdminSettingsType.STRING));

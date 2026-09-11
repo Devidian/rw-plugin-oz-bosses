@@ -66,6 +66,22 @@ leather; humanoid tables favor ores and ingots. Stronger groups provide more val
 Runtime `groups.json`, `names.json`, and `loot.json` remain update-safe and are not overwritten; merge changed packaged
 defaults manually or remove the corresponding runtime file to recreate it on startup.
 
+## Headhunter Informants
+
+Administrators can create male or female **Headhunter Informants** from the Bosses radial menu. Each endpoint is
+stored in the Bosses database and is restored after a plugin/server restart. Informants have independent pools of 50
+male and 50 female names.
+
+When a player interacts with an Informant, it selects a random active boss group in the player's current sector. If
+no group is active there, the Informant says so. Otherwise it offers a localized report for the configured
+`informant.basePrice` multiplied by the number of live members in that group (default: `100` coins each). On
+acceptance, Wallet charges the player and OZ Mail sends a localized message containing the group level, all current
+member names and coordinate snapshots, and a movement warning. Wallet and Mail remain optional runtime integrations:
+the sale is unavailable if either is not ready or the mailbox is full. If mail delivery fails after payment, Bosses
+automatically attempts a Wallet refund and logs any refund that still needs administrator attention.
+
+Add `OZ - Bosses` to OZ Mail's `trustedPluginSenders` before offering intelligence to players.
+
 ## Runtime architecture
 
 - `Bosses` is the only Rising World `Listener`. It contains lifecycle wiring and

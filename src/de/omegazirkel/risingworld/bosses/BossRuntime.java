@@ -31,6 +31,7 @@ public final class BossRuntime {
     private BossPlayerActionHandler playerActions;
     private BossCombatHandler combat;
     private BossInteractionHandler interactions;
+    private BossInformantService informants;
 
     public BossRuntime(Plugin plugin) {
         this.plugin = plugin;
@@ -46,6 +47,8 @@ public final class BossRuntime {
         stateRepository = new BossStateRepository(db);
         groupPersistence = new BossGroupPersistence(db, state.activeGroups());
         initializePersistence();
+        BossInformantRepository informantRepository = new BossInformantRepository(db);
+        try { informantRepository.initialize(); } catch (SQLException ex) { throw new IllegalStateException("Cannot initialize informant persistence", ex); }
 
         PlayerSettings playerSettings = new PlayerSettings(db);
         BossDebugService debug = new BossDebugService(i18n, playerSettings);
@@ -66,7 +69,8 @@ public final class BossRuntime {
                 lootHandler, settings::current, announcements, groupPersistence, i18n);
         BossViewService view = new BossViewService(state, groupAdmin, spawn, groups, settings::current, i18n);
         BossOverlayController overlays = new BossOverlayController(view);
-        BossPluginGUI gui = new BossPluginGUI(plugin, overlays);
+        informants = new BossInformantService(plugin, state, settings::current, informantRepository, i18n);
+        BossPluginGUI gui = new BossPluginGUI(plugin, overlays, informants);
 
         playerActions = new BossPlayerActionHandler(threat, debug, settings::current);
         combat = new BossCombatHandler(state, threat, debug, settings::current, spawn, rewards,
@@ -74,6 +78,7 @@ public final class BossRuntime {
         interactions = new BossInteractionHandler(view, overlays, lootHandler);
 
         plugin.executeDelayed(2f, rehydration::rehydrate);
+        plugin.executeDelayed(2f, informants::rehydrate);
         spawn.schedule();
         registerTools(gui, playerSettings, debug, i18n);
     }
@@ -111,6 +116,10 @@ public final class BossRuntime {
 
     public BossInteractionHandler interactions() {
         return interactions;
+    }
+
+    public BossInformantService informants() {
+        return informants;
     }
 
     private void initializePersistence() {
