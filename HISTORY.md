@@ -2,6 +2,12 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.3.0] - 2026-09-13 | Informant administration
+
+- feat: add a Boss groups administrator view that only lists active boss-group NPCs.
+- feat: add an Informants administrator tab with sector, balance, rename, and dissolve actions.
+- change: route Informant sales to persistent Bosses-owned Wallet accounts and transfer their balances to the world account before archival.
+
 ## [0.2.3] - 2026-09-12 | Informant menu icons
 
 - fix: register dedicated male and female Informant radial-menu icons in both icon styles.
