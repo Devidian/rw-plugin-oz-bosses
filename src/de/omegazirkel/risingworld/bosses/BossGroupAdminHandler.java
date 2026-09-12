@@ -40,9 +40,8 @@ public final class BossGroupAdminHandler {
         return targets.size();
     }
 
-    public List<NamedNpcRow> namedNpcs() {
-        return java.util.Arrays.stream(World.getAllNpcs()).filter(npc -> npc != null && !npc.isDead())
-                .filter(npc -> npc.getName() != null && !npc.getName().isBlank())
+    public List<NamedNpcRow> bossGroupNpcs() {
+        return npcGroups.keySet().stream().distinct().map(World::getNpc).filter(npc -> npc != null && !npc.isDead())
                 .map(npc -> new NamedNpcRow(npc.getGlobalID(), npc.getName(),
                         npc.getDefinition() == null ? "-" : npc.getDefinition().name, npc.getGroupID(), npc.getHealth()))
                 .sorted(Comparator.comparing(NamedNpcRow::name, String.CASE_INSENSITIVE_ORDER)).toList();

@@ -70,7 +70,11 @@ defaults manually or remove the corresponding runtime file to recreate it on sta
 
 Administrators can create male or female **Headhunter Informants** from the Bosses radial menu. Each endpoint is
 stored in the Bosses database and is restored after a plugin/server restart. Informants have independent pools of 50
-male and 50 female names.
+male and 50 female names. The administrator overlay provides an Informants tab with each endpoint's name, sector,
+Wallet account balance, and a detail action to rename or dissolve it. Informant sales go into the endpoint's
+Bosses-owned Wallet system account; legacy endpoints receive an account when they are first used with Wallet.
+When dissolving an Informant, every positive account balance is transferred to Wallet's world account before the
+Informant account is archived; the NPC and local entry remain intact if this settlement fails.
 
 When a player interacts with an Informant, it selects a random active boss group in the player's current sector. If
 no group is active there, the Informant says so. Otherwise it offers a localized report for the configured

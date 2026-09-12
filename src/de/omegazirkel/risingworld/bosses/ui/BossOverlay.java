@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.omegazirkel.risingworld.bosses.BossViewService;
+import de.omegazirkel.risingworld.bosses.BossInformantService;
 import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.ui.BasePluginOverlayWithTabs;
 import de.omegazirkel.risingworld.tools.ui.AdvancedButton;
@@ -17,13 +18,14 @@ import de.omegazirkel.risingworld.tools.ui.table.TableRow;
 import de.omegazirkel.risingworld.tools.ui.table.TableScrollView;
 import net.risingworld.api.objects.Player;
 import net.risingworld.api.ui.UILabel;
+import net.risingworld.api.ui.UITextField;
 import net.risingworld.api.ui.style.Font;
 import net.risingworld.api.ui.style.Pivot;
 import net.risingworld.api.ui.style.TextAnchor;
 
 /** Player ranking plus an administrator-only sector threat tab. */
 public final class BossOverlay extends BasePluginOverlayWithTabs {
-    private enum BossTab { RANKING, THREAT, NPCS }
+    private enum BossTab { RANKING, THREAT, NPCS, INFORMANTS }
     private static final float TABLE_HEIGHT = 350;
     private final BossViewService view;
     private BossTab tab = BossTab.RANKING;
@@ -43,8 +45,9 @@ public final class BossOverlay extends BasePluginOverlayWithTabs {
         addTab(t().get("tc.bosses.ui.tab.ranking", uiPlayer), 180, tab == BossTab.RANKING, () -> { tab = BossTab.RANKING; rebuild(); });
         if (uiPlayer.isAdmin()) addTab(t().get("tc.bosses.ui.tab.threat", uiPlayer), 180, tab == BossTab.THREAT, true, () -> { tab = BossTab.THREAT; rebuild(); });
         if (uiPlayer.isAdmin()) addTab(t().get("tc.bosses.ui.tab.npcs", uiPlayer), 180, tab == BossTab.NPCS, true, () -> { tab = BossTab.NPCS; rebuild(); });
+        if (uiPlayer.isAdmin()) addTab(t().get("tc.bosses.ui.tab.informants", uiPlayer), 180, tab == BossTab.INFORMANTS, true, () -> { tab = BossTab.INFORMANTS; rebuild(); });
         if (tab != BossTab.RANKING && !uiPlayer.isAdmin()) tab = BossTab.RANKING;
-        if (tab == BossTab.RANKING) rankingTable(); else if (tab == BossTab.THREAT) threatTable(); else npcTable();
+        if (tab == BossTab.RANKING) rankingTable(); else if (tab == BossTab.THREAT) threatTable(); else if (tab == BossTab.NPCS) npcTable(); else informantTable();
     }
     private void rankingTable() {
         TableScrollView table = new TableScrollView(Arrays.asList(t().get("tc.bosses.ui.th.player", uiPlayer), t().get("tc.bosses.ui.th.score", uiPlayer), t().get("tc.bosses.ui.th.boss.kills", uiPlayer), t().get("tc.bosses.ui.th.follower.kills", uiPlayer), t().get("tc.bosses.ui.th.damage", uiPlayer)), Arrays.asList(30f, 18f, 17f, 17f, 18f));
@@ -68,9 +71,17 @@ public final class BossOverlay extends BasePluginOverlayWithTabs {
     private void npcTable() {
         TableScrollView table = new TableScrollView(Arrays.asList(t().get("tc.bosses.ui.th.npc.name", uiPlayer), t().get("tc.bosses.ui.th.npc.type", uiPlayer), t().get("tc.bosses.ui.th.npc.group", uiPlayer), t().get("tc.bosses.ui.th.npc.health", uiPlayer), t().get("tc.bosses.ui.th.action", uiPlayer)), Arrays.asList(29f, 18f, 14f, 12f, 27f));
         table.setScrollBodyHeight(TABLE_HEIGHT);
-        List<BossViewService.NamedNpcRow> npcs = view.namedNpcs();
+        List<BossViewService.NamedNpcRow> npcs = view.bossGroupNpcs();
         if (npcs.isEmpty()) table.addRow(textRow(t().get("tc.bosses.ui.no.npcs", uiPlayer), 100));
         else for (BossViewService.NamedNpcRow npc : npcs) table.addRow(new TableRow(Arrays.asList(cell(npc.name(),29), cell(npc.type(),18), cell(npc.groupId(),14), cell(npc.health(),12), npcActionCell(npc))));
+        body.addChild(table);
+    }
+    private void informantTable() {
+        TableScrollView table = new TableScrollView(Arrays.asList(t().get("tc.bosses.ui.th.informant.name", uiPlayer), t().get("tc.bosses.ui.th.informant.sector", uiPlayer), t().get("tc.bosses.ui.th.informant.balance", uiPlayer), t().get("tc.bosses.ui.th.action", uiPlayer)), Arrays.asList(34f, 20f, 20f, 26f));
+        table.setScrollBodyHeight(TABLE_HEIGHT);
+        List<BossInformantService.AdminRow> informants = view.informants();
+        if (informants.isEmpty()) table.addRow(textRow(t().get("tc.bosses.ui.no.informants", uiPlayer), 100));
+        else for (BossInformantService.AdminRow informant : informants) table.addRow(new TableRow(Arrays.asList(cell(informant.name(), 34), cell(informant.sector(), 20), cell(informant.balance(), 20), informantActionCell(informant))));
         body.addChild(table);
     }
     private TableRow textRow(String text, float width) { return new TableRow(Arrays.asList(cell(text, width))); }
@@ -102,6 +113,22 @@ public final class BossOverlay extends BasePluginOverlayWithTabs {
         AdvancedButton cancel = AdvancedButtonFactory.cancel(t().get("tc.bosses.ui.cancel", uiPlayer), event -> removeChild(dialog)); cancel.setPivot(Pivot.UpperLeft); cancel.setPosition(16, 144, false); cancel.setSize(130, 32, false); dialog.addChild(cancel);
         AdvancedButton one = AdvancedButtonFactory.danger(t().get("tc.bosses.ui.delete.npc", uiPlayer), event -> { removeChild(dialog); view.deleteNpc(npc.id(), false); rebuild(); }); one.setPivot(Pivot.UpperLeft); one.setPosition(170, 144, false); one.setSize(130, 32, false); dialog.addChild(one);
         AdvancedButton group = AdvancedButtonFactory.danger(t().get("tc.bosses.ui.delete.group", uiPlayer), event -> { removeChild(dialog); view.deleteNpc(npc.id(), true); rebuild(); }); group.setPivot(Pivot.UpperLeft); group.setPosition(324, 144, false); group.setSize(130, 32, false); dialog.addChild(group);
+    }
+    private TableCell informantActionCell(BossInformantService.AdminRow informant) {
+        OZUIElement actions = new OZUIElement(); actions.setSize(148, 28, false);
+        AdvancedButton details = AdvancedButtonFactory.defaultButton(t().get("tc.bosses.ui.details", uiPlayer), event -> showInformantDetails(informant));
+        details.setPivot(Pivot.MiddleCenter); details.setPosition(50, 50, true); details.setSize(120, 26, false); actions.addChild(details);
+        return new TableCell(actions, 26);
+    }
+    private void showInformantDetails(BossInformantService.AdminRow informant) {
+        OZUIElement dialog = new OZUIElement(); dialog.setPivot(Pivot.MiddleCenter); dialog.setPosition(50, 50, true); dialog.setSize(470, 245, false); dialog.setBackgroundColor(0, 0, 0, 0.94f); dialog.setBorder(1); dialog.setBorderColor(0.85f, 0.65f, 0.2f, 0.8f); addChild(dialog);
+        UILabel title = new UILabel(informant.name()); title.setPivot(Pivot.UpperLeft); title.setPosition(20, 18, false); title.setSize(430, 28, false); title.setFont(Font.DefaultBold); title.setFontSize(18); dialog.addChild(title);
+        UITextField name = new UITextField(informant.name()); name.setPivot(Pivot.UpperLeft); name.setPosition(20, 62, false); name.setSize(290, 30, false); name.setMaxCharacters(120); dialog.addChild(name);
+        AdvancedButton rename = AdvancedButtonFactory.defaultButton(t().get("tc.bosses.ui.informant.rename", uiPlayer), event -> name.getCurrentText(uiPlayer, value -> { if (view.renameInformant(informant.npcId(), value)) { removeChild(dialog); rebuild(); } else uiPlayer.sendTextMessage(t().get("tc.bosses.ui.informant.rename.failed", uiPlayer)); }));
+        rename.setPivot(Pivot.UpperLeft); rename.setPosition(326, 62, false); rename.setSize(124, 30, false); dialog.addChild(rename);
+        AdvancedButton dissolve = AdvancedButtonFactory.danger(t().get("tc.bosses.ui.informant.dissolve", uiPlayer), event -> { if (view.dissolveInformant(informant.npcId())) { removeChild(dialog); rebuild(); } else uiPlayer.sendTextMessage(t().get("tc.bosses.ui.informant.dissolve.failed", uiPlayer)); });
+        dissolve.setPivot(Pivot.UpperLeft); dissolve.setPosition(300, 190, false); dissolve.setSize(150, 32, false); dialog.addChild(dissolve);
+        AdvancedButton cancel = AdvancedButtonFactory.cancel(t().get("tc.bosses.ui.cancel", uiPlayer), event -> removeChild(dialog)); cancel.setPivot(Pivot.UpperLeft); cancel.setPosition(20, 190, false); cancel.setSize(130, 32, false); dialog.addChild(cancel);
     }
     private TableCell cell(Object value, float width) { UILabel label = new UILabel(String.valueOf(value)); label.setFont(Font.Default); label.setFontSize(13); label.setTextAlign(TextAnchor.MiddleLeft); return new TableCell(label,width); }
 }

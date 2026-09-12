@@ -144,7 +144,8 @@
         "empty": "No event activity yet.",
         "legend": "Administrators can inspect sector threat levels.",
         "no": {
-          "npcs": "No named enemies found."
+          "npcs": "No boss-group NPCs found.",
+          "informants": "No Headhunter Informants found."
         },
         "npc": {
           "unavailable": "This NPC is no longer available."
@@ -157,11 +158,17 @@
         },
         "subtitle": "Event ranking and sector activity",
         "tab": {
-          "npcs": "Named enemies",
+          "npcs": "Boss groups",
+          "informants": "Informants",
           "ranking": "Ranking",
           "threat": "Sector threat"
         },
         "teleport": "Teleport",
+        "details": "Details",
+        "informant": {
+          "dissolve": {"$value": "Dissolve", "failed": "The Informant account could not be settled and archived."},
+          "rename": {"$value": "Rename", "failed": "The Informant could not be renamed."}
+        },
         "th": {
           "action": "Action",
           "active": "Active groups",
@@ -177,6 +184,11 @@
             "health": "Health",
             "name": "Name",
             "type": "Type"
+          },
+          "informant": {
+            "balance": "Balance",
+            "name": "Name",
+            "sector": "Sector (X, Z)"
           },
           "player": "Player",
           "score": "Score",

@@ -67,9 +67,9 @@ public final class BossRuntime {
                 stateRepository, announcements);
         BossRewardHandler rewards = new BossRewardHandler(state.activeGroups(), new WalletBridge(plugin),
                 lootHandler, settings::current, announcements, groupPersistence, i18n);
-        BossViewService view = new BossViewService(state, groupAdmin, spawn, groups, settings::current, i18n);
-        BossOverlayController overlays = new BossOverlayController(view);
         informants = new BossInformantService(plugin, state, settings::current, informantRepository, i18n);
+        BossViewService view = new BossViewService(state, groupAdmin, spawn, groups, settings::current, i18n, informants);
+        BossOverlayController overlays = new BossOverlayController(view);
         BossPluginGUI gui = new BossPluginGUI(plugin, overlays, informants);
 
         playerActions = new BossPlayerActionHandler(threat, debug, settings::current);

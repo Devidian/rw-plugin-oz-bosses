@@ -144,7 +144,8 @@
         "empty": "Noch keine Event-Aktivität.",
         "legend": "Administratoren können die Sektor-Bedrohung einsehen.",
         "no": {
-          "npcs": "Keine benannten Gegner vorhanden."
+          "npcs": "Keine NPCs aus Bossgruppen vorhanden.",
+          "informants": "Keine Kopfgeldjäger-Informanten vorhanden."
         },
         "npc": {
           "unavailable": "Dieser NPC ist nicht mehr verfügbar."
@@ -157,11 +158,17 @@
         },
         "subtitle": "Event-Rangliste und Sektoraktivität",
         "tab": {
-          "npcs": "Benannte Gegner",
+          "npcs": "Bossgruppen",
+          "informants": "Informanten",
           "ranking": "Rangliste",
           "threat": "Sektor-Bedrohung"
         },
         "teleport": "Teleport",
+        "details": "Details",
+        "informant": {
+          "dissolve": {"$value": "Auflösen", "failed": "Das Informantenkonto konnte nicht ausgeglichen und aufgelöst werden."},
+          "rename": {"$value": "Umbenennen", "failed": "Der Informant konnte nicht umbenannt werden."}
+        },
         "th": {
           "action": "Aktion",
           "active": "Aktive Gruppen",
@@ -177,6 +184,11 @@
             "health": "Leben",
             "name": "Name",
             "type": "Typ"
+          },
+          "informant": {
+            "balance": "Kontostand",
+            "name": "Name",
+            "sector": "Sektor (X, Z)"
           },
           "player": "Spieler",
           "score": "Punkte",

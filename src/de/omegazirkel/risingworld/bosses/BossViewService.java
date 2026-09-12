@@ -15,15 +15,17 @@ public final class BossViewService {
     private final BossGroupCatalog groups;
     private final Supplier<PluginSettings> settings;
     private final I18n i18n;
+    private final BossInformantService informants;
 
     public BossViewService(BossState state, BossGroupAdminHandler admin, BossSpawnHandler spawn,
-            BossGroupCatalog groups, Supplier<PluginSettings> settings, I18n i18n) {
+            BossGroupCatalog groups, Supplier<PluginSettings> settings, I18n i18n, BossInformantService informants) {
         this.state = state;
         this.admin = admin;
         this.spawn = spawn;
         this.groups = groups;
         this.settings = settings;
         this.i18n = i18n;
+        this.informants = informants;
     }
 
     public I18n i18n() {
@@ -59,8 +61,8 @@ public final class BossViewService {
         return admin.clearSector(sectorKey);
     }
 
-    public List<NamedNpcRow> namedNpcs() {
-        return admin.namedNpcs();
+    public List<NamedNpcRow> bossGroupNpcs() {
+        return admin.bossGroupNpcs();
     }
 
     public boolean teleportToNpc(Player player, long npcId) {
@@ -70,6 +72,12 @@ public final class BossViewService {
     public int deleteNpc(long npcId, boolean wholeGroup) {
         return admin.delete(npcId, wholeGroup);
     }
+
+    public List<BossInformantService.AdminRow> informants() { return informants.adminRows(); }
+
+    public boolean renameInformant(long npcId, String name) { return informants.rename(npcId, name); }
+
+    public boolean dissolveInformant(long npcId) { return informants.dissolve(npcId); }
 
     public List<SpawnType> spawnTypes() {
         var configuredGroups = groups.spawnDefinitions();

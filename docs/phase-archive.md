@@ -58,3 +58,20 @@ Validation:
 
 Follow-ups:
 - Player acceptance completed; no implementation follow-up remains.
+
+## 2026-09 - Informant administration
+
+Repositories affected:
+- `rw-plugin-oz-bosses`
+
+Summary:
+- Replaced the broad named-NPC view with a boss-group-only administrator view.
+- Added administrator Informant inspection, rename, and dissolve actions.
+- Added persistent Informant system accounts; dissolving transfers remaining balances to Wallet's world account before archival.
+
+Validation:
+- Maven tests/package, entry-point and PluginAPI verification passed.
+- Development reload restored active Boss groups; administrator acceptance completed.
+
+Follow-ups:
+- None.

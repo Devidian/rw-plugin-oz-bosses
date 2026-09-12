@@ -56,7 +56,7 @@ public final class BossInformantService {
                 if (dummy == null) { BossUtils.logger().warn("Cannot rehydrate Headhunter Informant: dummy NPC is unavailable."); continue; }
                 npc = World.spawnNpc(dummy.id, informant.male() ? 0 : 1, new Vector3f(informant.x(), informant.y(), informant.z()), new Quaternion(informant.rx(), informant.ry(), informant.rz(), informant.rw()));
                 if (npc == null) { BossUtils.logger().warn("Cannot rehydrate Headhunter Informant " + informant.name()); continue; }
-                BossInformant replacement = fromNpc(npc, informant.name(), informant.male());
+                BossInformant replacement = fromNpc(npc, informant.name(), informant.male(), informant.accountId());
                 repository.replaceId(informant.npcId(), replacement);
                 initialize(npc, replacement);
             }
@@ -71,35 +71,98 @@ public final class BossInformantService {
         if (npc == null) { player.sendTextMessage(text(player, "tc.bosses.informant.create.failed")); return; }
         String name = text(player, male ? "tc.bosses.informant.name.male" : "tc.bosses.informant.name.female") + " " + (male ? MALE_NAMES : FEMALE_NAMES).get(random.nextInt(50));
         try {
-            BossInformant informant = fromNpc(npc, name, male);
+            BossInformant informant = fromNpc(npc, name, male, newAccountId());
             repository.save(informant); initialize(npc, informant);
             player.sendTextMessage(text(player, "tc.bosses.informant.create.success", "PH_NAME", name));
         } catch (SQLException ex) { npc.delete(); BossUtils.logger().error("Cannot save Headhunter Informant: " + ex.getMessage()); player.sendTextMessage(text(player, "tc.bosses.informant.create.failed")); }
     }
 
+    public List<AdminRow> adminRows() {
+        try {
+            WalletBridge wallet = new WalletBridge(plugin);
+            return repository.all().stream().map(informant -> {
+                var sector = BossUtils.sectorPosition(new Vector3f(informant.x(), informant.y(), informant.z()));
+                long balance = wallet.isAvailable() && !informant.accountId().isBlank()
+                        ? wallet.systemAccountBalances(informant.accountId()).stream()
+                                .filter(value -> value.currencyIdentifier().equals(wallet.defaultCurrencyIdentifier()))
+                                .mapToLong(WalletBridge.SystemBalanceInfo::balance).findFirst().orElse(0L)
+                        : 0L;
+                return new AdminRow(informant.npcId(), informant.name(), sector.x + "," + sector.y, balance);
+            }).sorted(java.util.Comparator.comparing(AdminRow::name, String.CASE_INSENSITIVE_ORDER)).toList();
+        } catch (SQLException ex) { BossUtils.logger().error("Cannot list Headhunter Informants: " + ex.getMessage()); return List.of(); }
+    }
+
+    public boolean rename(long npcId, String name) {
+        String safeName = name == null ? "" : name.trim();
+        if (safeName.isBlank() || safeName.length() > 120) return false;
+        try {
+            BossInformant current = repository.find(npcId).orElse(null);
+            if (current == null) return false;
+            BossInformant renamed = new BossInformant(current.npcId(), safeName, current.male(), current.x(), current.y(), current.z(), current.rx(), current.ry(), current.rz(), current.rw(), current.accountId());
+            repository.save(renamed);
+            Npc npc = World.getNpc(npcId);
+            if (npc != null && !npc.isDead()) npc.setName(safeName);
+            WalletBridge wallet = new WalletBridge(plugin);
+            if (wallet.isAvailable() && !renamed.accountId().isBlank()) wallet.updateSystemAccountDisplayName(renamed.accountId(), safeName, PLUGIN_NAME);
+            return true;
+        } catch (SQLException ex) { BossUtils.logger().error("Cannot rename Headhunter Informant: " + ex.getMessage()); return false; }
+    }
+
+    public boolean dissolve(long npcId) {
+        try {
+            BossInformant informant = repository.find(npcId).orElse(null);
+            if (informant == null) return false;
+            if (!settleAndArchiveAccount(informant)) return false;
+            repository.delete(npcId);
+            Npc npc = World.getNpc(npcId);
+            if (npc != null && !npc.isDead()) npc.delete();
+            return true;
+        } catch (SQLException ex) { BossUtils.logger().error("Cannot dissolve Headhunter Informant: " + ex.getMessage()); return false; }
+    }
+
+    private boolean settleAndArchiveAccount(BossInformant informant) {
+        if (informant.accountId().isBlank()) return true;
+        WalletBridge wallet = new WalletBridge(plugin);
+        if (!wallet.isAvailable() || !wallet.hasSystemAccountApi()) return false;
+        WalletBridge.SystemAccountCallResult account = wallet.systemAccount(informant.accountId());
+        if (!account.success()) return "ACCOUNT_NOT_FOUND".equals(account.errorCode());
+        String worldAccountId = wallet.worldSystemAccountId();
+        if (worldAccountId.isBlank()) return false;
+        for (WalletBridge.SystemBalanceInfo balance : wallet.systemAccountBalances(informant.accountId())) {
+            if (balance.balance() == 0L) continue;
+            if (balance.balance() < 0L) return false;
+            String correlation = "informant-dissolve-" + informant.npcId() + "-" + balance.currencyIdentifier();
+            if (!wallet.transferSystemToSystemIdempotent(informant.accountId(), worldAccountId, balance.balance(),
+                    "Dissolved Headhunter Informant", balance.currencyIdentifier(), PLUGIN_NAME, correlation).success()) return false;
+        }
+        return wallet.archiveSystemAccount(informant.accountId(), PLUGIN_NAME).success();
+    }
+
     public void interact(PlayerNpcInteractionEvent event) {
         if (event.getNpc() == null) return;
         try {
-            if (repository.find(event.getNpc().getGlobalID()).isEmpty()) return;
+            BossInformant informant = repository.find(event.getNpc().getGlobalID()).orElse(null);
+            if (informant == null) return;
             event.setCancelled(true);
             Player player = event.getPlayer();
-            Quote quote = randomQuote(player);
-            if (quote == null) { player.sendTextMessage(text(player, "tc.bosses.informant.none")); return; }
-            if (!new WalletBridge(plugin).isAvailable()) { player.sendTextMessage(text(player, "tc.bosses.informant.wallet.unavailable")); return; }
+            WalletBridge wallet = new WalletBridge(plugin);
+            if (!wallet.isAvailable()) { player.sendTextMessage(text(player, "tc.bosses.informant.wallet.unavailable")); return; }
+            Quote quote = randomQuote(player, ensureAccount(informant));
+            if (quote == null) { player.sendTextMessage(text(player, "tc.bosses.informant.wallet.unavailable")); return; }
             MailBridge mail = new MailBridge(plugin);
             if (!mail.canReceiveMail(player.getDbID())) { player.sendTextMessage(text(player, "tc.bosses.informant.mailbox.unavailable")); return; }
             showOffer(player, quote);
         } catch (SQLException ex) { BossUtils.logger().error("Cannot resolve Headhunter Informant interaction: " + ex.getMessage()); }
     }
 
-    private Quote randomQuote(Player player) {
-        if (player == null) return null;
+    private Quote randomQuote(Player player, BossInformant informant) {
+        if (player == null || informant == null) return null;
         String sector = state.sector(player).key;
         List<Quote> choices = new ArrayList<>();
         for (BossGroup group : state.activeGroups().values()) {
             if (group.finished || !sector.equals(group.sector.key)) continue;
             List<Npc> members = group.members.stream().map(World::getNpc).filter(npc -> npc != null && !npc.isDead()).toList();
-            if (!members.isEmpty()) choices.add(new Quote(group, members, price(members.size())));
+            if (!members.isEmpty()) choices.add(new Quote(group, members, price(members.size()), informant));
         }
         return choices.isEmpty() ? null : choices.get(random.nextInt(choices.size()));
     }
@@ -116,25 +179,38 @@ public final class BossInformantService {
     }
 
     private void purchase(Player player, Quote quote) {
-        Quote current = quoteStillActive(player, quote.group.id);
+        Quote current = quoteStillActive(player, quote.group.id, quote.informant);
         if (current == null) { player.sendTextMessage(text(player, "tc.bosses.informant.expired")); return; }
         WalletBridge wallet = new WalletBridge(plugin);
         String correlation = "informant-" + UUID.randomUUID();
-        if (!wallet.withdrawDefault(player.getDbID(), current.price, "Headhunter intelligence", PLUGIN_NAME).success()) { player.sendTextMessage(text(player, "tc.bosses.informant.insufficient")); return; }
+        BossInformant informant = ensureAccount(current.informant);
+        if (informant == null || !wallet.transferPlayerToSystemIdempotent(player.getDbID(), informant.accountId(), current.price, "Headhunter intelligence", wallet.defaultCurrencyIdentifier(), PLUGIN_NAME, correlation).success()) { player.sendTextMessage(text(player, "tc.bosses.informant.insufficient")); return; }
         MailBridge.BridgeResult delivery = new MailBridge(plugin).sendTextMail(new MailBridge.PluginMailRequest(PLUGIN_NAME, player.getDbID(), player.getName(), text(player, "tc.bosses.informant.mail.subject", "PH_BOSS", current.group.name), mailBody(player, current), correlation));
         if (delivery.success()) { player.sendTextMessage(text(player, "tc.bosses.informant.delivered")); return; }
-        boolean refunded = wallet.depositDefault(player.getDbID(), current.price, "Headhunter intelligence refund", PLUGIN_NAME).success();
+        boolean refunded = wallet.reverseAccountTransferIdempotent(correlation, correlation + "-refund", "Headhunter intelligence refund", PLUGIN_NAME).success();
         BossUtils.logger().warn("Headhunter Informant mail delivery failed (" + delivery.code() + "); refund=" + refunded + ".");
         player.sendTextMessage(text(player, refunded ? "tc.bosses.informant.refunded" : "tc.bosses.informant.refund.pending"));
     }
 
-    private Quote quoteStillActive(Player player, int groupId) { for (Quote quote : quotesInSector(player)) if (quote.group.id == groupId) return quote; return null; }
-    private List<Quote> quotesInSector(Player player) { String sector = state.sector(player).key; List<Quote> values = new ArrayList<>(); for (BossGroup group : state.activeGroups().values()) { if (group.finished || !sector.equals(group.sector.key)) continue; List<Npc> members = group.members.stream().map(World::getNpc).filter(npc -> npc != null && !npc.isDead()).toList(); if (!members.isEmpty()) values.add(new Quote(group, members, price(members.size()))); } return values; }
+    private Quote quoteStillActive(Player player, int groupId, BossInformant informant) { for (Quote quote : quotesInSector(player, informant)) if (quote.group.id == groupId) return quote; return null; }
+    private List<Quote> quotesInSector(Player player, BossInformant informant) { String sector = state.sector(player).key; List<Quote> values = new ArrayList<>(); for (BossGroup group : state.activeGroups().values()) { if (group.finished || !sector.equals(group.sector.key)) continue; List<Npc> members = group.members.stream().map(World::getNpc).filter(npc -> npc != null && !npc.isDead()).toList(); if (!members.isEmpty()) values.add(new Quote(group, members, price(members.size()), informant)); } return values; }
     private String mailBody(Player player, Quote quote) { StringBuilder body = new StringBuilder(text(player, "tc.bosses.informant.mail.intro", "PH_BOSS", quote.group.name, "PH_LEVEL", Integer.toString(quote.group.level))).append('\n'); for (Npc member : quote.members) { Vector3f position = member.getPosition(); body.append(text(player, "tc.bosses.informant.mail.member", "PH_NAME", member.getName(), "PH_X", coordinate(position.x), "PH_Y", coordinate(position.y), "PH_Z", coordinate(position.z))).append('\n'); } return body.append(text(player, "tc.bosses.informant.mail.snapshot")).toString(); }
     private String coordinate(float value) { return Integer.toString(Math.round(value)); }
-    private BossInformant fromNpc(Npc npc, String name, boolean male) { Vector3f p = npc.getPosition(); Quaternion r = npc.getRotation(); return new BossInformant(npc.getGlobalID(), name, male, p.x, p.y, p.z, r.x, r.y, r.z, r.w); }
+    private BossInformant fromNpc(Npc npc, String name, boolean male, String accountId) { Vector3f p = npc.getPosition(); Quaternion r = npc.getRotation(); return new BossInformant(npc.getGlobalID(), name, male, p.x, p.y, p.z, r.x, r.y, r.z, r.w, accountId); }
+    private BossInformant ensureAccount(BossInformant informant) {
+        WalletBridge wallet = new WalletBridge(plugin);
+        if (!wallet.isAvailable() || !wallet.hasSystemAccountApi()) return null;
+        BossInformant resolved = informant;
+        if (resolved.accountId().isBlank()) {
+            resolved = new BossInformant(informant.npcId(), informant.name(), informant.male(), informant.x(), informant.y(), informant.z(), informant.rx(), informant.ry(), informant.rz(), informant.rw(), newAccountId());
+            try { repository.save(resolved); } catch (SQLException ex) { BossUtils.logger().error("Cannot migrate Headhunter Informant account: " + ex.getMessage()); return null; }
+        }
+        return wallet.createSystemAccount(resolved.accountId(), "INFORMANT", resolved.name(), PLUGIN_NAME).success() ? resolved : null;
+    }
+    private String newAccountId() { return "bosses:informant:" + UUID.randomUUID(); }
     private void initialize(Npc npc, BossInformant informant) { plugin.executeDelayed(.1f, () -> configure(npc, informant)); plugin.executeDelayed(.5f, () -> configure(npc, informant)); }
     private void configure(Npc npc, BossInformant informant) { if (npc == null || npc.isDead()) return; try { npc.setName(informant.name()); npc.setLocked(true); npc.setStatic(false); npc.setInteractable(true); npc.setInvincible(true); Skin skin = npc.getSkin(); skin.setGender(informant.male() ? Skin.Gender.Male : Skin.Gender.Female); skin.setSkinColor(informant.male() ? 0xC68642 : 0xF1C27D); skin.setHairColor(informant.male() ? 0x1C120C : 0x5C3B24); skin.setEyeColor(0x4E7AA8); skin.setHairstyle(informant.male() ? (byte) 58 : (byte) 108); skin.setBeard((byte) (informant.male() ? 1 : -1)); npc.getClothes().removeAll(); for (String garment : OUTFIT) { ClothingDefinition definition = Definitions.getClothingDefinition(garment); if (definition != null) npc.getClothes().add((short) definition.id); } } catch (Exception ex) { BossUtils.logger().error("Cannot initialize Headhunter Informant " + informant.npcId() + ": " + ex.getMessage()); } }
     private String text(Player player, String key, String... replacements) { return BossUtils.message(i18n, key, player, replacements); }
-    private record Quote(BossGroup group, List<Npc> members, long price) { }
+    private record Quote(BossGroup group, List<Npc> members, long price, BossInformant informant) { }
+    public record AdminRow(long npcId, String name, String sector, long balance) { }
 }
