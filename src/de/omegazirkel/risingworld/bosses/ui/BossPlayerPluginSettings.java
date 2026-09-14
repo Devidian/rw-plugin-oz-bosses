@@ -15,6 +15,10 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
     public static final String OWN_INCOMING_DAMAGE = "oz.bosses.damage.ownIncoming";
     public static final String OTHER_INCOMING_DAMAGE = "oz.bosses.damage.otherIncoming";
     public static final String DEBUG_EVENTS = "oz.bosses.debug.events";
+    public static final String ANNOUNCE_SPAWN = "oz.bosses.announce.spawn";
+    public static final String ANNOUNCE_LEVEL = "oz.bosses.announce.level";
+    public static final String ANNOUNCE_DEFEAT = "oz.bosses.announce.defeat";
+    public static final String ANNOUNCE_FOLLOWERS = "oz.bosses.announce.followers";
     private final I18n i18n;
     private final PlayerSettings playerSettings;
     private final BossDebugService debug;
@@ -36,6 +40,10 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
                 flexWrapper.addChild(setting(player, OTHER_OUTGOING_DAMAGE, "tc.bosses.setting.other.outgoing", false));
                 flexWrapper.addChild(setting(player, OWN_INCOMING_DAMAGE, "tc.bosses.setting.own.incoming", true));
                 flexWrapper.addChild(setting(player, OTHER_INCOMING_DAMAGE, "tc.bosses.setting.other.incoming", false));
+                flexWrapper.addChild(setting(player, ANNOUNCE_SPAWN, "tc.bosses.setting.announce.spawn", true));
+                flexWrapper.addChild(setting(player, ANNOUNCE_LEVEL, "tc.bosses.setting.announce.level", true));
+                flexWrapper.addChild(setting(player, ANNOUNCE_DEFEAT, "tc.bosses.setting.announce.defeat", true));
+                flexWrapper.addChild(setting(player, ANNOUNCE_FOLLOWERS, "tc.bosses.setting.announce.followers", true));
                 if (player.isAdmin()) flexWrapper.addChild(setting(player, DEBUG_EVENTS, "tc.bosses.setting.debug.events", false));
             }
 

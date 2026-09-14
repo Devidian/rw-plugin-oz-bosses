@@ -46,10 +46,26 @@ public final class BossLootHandler {
                     .fromJson(Files.readString(path, StandardCharsets.UTF_8), LootCatalog.class);
             if (catalog == null || catalog.groups == null)
                 catalog = new LootCatalog();
+            validateCatalog();
         } catch (Exception ex) {
             BossUtils.logger().error("Cannot load boss loot table: " + ex.getMessage());
             catalog = new LootCatalog();
         }
+    }
+
+    private void validateCatalog() {
+        int valid = 0;
+        for (Map.Entry<String, List<LootEntry>> group : catalog.groups.entrySet()) {
+            for (LootEntry entry : group.getValue() == null ? List.<LootEntry>of() : group.getValue()) {
+                if (entry == null || entry.item == null || entry.item.isBlank() || entry.weight <= 0
+                        || Definitions.getItemDefinition(entry.item) == null) {
+                    BossUtils.logger().warn("Ignoring invalid loot entry in " + group.getKey());
+                    continue;
+                }
+                valid++;
+            }
+        }
+        BossUtils.logger().info("Loaded " + valid + " valid boss loot entries.");
     }
 
     public void createLootSack(Vector3f position, String bossName, String groupType, int level,

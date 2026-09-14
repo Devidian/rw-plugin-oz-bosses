@@ -121,6 +121,7 @@ public final class BossCombatHandler {
     }
 
     public void playerDeath(PlayerDeathEvent event) {
+        threat.add(event.getPlayer(), settings.get().playerDeath, "tc.bosses.action.player.death");
         if (!(event.getKiller() instanceof Npc npc))
             return;
         BossGroup group = state.group(npc);

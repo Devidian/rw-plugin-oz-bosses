@@ -3,6 +3,7 @@
     "bosses": {
       "action": {
         "blueprint": "Blaupause erstellen",
+        "player": { "death": "Spielertod" },
         "construction": "Bauaktion",
         "large": {
           "rock": {
@@ -116,6 +117,12 @@
         }
       },
       "setting": {
+        "announce": {
+          "defeat": "Boss-Besiegungen ankündigen",
+          "followers": "Verbleibende Schergen ankündigen",
+          "level": "Boss-Levelaufstiege ankündigen",
+          "spawn": "Boss-Erscheinen ankündigen"
+        },
         "debug": {
           "events": "Debug-Ausgaben für Boss-Events"
         },
@@ -331,6 +338,10 @@
         "npckill": {
           "desc": "Bedrohung beim Töten eines Nicht-Boss-NPCs.",
           "label": "Bedrohung durch NPC-Kill"
+        },
+        "playerdeath": {
+          "desc": "Bedrohung, die beim Tod eines Spielers hinzugefügt wird.",
+          "label": "Bedrohung durch Spielertod"
         },
         "objectdestroy": {
           "desc": "Bedrohung beim Zerstören eines platzierten Objekts.",

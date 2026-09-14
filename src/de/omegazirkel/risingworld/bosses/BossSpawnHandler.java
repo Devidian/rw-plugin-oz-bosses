@@ -192,7 +192,7 @@ public final class BossSpawnHandler {
             if (storage == null) return;
             for (var item : storage.getItems())
                 if (item != null && item.getDefinition() != null) {
-                    item.setModifier(Modifier.Legendary);
+                    item.setModifier(weaponModifier());
                     item.setDurability(item.getDefinition().durability);
                 }
         });
@@ -219,8 +219,14 @@ public final class BossSpawnHandler {
 
     private void improveWeapon(Npc npc) {
         if (npc.getEquippedItem() == null || npc.getEquippedItem().getDefinition() == null) return;
-        npc.getEquippedItem().setModifier(Modifier.Legendary);
+        npc.getEquippedItem().setModifier(weaponModifier());
         npc.getEquippedItem().setDurability(npc.getEquippedItem().getDefinition().durability);
+    }
+
+    private Modifier weaponModifier() {
+        Modifier[] modifiers = { Modifier.Merciless, Modifier.Ruthless, Modifier.Flawless, Modifier.Unique,
+                Modifier.Epic, Modifier.Legendary, Modifier.Godly };
+        return modifiers[random.nextInt(modifiers.length)];
     }
 
     private void equipDummyClothes(Npc npc) {

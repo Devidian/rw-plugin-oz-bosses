@@ -2,6 +2,14 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## Unreleased
+
+## [0.4.0] - 2026-09-14 | Threat and encounter controls
+
+- feat: add configurable player-death threat and independently suppressible boss-event announcements.
+- feat: expose player-death threat in the administrator PluginSettings panel.
+- fix: vary boss NPC weapon modifiers from Merciless through Godly and validate loaded loot entries.
+
 ## [0.3.0] - 2026-09-13 | Informant administration
 
 - feat: add a Boss groups administrator view that only lists active boss-group NPCs.

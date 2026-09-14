@@ -26,6 +26,7 @@
     "construction": "5",
     "hoe": "1",
     "npcKill": "50",
+    "playerDeath": "500",
     "objectDestroy": "2",
     "pickaxe": "2",
     "sledgehammer": "1",

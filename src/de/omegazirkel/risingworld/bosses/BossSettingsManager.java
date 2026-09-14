@@ -49,6 +49,7 @@ public final class BossSettingsManager {
                 group("threat"), setting(file, "threat.threshold", AdminSettingsType.INTEGER),
                 setting(file, "threat.checkIntervalMinutes", AdminSettingsType.INTEGER),
                 setting(file, "threat.npcKill", AdminSettingsType.INTEGER),
+                setting(file, "threat.playerDeath", AdminSettingsType.INTEGER),
                 setting(file, "threat.pickaxe", AdminSettingsType.INTEGER),
                 setting(file, "threat.hoe", AdminSettingsType.INTEGER),
                 setting(file, "threat.sledgehammer", AdminSettingsType.INTEGER),

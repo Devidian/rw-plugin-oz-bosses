@@ -3,6 +3,7 @@
     "bosses": {
       "action": {
         "blueprint": "creating a blueprint",
+        "player": { "death": "player death" },
         "construction": "building",
         "large": {
           "rock": {
@@ -116,6 +117,12 @@
         }
       },
       "setting": {
+        "announce": {
+          "defeat": "Announce defeated bosses",
+          "followers": "Announce remaining followers",
+          "level": "Announce boss level-ups",
+          "spawn": "Announce boss appearances"
+        },
         "debug": {
           "events": "Debug boss event processing"
         },
@@ -331,6 +338,10 @@
         "npckill": {
           "desc": "Threat added for killing a non-boss NPC.",
           "label": "NPC kill threat"
+        },
+        "playerdeath": {
+          "desc": "Threat added when a player dies.",
+          "label": "Player-death threat"
         },
         "objectdestroy": {
           "desc": "Threat added when destroying a placed object.",

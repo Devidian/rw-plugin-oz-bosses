@@ -54,7 +54,7 @@ public final class BossRuntime {
         BossDebugService debug = new BossDebugService(i18n, playerSettings);
         BossThreatService threat = new BossThreatService(state, debug, i18n, settings::current);
         DiscordBridge discord = new DiscordBridge(plugin);
-        BossAnnouncementHandler announcements = new BossAnnouncementHandler(i18n, settings::current, discord);
+        BossAnnouncementHandler announcements = new BossAnnouncementHandler(i18n, settings::current, discord, playerSettings);
         lootHandler = new BossLootHandler(plugin, debug, i18n);
         lootHandler.load();
 
