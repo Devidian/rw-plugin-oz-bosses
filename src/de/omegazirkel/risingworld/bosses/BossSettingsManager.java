@@ -67,7 +67,8 @@ public final class BossSettingsManager {
                 group("informant"), setting(file, "informant.basePrice", AdminSettingsType.INTEGER),
                 group("integrations"), setting(file, "wallet.enabled", AdminSettingsType.BOOLEAN),
                 setting(file, "wallet.bountyPercent", AdminSettingsType.DECIMAL),
-                setting(file, "discord.channelId", AdminSettingsType.STRING));
+                setting(file, "discord.channelId", AdminSettingsType.STRING),
+                setting(file, "discord.channelId.informantEvent", AdminSettingsType.STRING));
     }
 
     private AdminSettingsEntry group(String key) {

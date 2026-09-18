@@ -186,10 +186,17 @@ public final class BossInformantService {
         BossInformant informant = ensureAccount(current.informant);
         if (informant == null || !wallet.transferPlayerToSystemIdempotent(player.getDbID(), informant.accountId(), current.price, "Headhunter intelligence", wallet.defaultCurrencyIdentifier(), PLUGIN_NAME, correlation).success()) { player.sendTextMessage(text(player, "tc.bosses.informant.insufficient")); return; }
         MailBridge.BridgeResult delivery = new MailBridge(plugin).sendTextMail(new MailBridge.PluginMailRequest(PLUGIN_NAME, player.getDbID(), player.getName(), text(player, "tc.bosses.informant.mail.subject", "PH_BOSS", current.group.name), mailBody(player, current), correlation));
-        if (delivery.success()) { player.sendTextMessage(text(player, "tc.bosses.informant.delivered")); return; }
+        if (delivery.success()) {
+            player.showSuccessMessageBox(text(player, "tc.bosses.informant.offer.title"), text(player, "tc.bosses.informant.delivered"));
+            new DiscordBridge(plugin).sendTextMessage("Headhunter intelligence purchase completed.",
+                    settings.get().informantEventDiscordChannel);
+            return;
+        }
         boolean refunded = wallet.reverseAccountTransferIdempotent(correlation, correlation + "-refund", "Headhunter intelligence refund", PLUGIN_NAME).success();
         BossUtils.logger().warn("Headhunter Informant mail delivery failed (" + delivery.code() + "); refund=" + refunded + ".");
-        player.sendTextMessage(text(player, refunded ? "tc.bosses.informant.refunded" : "tc.bosses.informant.refund.pending"));
+        String failure = text(player, refunded ? "tc.bosses.informant.refunded" : "tc.bosses.informant.refund.pending",
+                "PH_REASON", delivery.code());
+        player.showErrorMessageBox(text(player, "tc.bosses.informant.offer.title"), failure);
     }
 
     private Quote quoteStillActive(Player player, int groupId, BossInformant informant) { for (Quote quote : quotesInSector(player, informant)) if (quote.group.id == groupId) return quote; return null; }

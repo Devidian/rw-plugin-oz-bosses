@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## [0.4.1] - 2026-09-18 | Informant delivery feedback
+
+- fix: show successful Informant intelligence delivery and failed-mail refunds in native result dialogs, including the safe mail failure reason.
+- feat: optionally announce successful Informant purchases to a dedicated Discord channel; the default channel ID `0` keeps it disabled.
+- fix: localize the Informant-event Discord setting in German and English.
+
 ## [0.4.0] - 2026-09-14 | Threat and encounter controls
 
 - feat: add configurable player-death threat and independently suppressible boss-event announcements.

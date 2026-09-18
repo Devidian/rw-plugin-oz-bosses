@@ -51,7 +51,7 @@
         "name": {"female": "Headhunter Informant", "male": "Headhunter Informant"},
         "none": "I have no information about active boss groups in this sector.",
         "offer": {"body": "I know where PH_BOSS (level PH_LEVEL) and PH_COUNT group member(s) were last seen. The information costs PH_PRICE coins. Do you want to buy it?", "title": "Headhunter intelligence"},
-        "refund": {"pending": "The intelligence could not be delivered and the automatic refund needs administrator attention.", "refunded": "The intelligence could not be delivered; your payment was refunded."},
+        "refund": {"pending": "The intelligence could not be delivered (Mail: PH_REASON) and the automatic refund needs administrator attention.", "refunded": "The intelligence could not be delivered (Mail: PH_REASON); your payment was refunded."},
         "wallet": {"unavailable": "Intelligence sales are unavailable because Wallet is offline."}
       },
       "damage": {
@@ -280,7 +280,8 @@
       "discord": {
         "channelid": {
           "desc": "Channel for optional boss event notifications.",
-          "label": "Discord channel ID"
+          "label": "Discord channel ID",
+          "informantevent": {"desc": "Optional channel for successful Informant purchases; 0 disables it.", "label": "Informant event Discord channel ID"}
         }
       },
       "enablewelcomemessage": {

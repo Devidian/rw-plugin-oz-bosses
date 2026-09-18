@@ -51,7 +51,7 @@
         "name": {"female": "Kopfgeldjäger-Informantin", "male": "Kopfgeldjäger-Informant"},
         "none": "Ich habe derzeit keine Informationen über aktive Bossgruppen in diesem Sektor.",
         "offer": {"body": "Ich weiß, wo PH_BOSS (Level PH_LEVEL) und PH_COUNT Gruppenmitglied(er) zuletzt gesehen wurden. Die Information kostet PH_PRICE Münzen. Möchtest du sie kaufen?", "title": "Kopfgeldjäger-Information"},
-        "refund": {"pending": "Die Informationen konnten nicht zugestellt werden; die automatische Rückerstattung benötigt Administratorhilfe.", "refunded": "Die Informationen konnten nicht zugestellt werden; deine Zahlung wurde erstattet."},
+        "refund": {"pending": "Die Informationen konnten nicht zugestellt werden (Mail: PH_REASON); die automatische Rückerstattung benötigt Administratorhilfe.", "refunded": "Die Informationen konnten nicht zugestellt werden (Mail: PH_REASON); deine Zahlung wurde erstattet."},
         "wallet": {"unavailable": "Der Informationsverkauf ist nicht verfügbar, weil Wallet offline ist."}
       },
       "damage": {
@@ -280,7 +280,8 @@
       "discord": {
         "channelid": {
           "desc": "Kanal für optionale Boss-Event-Benachrichtigungen.",
-          "label": "Discord-Kanal-ID"
+          "label": "Discord-Kanal-ID",
+          "informantevent": {"desc": "Optionaler Kanal für erfolgreiche Informantenkäufe; 0 deaktiviert ihn.", "label": "Discord-Kanal-ID für Informantenereignisse"}
         }
       },
       "enablewelcomemessage": {
