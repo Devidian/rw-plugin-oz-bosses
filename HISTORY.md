@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## [0.4.2] - 2026-09-18 | Release pipeline compatibility
+
+- fix: install PluginAPI 0.9.3.2 in release validation and publishing workflows.
+
 ## [0.4.1] - 2026-09-18 | Informant delivery feedback
 
 - fix: show successful Informant intelligence delivery and failed-mail refunds in native result dialogs, including the safe mail failure reason.
