@@ -32,11 +32,7 @@ public final class BossSettingsManager {
     public void reload() {
         Path settings = settingsFile();
         try {
-            JsonSettingsFile.migrateLegacyProperties(settings.resolveSibling("settings.properties"), settings);
-            if (Files.notExists(settings)) {
-                Path defaults = settings.resolveSibling("settings.default.json");
-                if (Files.exists(defaults)) JsonSettingsFile.writeFlatAtomically(settings, JsonSettingsFile.loadFlat(defaults));
-            }
+            JsonSettingsFile.prepareWorldSettings(settings);
         } catch (IOException ex) {
             // PluginSettings retains its safe in-code defaults if the settings file cannot be prepared.
         }

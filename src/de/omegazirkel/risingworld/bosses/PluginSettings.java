@@ -33,8 +33,7 @@ public final class PluginSettings {
         Properties p = new Properties();
         try {
             if (!Files.exists(path)) return p;
-            if (!path.getFileName().toString().endsWith(".properties")) return JsonSettingsFile.loadProperties(path);
-            p.load(Files.newInputStream(path));
+            return JsonSettingsFile.loadProperties(path);
         } catch(IOException ignored) {}
         return p;
     }
