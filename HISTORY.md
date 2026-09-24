@@ -2,6 +2,11 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.5.1] - 2026-09-24 | Informant mail delivery
+
+- fix: query OZ Mail's active subject limit through the shared bridge before truncating Informant mail subjects.
+- fix: retain a player-readable Informant refund message if an i18n catalogue lookup fails.
+
 ## [0.5.0] - 2026-09-23 | JSON-only settings runtime
 
 - change: use JSON-only world settings and require manual transfer of legacy Properties values.

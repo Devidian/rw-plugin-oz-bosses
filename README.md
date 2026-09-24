@@ -83,6 +83,8 @@ acceptance, Wallet charges the player and OZ Mail sends a localized message cont
 member names and coordinate snapshots, and a movement warning. Wallet and Mail remain optional runtime integrations:
 the sale is unavailable if either is not ready or the mailbox is full. If mail delivery fails after payment, Bosses
 automatically attempts a Wallet refund and logs any refund that still needs administrator attention.
+The mail subject uses the active OZ Mail limit obtained through `MailBridge`, preserving the boss name whenever the
+server's configured limit permits it.
 
 Add `OZ - Bosses` to OZ Mail's `trustedPluginSenders` before offering intelligence to players.
 

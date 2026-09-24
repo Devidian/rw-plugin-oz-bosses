@@ -185,7 +185,8 @@ public final class BossInformantService {
         String correlation = "informant-" + UUID.randomUUID();
         BossInformant informant = ensureAccount(current.informant);
         if (informant == null || !wallet.transferPlayerToSystemIdempotent(player.getDbID(), informant.accountId(), current.price, "Headhunter intelligence", wallet.defaultCurrencyIdentifier(), PLUGIN_NAME, correlation).success()) { player.sendTextMessage(text(player, "tc.bosses.informant.insufficient")); return; }
-        MailBridge.BridgeResult delivery = new MailBridge(plugin).sendTextMail(new MailBridge.PluginMailRequest(PLUGIN_NAME, player.getDbID(), player.getName(), text(player, "tc.bosses.informant.mail.subject", "PH_BOSS", current.group.name), mailBody(player, current), correlation));
+        MailBridge mail = new MailBridge(plugin);
+        MailBridge.BridgeResult delivery = mail.sendTextMail(new MailBridge.PluginMailRequest(PLUGIN_NAME, player.getDbID(), player.getName(), mailSubject(text(player, "tc.bosses.informant.mail.subject", "PH_BOSS", current.group.name), mail.maxSubjectLength()), mailBody(player, current), correlation));
         if (delivery.success()) {
             player.showSuccessMessageBox(text(player, "tc.bosses.informant.offer.title"), text(player, "tc.bosses.informant.delivered"));
             new DiscordBridge(plugin).sendTextMessage("Headhunter intelligence purchase completed.",
@@ -194,14 +195,25 @@ public final class BossInformantService {
         }
         boolean refunded = wallet.reverseAccountTransferIdempotent(correlation, correlation + "-refund", "Headhunter intelligence refund", PLUGIN_NAME).success();
         BossUtils.logger().warn("Headhunter Informant mail delivery failed (" + delivery.code() + "); refund=" + refunded + ".");
-        String failure = text(player, refunded ? "tc.bosses.informant.refunded" : "tc.bosses.informant.refund.pending",
+        String failureKey = refunded ? "tc.bosses.informant.refunded" : "tc.bosses.informant.refund.pending";
+        String failure = text(player, failureKey,
                 "PH_REASON", delivery.code());
+        if (failure.equals(failureKey)) {
+            failure = refunded ? "The intelligence could not be delivered; your payment was refunded."
+                    : "The intelligence could not be delivered; the automatic refund needs administrator attention.";
+        }
         player.showErrorMessageBox(text(player, "tc.bosses.informant.offer.title"), failure);
     }
 
     private Quote quoteStillActive(Player player, int groupId, BossInformant informant) { for (Quote quote : quotesInSector(player, informant)) if (quote.group.id == groupId) return quote; return null; }
     private List<Quote> quotesInSector(Player player, BossInformant informant) { String sector = state.sector(player).key; List<Quote> values = new ArrayList<>(); for (BossGroup group : state.activeGroups().values()) { if (group.finished || !sector.equals(group.sector.key)) continue; List<Npc> members = group.members.stream().map(World::getNpc).filter(npc -> npc != null && !npc.isDead()).toList(); if (!members.isEmpty()) values.add(new Quote(group, members, price(members.size()), informant)); } return values; }
     private String mailBody(Player player, Quote quote) { StringBuilder body = new StringBuilder(text(player, "tc.bosses.informant.mail.intro", "PH_BOSS", quote.group.name, "PH_LEVEL", Integer.toString(quote.group.level))).append('\n'); for (Npc member : quote.members) { Vector3f position = member.getPosition(); body.append(text(player, "tc.bosses.informant.mail.member", "PH_NAME", member.getName(), "PH_X", coordinate(position.x), "PH_Y", coordinate(position.y), "PH_Z", coordinate(position.z))).append('\n'); } return body.append(text(player, "tc.bosses.informant.mail.snapshot")).toString(); }
+    static String mailSubject(String subject, int maxLength) {
+        String safe = subject == null ? "" : subject.replace('<', '(').replace('>', ')').trim();
+        int limit = Math.max(1, maxLength);
+        if (safe.length() > limit) safe = safe.substring(0, limit).trim();
+        return safe.isEmpty() ? "Boss report" : safe;
+    }
     private String coordinate(float value) { return Integer.toString(Math.round(value)); }
     private BossInformant fromNpc(Npc npc, String name, boolean male, String accountId) { Vector3f p = npc.getPosition(); Quaternion r = npc.getRotation(); return new BossInformant(npc.getGlobalID(), name, male, p.x, p.y, p.z, r.x, r.y, r.z, r.w, accountId); }
     private BossInformant ensureAccount(BossInformant informant) {
