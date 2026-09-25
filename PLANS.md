@@ -4,7 +4,7 @@
 - [x] Implement persisted threat, boss groups, combat ranking, scaling, corpse rewards, and optional Wallet bounty.
 - [x] Add per-group health/weight defaults, separate name catalogues, and tiered loot tables.
 - [ ] Validate NPC/item IDs and balance on the development server.
-- [ ] Make clothing and weapon loadouts configurable once equipment handling is finalized.
+- [x] Make clothing and weapon loadouts configurable through group definitions.
 
 Planning is stored in repository-local docs.
 

@@ -40,6 +40,7 @@
       },
       "informant": {
         "accept": "Information kaufen",
+        "close": "Schließen",
         "create": {"failed": "Der Kopfgeldjäger-Informant konnte nicht erstellt werden.", "success": "Kopfgeldjäger-Informant PH_NAME erstellt."},
         "decline": "Nicht jetzt",
         "delivered": "Die Informationen wurden an dein Postfach gesendet.",
@@ -50,6 +51,7 @@
         "menu": {"female": "Informantin erstellen", "male": "Informant erstellen"},
         "name": {"female": "Kopfgeldjäger-Informantin", "male": "Kopfgeldjäger-Informant"},
         "none": "Ich habe derzeit keine Informationen über aktive Bossgruppen in diesem Sektor.",
+        "sightings": {"zero": "Ich habe in diesem Sektor keine Bossgruppen gesichtet.", "one": "Ich habe in diesem Sektor eine Bossgruppe gesichtet.", "many": "Ich habe in diesem Sektor PH_GROUPS Bossgruppen gesichtet."},
         "offer": {"body": "Ich weiß, wo PH_BOSS (Level PH_LEVEL) und PH_COUNT Gruppenmitglied(er) zuletzt gesehen wurden. Die Information kostet PH_PRICE Münzen. Möchtest du sie kaufen?", "title": "Kopfgeldjäger-Information"},
         "refund": {"pending": "Die Informationen konnten nicht zugestellt werden (Mail: PH_REASON); die automatische Rückerstattung benötigt Administratorhilfe.", "refunded": "Die Informationen konnten nicht zugestellt werden (Mail: PH_REASON); deine Zahlung wurde erstattet."},
         "wallet": {"unavailable": "Der Informationsverkauf ist nicht verfügbar, weil Wallet offline ist."}

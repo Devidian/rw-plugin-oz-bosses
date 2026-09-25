@@ -40,6 +40,7 @@
       },
       "informant": {
         "accept": "Buy intelligence",
+        "close": "Close",
         "create": {"failed": "The Headhunter Informant could not be created.", "success": "Headhunter Informant PH_NAME created."},
         "decline": "Not now",
         "delivered": "The intelligence has been sent to your mailbox.",
@@ -50,6 +51,7 @@
         "menu": {"female": "Create female informant", "male": "Create informant"},
         "name": {"female": "Headhunter Informant", "male": "Headhunter Informant"},
         "none": "I have no information about active boss groups in this sector.",
+        "sightings": {"zero": "I have sighted no boss groups in this sector.", "one": "I have sighted one boss group in this sector.", "many": "I have sighted PH_GROUPS boss groups in this sector."},
         "offer": {"body": "I know where PH_BOSS (level PH_LEVEL) and PH_COUNT group member(s) were last seen. The information costs PH_PRICE coins. Do you want to buy it?", "title": "Headhunter intelligence"},
         "refund": {"pending": "The intelligence could not be delivered (Mail: PH_REASON) and the automatic refund needs administrator attention.", "refunded": "The intelligence could not be delivered (Mail: PH_REASON); your payment was refunded."},
         "wallet": {"unavailable": "Intelligence sales are unavailable because Wallet is offline."}

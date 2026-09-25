@@ -107,7 +107,7 @@ public final class BossSpawnHandler {
             center = spawnCenter(at, minSpawnDistance);
             if (center != null && !settings.get().allowSpawnInAreas && isInsideArea(center)) center = null;
             if (center != null)
-                boss = npc(type, center, id, "Boss", bossHealth);
+                boss = npc(type, center, id, "Boss", bossHealth, definition);
         }
         if (boss == null || center == null) {
             BossUtils.logger().warn("No dry boss spawn location found for sector " + sector.key);
@@ -170,7 +170,7 @@ public final class BossSpawnHandler {
                 settings.get().followerHealth, 1);
         int healthPerLevel = healthPerLevel(group, false);
         Npc npc = npc(followerType, at, group.id, "Follower",
-                scaledHealth(baseHealth, healthPerLevel, group.level));
+                scaledHealth(baseHealth, healthPerLevel, group.level), definition);
         if (npc == null) return;
         String name = uniqueFollowerName(group, names.followers(group.typeKey, BossUtils.genderKey(npc)));
         npc.setName(name);
@@ -198,7 +198,7 @@ public final class BossSpawnHandler {
         });
     }
 
-    private Npc npc(short type, Vector3f at, int groupId, String name, int health) {
+    private Npc npc(short type, Vector3f at, int groupId, String name, int health, SpawnDefinition appearance) {
         float angle = random.nextFloat() * (float) Math.PI * 2, distance = 8 + random.nextFloat() * 12;
         var definition = Definitions.getNpcDefinition(type);
         int variation = definition == null ? 0 : random.nextInt(Math.max(1, definition.variations));
@@ -212,12 +212,21 @@ public final class BossSpawnHandler {
         plugin.executeDelayed(0.1f, () -> {
             if (npc.isDead()) return;
             npc.setName(name); npc.setBehaviour(Behaviour.Aggressive); npc.setAttackReaction(AttackReaction.Attack);
-            npc.setAlerted(true); improveWeapon(npc); equipDummyClothes(npc);
+            npc.setAlerted(true); equipWeapon(npc, appearance); equipClothes(npc, appearance);
         });
         return npc;
     }
 
-    private void improveWeapon(Npc npc) {
+    private void equipWeapon(Npc npc, SpawnDefinition appearance) {
+        if (appearance != null && appearance.weapons() != null && !appearance.weapons().isEmpty()) {
+            String name = appearance.weapons().get(random.nextInt(appearance.weapons().size()));
+            var definition = Definitions.getItemDefinition(name);
+            if (definition != null) {
+                npc.setEquippedItem((short) definition.id, 0, 0, 0f, definition.durability, weaponModifier());
+                return;
+            }
+            BossUtils.logger().warn("Unknown boss weapon in groups.json: " + name);
+        }
         if (npc.getEquippedItem() == null || npc.getEquippedItem().getDefinition() == null) return;
         npc.getEquippedItem().setModifier(weaponModifier());
         npc.getEquippedItem().setDurability(npc.getEquippedItem().getDefinition().durability);
@@ -229,20 +238,15 @@ public final class BossSpawnHandler {
         return modifiers[random.nextInt(modifiers.length)];
     }
 
-    private void equipDummyClothes(Npc npc) {
-        if (npc.getDefinition() == null || !"dummy".equalsIgnoreCase(npc.getDefinition().name)
-                || !npc.getDefinition().hasclothes) return;
-        String[] tops = { "ragshirt", "medievalshirt", "medievalshirt2", "medievalshirt3", "poloshirt" };
-        String[] legs = { "medievalpants", "mountiepants", "cargopants", "workpants" };
-        String[] feet = { "medievalfurboots", "mountieboots", "oldboot", "trekkingshoes", "medievalshoes" };
-        String[] hats = { "felthat", "pilgrimhat", "cowboyhat", "cappy" };
-        for (String name : List.of(random(tops), random(legs), random(feet))) {
+    private void equipClothes(Npc npc, SpawnDefinition appearance) {
+        if (npc.getDefinition() == null || appearance == null || appearance.outfits() == null
+                || appearance.outfits().isEmpty()) return;
+        List<String> outfit = appearance.outfits().get(random.nextInt(appearance.outfits().size()));
+        npc.getClothes().removeAll();
+        for (String name : outfit) {
             var clothing = Definitions.getClothingDefinition(name);
             if (clothing != null) npc.getClothes().add((short) clothing.id);
-        }
-        if (random.nextInt(100) < 25) {
-            var hat = Definitions.getClothingDefinition(random(hats));
-            if (hat != null) npc.getClothes().add((short) hat.id);
+            else BossUtils.logger().warn("Unknown boss clothing in groups.json: " + name);
         }
     }
 
@@ -307,8 +311,6 @@ public final class BossSpawnHandler {
                         Math.min(reference.z - minZ, minZ + sectorSizeZ - reference.z)) - 24f);
     }
 
-    private String random(String[] values) { return values[random.nextInt(values.length)]; }
-
     private List<SpawnDefinition> configuredSpawnDefinitions() {
         List<SpawnDefinition> definitions = groups.spawnDefinitions();
         if (!definitions.isEmpty())
@@ -317,7 +319,7 @@ public final class BossSpawnHandler {
             var npc = Definitions.getNpcDefinition(type);
             String name = npc == null ? Short.toString(type) : npc.name;
             return new SpawnDefinition(Short.toString(type), name, type, type, 1, null, null, null, null, null, null,
-                    null);
+                    null, null, null);
         }).toList();
     }
 

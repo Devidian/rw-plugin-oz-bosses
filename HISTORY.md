@@ -2,6 +2,14 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## Unreleased
+
+## [0.5.2] - 2026-09-25 | Boss outfits and Informant dialog
+
+- add: configurable humanoid outfit and weapon choices with packaged-default fallback for existing groups.
+- add: Informant opens its dialog with the number of active groups sighted in the player's sector.
+- fix: position the Informant dialog title above its body text.
+
 ## [0.5.1] - 2026-09-24 | Informant mail delivery
 
 - fix: query OZ Mail's active subject limit through the shared bridge before truncating Informant mail subjects.

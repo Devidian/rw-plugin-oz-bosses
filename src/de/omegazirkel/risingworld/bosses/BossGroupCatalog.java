@@ -1,6 +1,7 @@
 package de.omegazirkel.risingworld.bosses;
 
 import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -24,6 +25,21 @@ public final class BossGroupCatalog {
         try {
             BossUtils.copyRuntimeConfig(plugin, path, "groups.default.json");
             BossGroupCatalog parsed = new Gson().fromJson(Files.readString(path, StandardCharsets.UTF_8), BossGroupCatalog.class);
+            try (InputStream input = plugin.getClass().getClassLoader().getResourceAsStream("groups.default.json")) {
+                if (input == null) throw new java.io.IOException("Missing packaged groups.default.json");
+                BossGroupCatalog defaults = new Gson().fromJson(new String(input.readAllBytes(), StandardCharsets.UTF_8), BossGroupCatalog.class);
+                if (parsed != null && parsed.groups != null && defaults != null && defaults.groups != null)
+                    for (Definition group : parsed.groups)
+                        if (group != null)
+                            defaults.groups.stream().filter(fallback ->
+                                            fallback.key != null && fallback.key.equalsIgnoreCase(group.key)
+                                            || "dummy".equalsIgnoreCase(group.npc)
+                                                    && "dummy".equalsIgnoreCase(fallback.npc))
+                                    .findFirst().ifPresent(fallback -> {
+                                        if (group.outfits == null) group.outfits = fallback.outfits;
+                                        if (group.weapons == null) group.weapons = fallback.weapons;
+                                    });
+            }
             groups = parsed == null || parsed.groups == null ? new ArrayList<>() : validated(parsed.groups);
         } catch (Exception ex) {
             BossUtils.logger().error("Cannot load boss groups: " + ex.getMessage());
@@ -49,7 +65,7 @@ public final class BossGroupCatalog {
                     bossNpc.id, followerNpc.id, group.weight == null ? 1 : group.weight,
                     group.nameType, group.lootTable, group.bossBaseHealth,
                     group.bossHealthPerLevel, group.followerBaseHealth, group.followerHealthPerLevel,
-                    group.minSpawnDistance));
+                    group.minSpawnDistance, group.outfits, group.weapons));
         }
         return result;
     }
@@ -132,12 +148,15 @@ public final class BossGroupCatalog {
 
     public record SpawnDefinition(String key, String displayName, short bossNpcType, short followerNpcType,
             int weight, String nameType, String lootTable, Integer bossBaseHealth, Integer bossHealthPerLevel,
-            Integer followerBaseHealth, Integer followerHealthPerLevel, Integer minSpawnDistance) {
+            Integer followerBaseHealth, Integer followerHealthPerLevel, Integer minSpawnDistance,
+            List<List<String>> outfits, List<String> weapons) {
     }
 
     private static final class Definition {
         String key, name, npc, followerNpc, nameType, lootTable;
         Integer weight, bossBaseHealth, bossHealthPerLevel, followerBaseHealth, followerHealthPerLevel,
                 minSpawnDistance;
+        List<List<String>> outfits;
+        List<String> weapons;
     }
 }

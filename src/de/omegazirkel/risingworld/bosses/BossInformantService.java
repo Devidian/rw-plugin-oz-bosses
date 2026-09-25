@@ -145,13 +145,15 @@ public final class BossInformantService {
             if (informant == null) return;
             event.setCancelled(true);
             Player player = event.getPlayer();
+            int sightings = quotesInSector(player, informant).size();
+            if (sightings == 0) { showInfoDialog(player, sightings, null); return; }
             WalletBridge wallet = new WalletBridge(plugin);
-            if (!wallet.isAvailable()) { player.sendTextMessage(text(player, "tc.bosses.informant.wallet.unavailable")); return; }
+            if (!wallet.isAvailable()) { showInfoDialog(player, sightings, "tc.bosses.informant.wallet.unavailable"); return; }
             Quote quote = randomQuote(player, ensureAccount(informant));
-            if (quote == null) { player.sendTextMessage(text(player, "tc.bosses.informant.wallet.unavailable")); return; }
+            if (quote == null) { showInfoDialog(player, sightings, "tc.bosses.informant.wallet.unavailable"); return; }
             MailBridge mail = new MailBridge(plugin);
-            if (!mail.canReceiveMail(player.getDbID())) { player.sendTextMessage(text(player, "tc.bosses.informant.mailbox.unavailable")); return; }
-            showOffer(player, quote);
+            if (!mail.canReceiveMail(player.getDbID())) { showInfoDialog(player, sightings, "tc.bosses.informant.mailbox.unavailable"); return; }
+            showOffer(player, quote, sightings);
         } catch (SQLException ex) { BossUtils.logger().error("Cannot resolve Headhunter Informant interaction: " + ex.getMessage()); }
     }
 
@@ -169,12 +171,27 @@ public final class BossInformantService {
 
     private long price(int members) { try { return Math.multiplyExact(Math.max(0L, settings.get().informantBasePrice), Math.max(0, members)); } catch (ArithmeticException ex) { return Long.MAX_VALUE; } }
 
-    private void showOffer(Player player, Quote quote) {
-        UIElement dialog = new UIElement(); dialog.setPivot(Pivot.MiddleCenter); dialog.setPosition(50, 50, true); dialog.setSize(480, 245, false); dialog.setBackgroundColor(0, 0, 0, .94f); dialog.setBorder(1); dialog.setBorderColor(.85f, .65f, .2f, .8f);
-        UILabel title = new UILabel(text(player, "tc.bosses.informant.offer.title")); title.setFont(Font.DefaultBold); title.setFontSize(22); title.setTextAlign(TextAnchor.MiddleCenter); title.setPivot(Pivot.UpperCenter); title.setPosition(50, 14, true); title.setSize(440, 32, false); dialog.addChild(title);
-        UILabel body = new UILabel(text(player, "tc.bosses.informant.offer.body", "PH_BOSS", quote.group.name, "PH_LEVEL", Integer.toString(quote.group.level), "PH_COUNT", Integer.toString(quote.members.size()), "PH_PRICE", Long.toString(quote.price))); body.setTextWrap(true); body.setFontSize(16); body.setPivot(Pivot.UpperLeft); body.setPosition(24, 66, false); body.setSize(432, 105, false); dialog.addChild(body);
-        AdvancedButton decline = AdvancedButtonFactory.cancel(text(player, "tc.bosses.informant.decline"), ignored -> { player.removeUIElement(dialog); player.closeAllActiveUIWindows(); }); decline.setPivot(Pivot.LowerLeft); decline.setPosition(24, 220, false); decline.setSize(160, 34, false); dialog.addChild(decline);
-        AdvancedButton accept = AdvancedButtonFactory.ok(text(player, "tc.bosses.informant.accept"), ignored -> { player.removeUIElement(dialog); player.closeAllActiveUIWindows(); purchase(player, quote); }); accept.setPivot(Pivot.LowerRight); accept.setPosition(456, 220, false); accept.setSize(160, 34, false); dialog.addChild(accept);
+    private String sightingsText(Player player, int count) {
+        String key = count == 0 ? "tc.bosses.informant.sightings.zero"
+                : count == 1 ? "tc.bosses.informant.sightings.one" : "tc.bosses.informant.sightings.many";
+        return text(player, key, "PH_GROUPS", Integer.toString(count));
+    }
+
+    private void showInfoDialog(Player player, int count, String messageKey) {
+        UIElement dialog = new UIElement(); dialog.setPivot(Pivot.MiddleCenter); dialog.setPosition(50, 50, true); dialog.setSize(480, 205, false); dialog.setBackgroundColor(0, 0, 0, .94f); dialog.setBorder(1); dialog.setBorderColor(.85f, .65f, .2f, .8f);
+        UILabel title = new UILabel(text(player, "tc.bosses.informant.offer.title")); title.setFont(Font.DefaultBold); title.setFontSize(22); title.setTextAlign(TextAnchor.MiddleCenter); title.setPivot(Pivot.UpperCenter); title.setPosition(50, 5, true); title.setSize(440, 32, false); dialog.addChild(title);
+        String detail = messageKey == null ? "" : "\n\n" + text(player, messageKey);
+        UILabel body = new UILabel(sightingsText(player, count) + detail); body.setTextWrap(true); body.setFontSize(16); body.setPivot(Pivot.UpperLeft); body.setPosition(24, 60, false); body.setSize(432, 90, false); dialog.addChild(body);
+        AdvancedButton close = AdvancedButtonFactory.ok(text(player, "tc.bosses.informant.close"), ignored -> { player.removeUIElement(dialog); player.closeAllActiveUIWindows(); }); close.setPivot(Pivot.LowerRight); close.setPosition(456, 180, false); close.setSize(160, 34, false); dialog.addChild(close);
+        player.addUIElement(dialog, UITarget.Modal);
+    }
+
+    private void showOffer(Player player, Quote quote, int sightings) {
+        UIElement dialog = new UIElement(); dialog.setPivot(Pivot.MiddleCenter); dialog.setPosition(50, 50, true); dialog.setSize(480, 285, false); dialog.setBackgroundColor(0, 0, 0, .94f); dialog.setBorder(1); dialog.setBorderColor(.85f, .65f, .2f, .8f);
+        UILabel title = new UILabel(text(player, "tc.bosses.informant.offer.title")); title.setFont(Font.DefaultBold); title.setFontSize(22); title.setTextAlign(TextAnchor.MiddleCenter); title.setPivot(Pivot.UpperCenter); title.setPosition(50, 5, true); title.setSize(440, 32, false); dialog.addChild(title);
+        UILabel body = new UILabel(sightingsText(player, sightings) + "\n\n" + text(player, "tc.bosses.informant.offer.body", "PH_BOSS", quote.group.name, "PH_LEVEL", Integer.toString(quote.group.level), "PH_COUNT", Integer.toString(quote.members.size()), "PH_PRICE", Long.toString(quote.price))); body.setTextWrap(true); body.setFontSize(16); body.setPivot(Pivot.UpperLeft); body.setPosition(24, 62, false); body.setSize(432, 150, false); dialog.addChild(body);
+        AdvancedButton decline = AdvancedButtonFactory.cancel(text(player, "tc.bosses.informant.decline"), ignored -> { player.removeUIElement(dialog); player.closeAllActiveUIWindows(); }); decline.setPivot(Pivot.LowerLeft); decline.setPosition(24, 260, false); decline.setSize(160, 34, false); dialog.addChild(decline);
+        AdvancedButton accept = AdvancedButtonFactory.ok(text(player, "tc.bosses.informant.accept"), ignored -> { player.removeUIElement(dialog); player.closeAllActiveUIWindows(); purchase(player, quote); }); accept.setPivot(Pivot.LowerRight); accept.setPosition(456, 260, false); accept.setSize(160, 34, false); dialog.addChild(accept);
         player.addUIElement(dialog, UITarget.Modal);
     }
 

@@ -12,6 +12,10 @@ maps a stable group `key` to its administrator-facing `name`, boss `npc`, name c
 is shown in the administrator spawn dropdown. Existing definitions without a `name` remain valid and use the boss NPC
 definition name as their label.
 
+Humanoid groups may also define `outfits` (arrays of clothing-name arrays) and `weapons` (item-name arrays).
+One outfit and weapon are selected per spawned member. Missing fields in existing configurations use the
+packaged defaults, including for `dummy` groups with custom keys; explicit empty arrays remain empty.
+
 Group definitions may optionally override individual global boss settings:
 
 ```json
@@ -76,8 +80,8 @@ Bosses-owned Wallet system account; legacy endpoints receive an account when the
 When dissolving an Informant, every positive account balance is transferred to Wallet's world account before the
 Informant account is archived; the NPC and local entry remain intact if this settlement fails.
 
-When a player interacts with an Informant, it selects a random active boss group in the player's current sector. If
-no group is active there, the Informant says so. Otherwise it offers a localized report for the configured
+When a player interacts with an Informant, its dialog first states how many groups are active in the player's sector,
+then selects a random active boss group there. If no group is active there, the Informant says so. Otherwise it offers a localized report for the configured
 `informant.basePrice` multiplied by the number of live members in that group (default: `100` coins each). On
 acceptance, Wallet charges the player and OZ Mail sends a localized message containing the group level, all current
 member names and coordinate snapshots, and a movement warning. Wallet and Mail remain optional runtime integrations:
