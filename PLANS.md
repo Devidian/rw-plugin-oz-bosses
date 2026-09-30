@@ -1,5 +1,7 @@
 # OZ Bosses plan
 
+- [ ] Validate the next-300926 change on Development with a controlled player check.
+
 - [x] Scaffold standalone plugin from the current Maven baseline.
 - [x] Implement persisted threat, boss groups, combat ranking, scaling, corpse rewards, and optional Wallet bounty.
 - [x] Add per-group health/weight defaults, separate name catalogues, and tiered loot tables.

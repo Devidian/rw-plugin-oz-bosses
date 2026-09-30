@@ -146,7 +146,8 @@ public final class BossRuntime {
         String version = plugin.getDescription("version");
         PluginMenuManager.registerPluginMenu(
                 new MenuItem(pluginName, "oz-bosses", "Bosses", gui::openMainMenu));
-        PluginShortcutVisibility.register(pluginName, player -> true);
+        PluginShortcutVisibility.register(pluginName, player -> playerSettings.getBoolean(player.getDbID(),
+                PluginShortcutVisibility.playerSettingKey(pluginName)).orElse(true));
         gui.registerInventoryEntry();
         PlayerPluginSettingsOverlay.registerPlayerPluginSettings(
                 new BossPlayerPluginSettings(pluginName, version, i18n, playerSettings, debug));

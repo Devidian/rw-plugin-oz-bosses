@@ -4,8 +4,10 @@ import de.omegazirkel.risingworld.bosses.BossDebugService;
 import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.PlayerSettings;
 import de.omegazirkel.risingworld.tools.ui.BasePlayerPluginSettingsPanel;
+import de.omegazirkel.risingworld.tools.ui.InventoryOverlayPanel;
 import de.omegazirkel.risingworld.tools.ui.OZUIElement;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettings;
+import de.omegazirkel.risingworld.tools.ui.PluginShortcutVisibility;
 import net.risingworld.api.objects.Player;
 
 /** Per-player chat visibility for boss combat messages. */
@@ -36,6 +38,8 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
         return new BasePlayerPluginSettingsPanel(player, pluginLabel) {
             @Override protected void redrawContent() {
                 flexWrapper.removeAllChilds();
+                flexWrapper.addChild(setting(player, PluginShortcutVisibility.playerSettingKey(pluginLabel),
+                        "tc.bosses.setting.shortcut", true));
                 flexWrapper.addChild(setting(player, OWN_OUTGOING_DAMAGE, "tc.bosses.setting.own.outgoing", true));
                 flexWrapper.addChild(setting(player, OTHER_OUTGOING_DAMAGE, "tc.bosses.setting.other.outgoing", false));
                 flexWrapper.addChild(setting(player, OWN_INCOMING_DAMAGE, "tc.bosses.setting.own.incoming", true));
@@ -54,8 +58,11 @@ public final class BossPlayerPluginSettings extends PlayerPluginSettings {
                 element.addChild(switchButtons(player, value, event -> {
                     if (DEBUG_EVENTS.equals(key))
                         debug.setEnabled(player, !value);
-                    else
+                    else {
                         playerSettings.setBoolean(player.getDbID(), key, !value);
+                        if (key.equals(PluginShortcutVisibility.playerSettingKey(pluginLabel)))
+                            InventoryOverlayPanel.refreshAllVisible();
+                    }
                     redrawContent();
                 }, i18n.get("tc.btn.off", player), i18n.get("tc.btn.on", player)));
                 return element;

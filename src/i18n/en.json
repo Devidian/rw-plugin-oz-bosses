@@ -119,6 +119,7 @@
         }
       },
       "setting": {
+        "shortcut": "Show Bosses shortcut in /ozt and inventory",
         "announce": {
           "defeat": "Announce defeated bosses",
           "followers": "Announce remaining followers",

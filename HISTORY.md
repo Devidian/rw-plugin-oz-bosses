@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## [0.6.0] - 2026-09-30 | Player shortcut visibility
+
+- change: add a per-player Bosses shortcut visibility setting.
+
 ## [0.5.2] - 2026-09-25 | Boss outfits and Informant dialog
 
 - add: configurable humanoid outfit and weapon choices with packaged-default fallback for existing groups.

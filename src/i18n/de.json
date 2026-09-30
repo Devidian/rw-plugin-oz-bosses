@@ -119,6 +119,7 @@
         }
       },
       "setting": {
+        "shortcut": "Bosses-Shortcut in /ozt und Inventar anzeigen",
         "announce": {
           "defeat": "Boss-Besiegungen ankündigen",
           "followers": "Verbleibende Schergen ankündigen",

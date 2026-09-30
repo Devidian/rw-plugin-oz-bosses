@@ -1,5 +1,7 @@
 # OZ Bosses
 
+Players can hide the Bosses shortcut in the plugin settings. It remains visible by default.
+
 Sector-based boss events for Rising World. Player activities increase persistent sector threat; eligible sectors spawn configurable boss groups. `/ozboss` shows the ranking; admins can use `/ozboss spawn` in their current sector.
 
 `settings.<world>.json` controls thresholds, NPC IDs, scaling, and optional Wallet bounty. The packaged
