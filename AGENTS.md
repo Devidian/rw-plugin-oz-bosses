@@ -6,7 +6,7 @@ This repository owns configurable boss encounters for Rising World Unity,
 including boss-group spawning, threat, combat scaling, loot, persistence, and
 player/admin inspection.
 
-It remains usable as a standalone Java 20 Maven plugin. Workspace-root
+It remains usable as a standalone Java 25 Maven plugin. Workspace-root
 orchestration is optional.
 
 ## Ownership
@@ -26,7 +26,7 @@ Does not own:
 
 ## Mandatory Workflow Rules
 
-- Preserve Java 20, Maven packaging, and GitHub tag-release compatibility.
+- Preserve Java 25, Maven packaging, and GitHub tag-release compatibility.
 - Keep runtime JSON files editable and copy packaged defaults only when absent.
 - Preserve boss persistence and public/player-facing contracts.
 - Use reflection-only bridges for optional Wallet and Discord integrations.
