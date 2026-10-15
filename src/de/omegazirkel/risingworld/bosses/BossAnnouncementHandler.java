@@ -56,6 +56,6 @@ public final class BossAnnouncementHandler {
             return;
         String message = BossUtils.replace(i18n.get(key, "de"), replacements);
         discord.sendTextMessage(message.replaceAll("<[^>]+>", "").replaceFirst("^\\[[^]]+\\]\\s*", ""),
-                settings.get().discordChannel);
+                settings.get().discordChannel, settings.get().discordThreadTopic);
     }
 }

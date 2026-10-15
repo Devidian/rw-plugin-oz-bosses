@@ -240,6 +240,8 @@
       "title": "Plugin Einstellungen für PH_PLUGIN_NAME"
     },
     "setting": {
+      "discord.threadtopic": {"label": "Bossereignisse-Thread", "desc": "Leer verwendet den Plugin-Namen. Gleicher Kanal und Thread-Titel nutzen denselben Thread."},
+      "discord.informanteventthreadtopic": {"label": "Informantenereignisse-Thread", "desc": "Leer verwendet den Plugin-Namen. Gleicher Kanal und Thread-Titel nutzen denselben Thread."},
       "boss": {
         "allowspawninareas": {
           "desc": "Erlaubt Bossgruppen, innerhalb von Rising-World-Areas zu spawnen.",
@@ -281,6 +283,8 @@
         }
       },
       "discord": {
+        "threadtopic": {"desc": "Leer verwendet den Plugin-Anzeigenamen; gleiche Themen teilen sich im selben Kanal einen Thread.", "label": "Bossereignis-Thread"},
+        "informanteventthreadtopic": {"desc": "Leer verwendet den Plugin-Anzeigenamen.", "label": "Informantenereignis-Thread"},
         "channelid": {
           "desc": "Kanal für optionale Boss-Event-Benachrichtigungen.",
           "label": "Discord-Kanal-ID",

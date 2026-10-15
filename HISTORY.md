@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## [0.6.1] - 2026-10-15 | Discord event threads
+
+- feat: Route boss and Informant Discord events into configurable threads.
+
 ## [0.6.0] - 2026-09-30 | Player shortcut visibility
 
 - change: add a per-player Bosses shortcut visibility setting.

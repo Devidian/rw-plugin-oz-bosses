@@ -24,3 +24,5 @@ Every implementation plan must include objective, ownership, dependencies, risks
 - Risk and rollback: unknown clothing definitions remain skipped; rollback is the previous plugin artifact.
 - Validation: Maven test/package, API and sole-listener checks, then Dev reload/log review.
 - [x] Implement and validate the random outfit and hat selection.
+
+Discord event thread routing is implemented locally; Development Discord validation and the separately authorized release remain open. Configuration is documented in README.md.

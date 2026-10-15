@@ -240,6 +240,8 @@
       "title": "Plugin Settings for PH_PLUGIN_NAME"
     },
     "setting": {
+      "discord.threadtopic": {"label": "Boss events thread", "desc": "Blank uses the plugin display name. The same channel and thread name reuse one thread."},
+      "discord.informanteventthreadtopic": {"label": "Informant events thread", "desc": "Blank uses the plugin display name. The same channel and thread name reuse one thread."},
       "boss": {
         "allowspawninareas": {
           "desc": "Allows boss groups to spawn inside Rising World areas.",
@@ -281,6 +283,8 @@
         }
       },
       "discord": {
+        "threadtopic": {"desc": "Blank uses the plugin display name; matching topics share a thread in the same channel.", "label": "Boss event thread"},
+        "informanteventthreadtopic": {"desc": "Blank uses the plugin display name.", "label": "Informant event thread"},
         "channelid": {
           "desc": "Channel for optional boss event notifications.",
           "label": "Discord channel ID",

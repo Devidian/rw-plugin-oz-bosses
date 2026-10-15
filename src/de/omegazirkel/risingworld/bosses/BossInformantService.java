@@ -207,7 +207,7 @@ public final class BossInformantService {
         if (delivery.success()) {
             player.showSuccessMessageBox(text(player, "tc.bosses.informant.offer.title"), text(player, "tc.bosses.informant.delivered"));
             new DiscordBridge(plugin).sendTextMessage("Headhunter intelligence purchase completed.",
-                    settings.get().informantEventDiscordChannel);
+                    settings.get().informantEventDiscordChannel, settings.get().informantEventThreadTopic);
             return;
         }
         boolean refunded = wallet.reverseAccountTransferIdempotent(correlation, correlation + "-refund", "Headhunter intelligence refund", PLUGIN_NAME).success();

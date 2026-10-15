@@ -25,4 +25,20 @@ public final class DiscordBridge {
             return false;
         }
     }
+
+    public boolean sendTextMessage(String message, long channelId, String topic) {
+        if (owner == null || channelId <= 0L || message == null || message.isBlank()) return false;
+        Plugin discord = owner.getPluginByName("OZ - Discord Connect");
+        if (discord == null) return false;
+        try {
+            Method method = discord.getClass().getMethod("sendDiscordMessageToTextChannel", String.class,
+                    long.class, byte[].class, String.class);
+            method.invoke(discord, message, channelId, null,
+                    topic == null || topic.isBlank() ? owner.getDescription("name") : topic.trim());
+            return true;
+        } catch (ReflectiveOperationException ex) {
+            BossUtils.logger().warn("Discord topic delivery requires a compatible Discord Connect: " + ex.getMessage());
+            return false;
+        }
+    }
 }

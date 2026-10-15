@@ -14,7 +14,9 @@
     "types": "bandit,barbarian,dummy,ghoul,skeleton,wolf,wildboar,firewolf,lion"
   },
   "discord": {
-    "channelId": "0"
+    "channelId": "0",
+    "threadTopic": "",
+    "informantEventThreadTopic": ""
   },
   "enableWelcomeMessage": "false",
   "informant": {
