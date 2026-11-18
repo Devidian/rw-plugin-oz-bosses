@@ -35,7 +35,13 @@ public final class BossRewardHandler {
         activeGroups.remove(group.id);
         group.sector.active = Math.max(0, group.sector.active - 1);
         group.sector.threat = Math.max(0, group.sector.threat - settings.get().threshold);
-        announcements.announce("tc.bosses.announce.defeat", "PH_PLAYER", group.killerName, "PH_BOSS", group.name);
+        announcements.announcePlayers("tc.bosses.announce.defeat", "PH_PLAYER", group.killerName,
+                "PH_BOSS", group.name);
+        String discordName = de.omegazirkel.risingworld.tools.ExternalDataConsent.isGranted(group.killerDbId,
+                de.omegazirkel.risingworld.tools.ExternalDataConsent.Purpose.DISCORD)
+                ? group.killerName : "Spieler #" + group.killerDbId;
+        announcements.announceDiscord("tc.bosses.announce.defeat", "PH_PLAYER", discordName,
+                "PH_BOSS", group.name);
         loot.createLootSack(event.getDeathPosition(), group.name, group.lootKey, group.level,
                 Math.max(1, group.damage.size()));
         long total = group.damage.values().stream().mapToLong(Long::longValue).sum();

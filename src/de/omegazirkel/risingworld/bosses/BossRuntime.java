@@ -19,6 +19,7 @@ import net.risingworld.api.Plugin;
 
 /** Composes and owns the feature services used by the listener entry point. */
 public final class BossRuntime {
+    private PlayerSettings playerSettings;
     private final Plugin plugin;
     private final BossState state = new BossState();
     private final BossNameCatalog names = new BossNameCatalog();
@@ -50,7 +51,7 @@ public final class BossRuntime {
         BossInformantRepository informantRepository = new BossInformantRepository(db);
         try { informantRepository.initialize(); } catch (SQLException ex) { throw new IllegalStateException("Cannot initialize informant persistence", ex); }
 
-        PlayerSettings playerSettings = new PlayerSettings(db);
+        playerSettings = new PlayerSettings(db);
         BossDebugService debug = new BossDebugService(i18n, playerSettings);
         BossThreatService threat = new BossThreatService(state, debug, i18n, settings::current);
         DiscordBridge discord = new DiscordBridge(plugin);
@@ -104,6 +105,21 @@ public final class BossRuntime {
         names.load(plugin);
         groups.load(plugin);
         lootHandler.load();
+    }
+
+    public boolean erasePlayerData(int playerDbId, String playerName) {
+        if (stateRepository == null || playerSettings == null || !stateRepository.erasePlayerData(playerDbId, playerName)) return false;
+        state.scores().remove(playerDbId);
+        for (BossGroup group : state.activeGroups().values()) {
+            group.damage.remove(playerDbId);
+            if (group.killerDbId == playerDbId
+                    || (group.killerDbId == 0 && playerName.equals(group.killerName))) {
+                group.killerDbId = 0;
+                group.killerName = "Unknown";
+            }
+        }
+        playerSettings.erasePlayer(playerDbId);
+        return true;
     }
 
     public BossPlayerActionHandler playerActions() {

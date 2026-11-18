@@ -91,6 +91,7 @@ public final class BossCombatHandler {
         if (npc.getGlobalID() == group.boss && event.getKiller() instanceof Player player) {
             group.bossDefeated = true;
             group.killerName = player.getName();
+            group.killerDbId = player.getDbID();
         }
         if (group.members.isEmpty()) {
             if (group.bossDefeated && !group.invalid)

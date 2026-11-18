@@ -25,6 +25,8 @@ public final class BossGroup {
     public boolean bossDefeated;
     public boolean invalid;
     public String killerName = "Unknown";
+    /** Runtime-only; missing after reload means no Discord export permission. */
+    public int killerDbId;
 
     public BossGroup(int id, BossSector sector, String name) {
         this.id = id;

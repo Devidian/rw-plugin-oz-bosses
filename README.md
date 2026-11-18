@@ -4,6 +4,8 @@
 
 Players can hide the Bosses shortcut in the plugin settings. It remains visible by default.
 
+The coordinated player-erasure API removes a player's ranking and damage entries and anonymizes their killer attribution. New boss groups store the killer DBID; legacy groups with only a name are anonymized by matching the player's last known name.
+
 Sector-based boss events for Rising World. Player activities increase persistent sector threat; eligible sectors spawn configurable boss groups. `/ozboss` shows the ranking; admins can use `/ozboss spawn` in their current sector.
 
 `settings.<world>.json` controls thresholds, NPC IDs, scaling, and optional Wallet bounty. The packaged

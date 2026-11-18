@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- Add player erasure for boss rankings and damage; persist killer DBIDs for precise future anonymization and migrate older group rows.
+
 ## [0.6.1] - 2026-10-15 | Discord event threads
 
 - feat: Route boss and Informant Discord events into configurable threads.

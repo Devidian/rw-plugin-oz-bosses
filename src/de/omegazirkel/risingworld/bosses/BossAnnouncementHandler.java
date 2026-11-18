@@ -25,7 +25,7 @@ public final class BossAnnouncementHandler {
 
     public void announce(String key, String... replacements) {
         announcePlayers(key, replacements);
-        sendDiscord(key, replacements);
+        announceDiscord(key, replacements);
     }
 
     /** Broadcasts only in-game, for state updates that are not Discord events. */
@@ -51,7 +51,7 @@ public final class BossAnnouncementHandler {
                 || playerSettings.getBoolean(player.getDbID(), preference).orElse(true);
     }
 
-    private void sendDiscord(String key, String... replacements) {
+    public void announceDiscord(String key, String... replacements) {
         if (discord == null || settings.get().discordChannel <= 0)
             return;
         String message = BossUtils.replace(i18n.get(key, "de"), replacements);

@@ -24,6 +24,7 @@ public final class BossStateRepository {
             addColumn(statement, "loot_key TEXT");
             addColumn(statement, "gender_key TEXT");
             addColumn(statement, "definition_key TEXT");
+            addColumn(statement, "killer_db_id INTEGER DEFAULT 0");
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS boss_group_members (group_id INTEGER,npc_id INTEGER,PRIMARY KEY(group_id,npc_id))");
             statement.executeUpdate(
@@ -43,6 +44,39 @@ public final class BossStateRepository {
             statement.executeUpdate("DELETE FROM boss_sectors"); statement.executeUpdate("DELETE FROM boss_scores");
             try (PreparedStatement q = db.prepareStatement("INSERT INTO boss_sectors VALUES(?,?,?,?,?,?,?)")) { for (BossSector s : sectors.values()) { q.setString(1,s.key);q.setInt(2,s.x);q.setInt(3,s.z);q.setInt(4,s.threat);if(s.position==null){q.setNull(5,java.sql.Types.REAL);q.setNull(6,java.sql.Types.REAL);q.setNull(7,java.sql.Types.REAL);}else{q.setFloat(5,s.position.x);q.setFloat(6,s.position.y);q.setFloat(7,s.position.z);}q.addBatch(); } q.executeBatch(); }
             try (PreparedStatement q = db.prepareStatement("INSERT INTO boss_scores VALUES(?,?,?,?,?)")) { for (BossScore s : scores.values()) { q.setInt(1,s.id);q.setString(2,s.name);q.setInt(3,s.bossKills);q.setInt(4,s.followerKills);q.setLong(5,s.damage);q.addBatch(); } q.executeBatch(); }
+        }
+    }
+
+    /** Erases a player's ranking and damage, retaining anonymous boss encounters. */
+    public synchronized boolean erasePlayerData(int playerDbId, String playerName) {
+        if (playerDbId <= 0 || playerName == null || playerName.isBlank()) return false;
+        try {
+            if (!db.getAutoCommit()) return false;
+            db.setAutoCommit(false);
+            try (PreparedStatement score = db.prepareStatement("DELETE FROM boss_scores WHERE id=?");
+                    PreparedStatement damage = db.prepareStatement("DELETE FROM boss_group_damage WHERE player_id=?");
+                    PreparedStatement killer = db.prepareStatement("UPDATE boss_groups "
+                            + "SET killer_name='Unknown', killer_db_id=0 WHERE killer_db_id=? "
+                            + "OR (killer_db_id=0 AND killer_name=?)")) {
+                score.setInt(1, playerDbId);
+                score.executeUpdate();
+                damage.setInt(1, playerDbId);
+                damage.executeUpdate();
+                killer.setInt(1, playerDbId);
+                killer.setString(2, playerName);
+                killer.executeUpdate();
+                db.commit();
+                return true;
+            } catch (SQLException ex) {
+                db.rollback();
+                BossUtils.logger().error("Boss player erasure failed: " + ex.getMessage());
+                return false;
+            } finally {
+                db.setAutoCommit(true);
+            }
+        } catch (SQLException ex) {
+            BossUtils.logger().error("Boss player erasure failed: " + ex.getMessage());
+            return false;
         }
     }
 

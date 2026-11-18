@@ -4,7 +4,9 @@ import java.nio.file.Path;
 
 import de.omegazirkel.risingworld.bosses.BossRuntime;
 import de.omegazirkel.risingworld.tools.FileChangeListener;
+import de.omegazirkel.risingworld.tools.privacy.PlayerErasureService;
 import net.risingworld.api.Plugin;
+import de.omegazirkel.risingworld.tools.PlayerDatabaseHelper;
 import net.risingworld.api.events.EventMethod;
 import net.risingworld.api.events.Listener;
 import net.risingworld.api.events.npc.NpcDamageEvent;
@@ -28,10 +30,21 @@ import net.risingworld.api.events.player.world.PlayerPlaceTerrainEvent;
 
 /** Rising World listener entry point; all feature behavior is delegated. */
 public final class Bosses extends Plugin implements Listener, FileChangeListener {
+    private PlayerErasureService.Registration erasureRegistration;
     private BossRuntime runtime;
+
+    /** Called by the local erasure coordinator with the player's last known name. */
+    public boolean erasePlayerData(int playerDbId, String playerName) {
+        return runtime != null && runtime.erasePlayerData(playerDbId, playerName);
+    }
 
     @Override
     public void onEnable() {
+        erasureRegistration = PlayerErasureService.register("bosses", request -> {
+            var record = PlayerDatabaseHelper.findPlayersByDbIds(this, java.util.Set.of(request.playerDbId()))
+                    .get(request.playerDbId());
+            return record != null && erasePlayerData(request.playerDbId(), record.name);
+        });
         runtime = new BossRuntime(this);
         runtime.enable();
         registerEventListener(this);
@@ -39,6 +52,7 @@ public final class Bosses extends Plugin implements Listener, FileChangeListener
 
     @Override
     public void onDisable() {
+        if (erasureRegistration != null) erasureRegistration.close();
         unregisterEventListener(this);
         if (runtime != null)
             runtime.disable();
