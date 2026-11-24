@@ -48,3 +48,7 @@ Does not own:
   change.
 - Runtime-smoke spawning, combat, persistence rehydration, loot, settings
   reload, and missing optional integrations before release.
+
+## CodeMap
+
+For unfamiliar modules and cross-repository impact, start at [the local CodeMap](.codemap/README.md) and use the [CodeMap skill](.agents/skills/codemap/SKILL.md). Verify relevant source and update and validate affected entries when indexed information changes.

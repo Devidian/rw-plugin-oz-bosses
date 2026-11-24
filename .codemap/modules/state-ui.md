@@ -1,0 +1,16 @@
+# Boss state persistence, rehydration, settings and inspection
+<!-- codemap-id: rw-plugin-oz-bosses/state-ui -->
+
+## Responsibility
+
+Boss state persistence, rehydration, settings and inspection. Preserve editable runtime JSON and rehydration behavior. State belongs to Bosses.
+
+## Source and tests
+
+- [`BossStateRepository`](../../src/de/omegazirkel/risingworld/bosses/BossStateRepository.java)
+- [`BossGroupPersistence`](../../src/de/omegazirkel/risingworld/bosses/BossGroupPersistence.java)
+- [`BossGroupRehydrationHandler`](../../src/de/omegazirkel/risingworld/bosses/BossGroupRehydrationHandler.java)
+- [`BossOverlay`](../../src/de/omegazirkel/risingworld/bosses/ui/BossOverlay.java)
+- [`PluginSettings`](../../src/de/omegazirkel/risingworld/bosses/PluginSettings.java)
+
+See the [repository index](../README.md) for lifecycle, build and cross-repository dependencies.
