@@ -17,6 +17,15 @@ Planning is stored in repository-local docs.
 
 Every implementation plan must include objective, ownership, dependencies, risks, validation strategy, affected repositories/plugins, rollback considerations, and a markdown checkbox checklist.
 
+## Player erasure
+
+- [x] Delete ranking and damage records; anonymize retained killer attribution in the database and live group cache.
+- [x] Persist killer DBID for exact attribution in new group records and migrate legacy group tables.
+- [ ] Connect to the shared erasure coordinator and inspect historical name-only records for renamed players.
+- [ ] Validate live boss group behavior on Development with a database backup and rollback point.
+
+The SQLite tests cover legacy schema migration and unrelated player retention. Historical killer names from before the DBID migration may require a separate name-history audit.
+
 ## 2026-08-07 Dummy appearance follow-up
 
 - Objective: increase default dummy-clothing variety and give compatible hats a 25% spawn probability.
