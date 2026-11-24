@@ -35,7 +35,7 @@ Does not own:
 - Keep `Bosses` limited to lifecycle wiring, settings delegation, and one-line
   event dispatch. Feature workflows belong in focused classes under `bosses/`;
   those classes must not implement Rising World's `Listener`.
-- Follow `.codex/agents.toml` and `docs/policies/repository-policy.md`.
+- Follow `.codex/agents/*.toml` and `docs/policies/repository-policy.md`.
 - Keep `README.md`, `HISTORY.md`, `PLANS.md`, and active plans aligned with
   structural or behavior changes.
 
