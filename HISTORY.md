@@ -4,9 +4,12 @@
 
 ## Unreleased
 
-- Resolve the Wallet provider for boss bounties through the shared optional bridge, including after Wallet reload.
+## [0.6.3] - 2026-11-27 | Encounter recovery and bounties
 
-- Preserve complete boss-group snapshots when a write or rehydration read fails.
+- Boss groups, members and damage records are saved as a complete snapshot. If an encounter cannot be loaded completely, the plugin preserves the last stored snapshot until a successful load. Reload after resolving a storage error to retry recovery.
+- Boss bounties use the currently installed Wallet provider, including after a Wallet reload. A failed payout is never automatically replayed.
+
+## [0.6.2] - 2026-11-18
 
 - Add player erasure for boss rankings and damage; persist killer DBIDs for precise future anonymization and migrate older group rows.
 
