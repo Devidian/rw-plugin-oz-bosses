@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- Resolve the Wallet provider for boss bounties through the shared optional bridge, including after Wallet reload.
 
 - Preserve complete boss-group snapshots when a write or rehydration read fails.
 

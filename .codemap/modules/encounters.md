@@ -12,5 +12,6 @@ Encounter spawning, combat and reward handling. BossRuntime wires handlers. The 
 - [`BossCombatHandler`](../../src/de/omegazirkel/risingworld/bosses/BossCombatHandler.java)
 - [`BossThreatService`](../../src/de/omegazirkel/risingworld/bosses/BossThreatService.java)
 - [`BossCombatHandlerTest`](../../src-test/de/omegazirkel/risingworld/bosses/BossCombatHandlerTest.java)
+- [`WalletBridge`](../../src/de/omegazirkel/risingworld/bosses/WalletBridge.java) preserves the local bounty API and delegates optional lookup to OZ Tools. [`WalletBridgeTest`](../../src-test/de/omegazirkel/risingworld/bosses/WalletBridgeTest.java) covers missing and replaced providers.
 
 See the [repository index](../README.md) for lifecycle, build and cross-repository dependencies.
