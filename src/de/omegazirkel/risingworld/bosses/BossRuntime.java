@@ -47,6 +47,7 @@ public final class BossRuntime {
         db = SQLiteConnectionFactory.open(plugin);
         stateRepository = new BossStateRepository(db);
         groupPersistence = new BossGroupPersistence(db, state.activeGroups());
+        groupPersistence.requireCompleteLoad();
         initializePersistence();
         BossInformantRepository informantRepository = new BossInformantRepository(db);
         try { informantRepository.initialize(); } catch (SQLException ex) { throw new IllegalStateException("Cannot initialize informant persistence", ex); }

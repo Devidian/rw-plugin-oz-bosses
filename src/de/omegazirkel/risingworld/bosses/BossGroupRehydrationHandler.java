@@ -28,9 +28,15 @@ public final class BossGroupRehydrationHandler {
     }
 
     public void rehydrate() {
+        Map<Integer, BossGroup> restored;
+        try {
+            restored = persistence.load(sectors);
+        } catch (IllegalStateException ex) {
+            BossUtils.logger().error("Boss group rehydration stopped: " + ex.getMessage());
+            return;
+        }
         npcGroups.clear(); activeGroups.clear();
         for (BossSector sector : sectors.values()) sector.active = 0;
-        Map<Integer, BossGroup> restored = persistence.load(sectors);
         for (var recovered : restorePersistentGroups().entrySet())
             restored.putIfAbsent(recovered.getKey(), recovered.getValue());
         for (BossGroup group : restored.values()) {

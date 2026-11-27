@@ -17,6 +17,12 @@ Planning is stored in repository-local docs.
 
 Every implementation plan must include objective, ownership, dependencies, risks, validation strategy, affected repositories/plugins, rollback considerations, and a markdown checkbox checklist.
 
+## Boss group snapshot recovery
+
+- [x] Replace group, member and damage rows atomically, and preserve the stored snapshot after an incomplete load.
+- [x] Test write failures, existing transaction ownership and incomplete reads with SQLite.
+- [ ] Validate boss spawning, reload rehydration and recovery after a failed snapshot read on Development.
+
 ## Player erasure
 
 - [x] Delete ranking and damage records; anonymize retained killer attribution in the database and live group cache.
